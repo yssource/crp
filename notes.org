@@ -1,0 +1,489 @@
+#+title: Notes on Rust Idioms and Patterns for C++ Programmers
+#+HTML_HEAD: <style>pre.src {background-color: #000000; color: #e5e5e5;}</style>
+#+HTML_HEAD: <style>pre.example {background-color: #000000; color: #e5e5e5;}</style>
+#+OPTIONS: toc:2
+* Idioms
+** Constructors
+https://rust-lang.github.io/api-guidelines/naming.html
+
+*** Default constructors
+C++ default constructors vs ~std::default::Default~
+
+*** Copy constructor
+*** Move constructor
+** Out parameters
+*** Multiple return values
+One idiom for returning multiple values in C++ is to pass in references to which
+the values can be assigned. E.g.,
+
+#+begin_src c++
+void foo(int &x, int &y) {
+    x = 5;
+    y = 6;
+}
+
+int  bar() {
+    int x, y;
+
+    foo(x, y);
+
+    return x + y;
+}
+#+end_src
+
+There are several reasons why this idiom might be used:
+
+- compatibility with versions of C++ earlier than C++11,
+- working in a codebase that uses C-style of C++, and
+- performance concerns.
+
+It is possible to transliterate this to Rust, but Rust requires the
+initialization of the variables. The resulting program is not idiomatic Rust.
+
+#+begin_src rust
+fn foo(x: &mut i32, y: &mut i32) {
+    *x = 5;
+    *y = 6;
+}
+
+fn bar() -> i32 {
+    let mut x = 0;
+    let mut y = 0;
+
+    foo(&mut x, &mut y);
+
+    x + y
+}
+#+end_src
+
+In C++11 and later, it ~std::pair~ and ~std::tuple~ are available for returning
+multiple values instead of assigning to reference parameters.
+
+#+begin_src c++
+std::pair<int,int> foo() {
+	return std::pair<int,int>(5,6);
+}
+
+int bar() {
+	int x, y;
+	std::tie(x,y) = foo();
+
+    return x + y;
+}
+#+end_src
+
+This more closely aligns with the normal Rust idiom for returning multiple
+values.
+
+#+begin_src rust
+pub fn foo() -> (i32, i32) {
+    (5,6)
+}
+
+pub fn bar() -> i32 {
+    let (x, y) = foo();
+    x + y
+}
+#+end_src
+
+**** Performance
+The idiomatic way of dealing with multiple return values in Rust results in
+better performance than the non-idiomatic version. To demonstrate the difference
+in the compiled code, we need to use a more complex program (because Rust's
+optimizer can optimize away enough of the simple programs to hide any genuine
+performance differences).
+
+For that purpose we use a recursive implementation of the Fibonacci function.
+While a recursive implementation isn't idiomatic in either Rust or C++, the
+point is
+[[https://godbolt.org/#z:OYLghAFBqd5TKALEBjA9gEwKYFFMCWALugE4A0BIEAZgQDbYB2AhgLbYgDkAjF%2BTXRMiAZVQtGIHgBYBQogFUAztgAKAD24AGfgCsQAZnL0WTUKQCuSouQAOp7ADl2nLnQBGAaiIXbjfiqMqEQEQtTMmADC6PQWbEwgAEzkEQAyBExOce7YpFKytuhKxKFM0bHxSXZFJULpmY7ZufnkgdjBpSJELKRE5XEJyW0dQl09RPVZbDl5Mq3dvf2VQwsTGVMz%2BQCUregWpKiuAKSJBkcArABCTOgA%2BmymwIwXACJHWgCCthZeNEyeHggCU8BAMiS2ngAtEcDLhPBBQckQWCIUcAOyXd4fTw4kE0Tz/GFvAwvTxaTzoy7wrTkTw8VFot6fXGebD0FQUjFYlksxhEeHqWkAT1RJIBBHcQMh9JhmOZPJxECFtPUJ0uIu5uPRTI%2B2qx%2BtOF2udweZme5x131%2B/2A6AgEOhsORiU5cuxuL5AvIIopYsBPC0W1lmpx6gpiSpQv1jK4O3o3HO/ASXB05HQ3A83l8/nIRG0sZ2SGwLBweXt5AA1iAAGyJAB052k0h4AA40dJTi3q2jEgBOYzcaT8Nggc405Op9NcAIgGl5lOx8hwWAoDA4fDEMiUah0RisDjcPhyYRiCScOaCYTKNSaBfkfQ8YyPECWax2BzOA9uCWePZEeykOwARsu0IRhBAERLAkAYpEwmCTI00zNIkNKFMUYFlDEAxSKhNQYQhTR5ChrQgSMTBjIsWGVDBwwYRRawNIRSQ0tY4xQTh8zjARSFEYGuz7Ic3AnGcVw3PcjzmpaPwAv8HiJECIDOiqiknNWbAWPyiLCipiRqRpzoMm6LIEPihIkkSZKuiGPIAFRhhZWjBvKCo2UKvqkjwTnuji2qsuy2BWc5PKeup/LqIkimIu5ZJeQqOIhfpQoRc60WOQYRlxXJUqPuGelhUiqmhZ4SVBul1ksnZ0VJbFcWudF4XhpGiQ1T5jLRjqBoica4lmtgrxYlaMmeLa9pQjCcJRZS1kJWFkVgqlLWeDNxVzS6DmLVlMG5UVgrbYlpUZaGjXFe1i7xlwibkBO/BTpmf4AUBub5lshbFqW1BxoOw6juO%2BZptwM5zs9OxVrWDZNq27adt2fYDlwBhJn9U78POOg7MuCDwBAq7oGwtgMLk24QBgeME3kpCtmOAgMEQuRKNQ7h/e4GQ9EKh78MzrCkEKADy7i6KB7PkCTHDCDzTD0Gzd44O4FjAJEEjskLOCmk8ripoQpCgQQABu2D03e2DqO0GmuEeGS0%2Bdqb0BKgHc9EOB/UQpAECOvD8HrpDuEU2AvNgqs22Yz0CCYwBKAAagQ2AAO487YzBC5eojiJIF7yNeGh/foRgmEHr42Db7j05AOzoLYGEG1CkS/uXkKMHr9BEokN2ey7ODF1A%2B6cNghAYeQOsSBYrgoYkfAvSRQQYeEcHsY%2BaTrIhmyPmhtSYRU0HVOhpTcUvE/a6Mqyz3vZH0TvzSPqxlHr1InG9Gfsw7EoewHJwBifRdiN3lOnj56gdJ1i2c4dZyQQA3CQUg4YDBvxRsDcgRYSzNHLFWAwaI6zSHOOcFsPBEjnDRNWHgYIexwyHOQEcVNrr/WnK0WcT0Fzo0QNjNAuN8aMAoFQYmzCyYvkpjSXctNSD0wgIzO8nNWZC1EdzPmAtghCxFswIg4tJZ/RlnLBW9Albu3ICrCS6t%2BCa21nrA2qYjYm1pkLC2bI/qFztkKB2ujcwuzdkeT23sVB%2BwDhkUAdCQ4sDDpHGOccE6aKTqeVOsgk4Z1vKmB8T485WALhKDupdy6lErpCauZciB12wA3JuLdcht31ljLuIAe6r37oPYeWhR4FmPlPCCM8qIb3noxHiN8V4YSPh07eC8mIX1InRQ%2BTSb60U6Kse%2BIyhnXwvuM3pbT6T8RflId%2Bl0KHf1/v/QBwD4RgLIJA%2BkMC6GvQQWWd%2BJCyG/S/gDahQMjmVkMKg9BmDsG4PwYQ5I50EZXSRtc1GtTzrN2%2BVcqhfzx6e2KGEaQQA%3D][difference
+abuot how the function calls and return values are optimized between the various
+versions]].
+
+The following benchmark demonstrates that the idiomatic (and more readable)
+version is also the better-performing version.
+
+#+begin_src rust
+#![feature(test)]
+
+fn fib_tuple(n: i32) -> (i32, i32) {
+  if n == 0 {
+    (0, 1)
+  } else {
+    let (x, y) = fib_tuple(n - 1);
+    (y, x + y)
+  }
+}
+
+fn fib_outparam(n: i32, x: &mut i32, y: &mut i32) {
+  if n == 0 {
+    *x = 0;
+    *y = 1;
+  } else {
+    let mut x2: i32 = 0;
+    let mut y2: i32 = 0;
+    fib_outparam(n - 1, &mut x2, &mut y2);
+    *x = y2;
+    *y = x2 + y2;
+  }
+}
+
+#[cfg(test)]
+mod test {
+  extern crate test;
+  use super::*;
+  use test::{black_box, Bencher};
+
+  #[bench]
+  fn fib_tuple_test(b: &mut Bencher) {
+    b.iter(|| black_box(fib_tuple(10)))
+  }
+
+  #[bench]
+  fn fib_outparam_test(b: &mut Bencher) {
+    let mut x: i32 = 0;
+    let mut y: i32 = 0;
+    b.iter(|| black_box(fib_outparam(10, &mut x, &mut y)))
+  }
+}
+#+end_src
+
+#+begin_src
+test test::fib_outparam_test ... bench:           9.23 ns/iter (+/- 0.06)
+test test::fib_tuple_test    ... bench:           2.68 ns/iter (+/- 0.02)
+#+end_src
+
+*** Optional return values
+Similarly to with multiple return values, a common idiom in C++ code is to use a
+reference parameter along with a boolean return value to return an optional
+result from a function. This might be done for the same reasons as for using out
+parameters for multiple return values:
+
+- compatibility with versions of C++ earlier than C++11,
+- working in a codebase that uses C-style of C++, and
+- performance concerns.
+
+For example,
+
+#+begin_src c++
+bool foo(int x, int &y) {
+	if (x == 42) {
+		y = 100;
+		return true;
+    } else {
+        return false;
+    }
+}
+
+int bar(int x) {
+    int y;
+    if (foo(x, y)) {
+		return y;
+    } else {
+		return 0;
+    }
+}
+#+end_src
+
+Again, this can be transliterated into Rust, but the result is not idiomatic.
+
+#+begin_src rust
+fn foo(x: i32, y: &mut i32) -> bool {
+    if x == 42 {
+        *y = 100;
+        true
+    } else {
+        false
+    }
+}
+
+fn bar(x: i32) -> i32 {
+    let mut y: i32 = 0;
+    if foo(x, &mut y) {
+        return y;
+    } else {
+        return 0;
+    }
+}
+#+end_src
+
+C++11 and later offers ~std::optional~, which can be used to express optional
+return values.
+
+#+begin_src c++
+#include <optional>
+
+std::optional<int> foo(int x) {
+	if (x == 42) {
+		return std::optional<int>(100);
+    } else {
+        return std::nullopt;
+    }
+}
+
+int bar(int x) {
+    int y;
+    if (auto y = foo(x)) {
+		return *y;
+    } else {
+		return 0;
+    }
+}
+#+end_src
+
+This better matches the idiomatic Rust for optionally returning a value:
+
+#+begin_src rust
+fn foo(x: i32) -> Option<i32> {
+    if x == 42 {
+        Option::Some(100)
+    } else {
+        Option::None
+    }
+}
+
+fn bar(x: i32) -> i32 {
+    match foo(x) {
+        Option::Some(y) => y,
+        Option::None => 0,
+    }
+}
+#+end_src
+
+The ~Option~ type is actually so commonly used that the prelude exports the
+variants directly, so that the above can be written instead without the
+~Option::~ prefixes.
+
+#+begin_src rust
+fn foo(x: i32) -> Option<i32> {
+    if x == 42 {
+        Some(100)
+    } else {
+        None
+    }
+}
+
+fn bar(x: i32) -> i32 {
+    match foo(x) {
+        Some(y) => y,
+        None => 0,
+    }
+}
+#+end_src
+
+*** Error codes
+In many C-style programming idioms, instead of a ~bool~ return value, an ~int~
+is used to indicate the specific error that occurred.
+
+https://en.cppreference.com/w/cpp/utility/expected
+
+#+begin_src c++
+int foo(int x, int &y) {
+	if (x == 42) {
+		y = 100;
+		return 0;
+    } else if (x == 7) {
+        return ;
+    }
+}
+
+int bar(int x) {
+    int y;
+    if (foo(x, y)) {
+		return y;
+    } else {
+		return 0;
+    }
+}
+#+end_src
+
+*** Error handling and exceptions
+#+begin_src c++
+// TODO
+#+end_src
+
+#+begin_src rust
+// TODO chain methods
+#+end_src
+
+#+begin_src rust
+// TODO propagate failure
+#+end_src
+
+*** Pre-allocated buffers
+** Object identity/Pointer identity/reference identity
+In C++ it is common to use the pointer to an object is its identity. This
+enables, e.g., fast comparisons to determine if two objects are the same.
+
+E.g., when representing a graph, the identity of nodes would be the pointer,
+while the label of the node would be the pointed-to value. Thus, nodes with the
+same value could be distinguished without creating an additional synthetic
+identifier.
+
+In Rust...
+
+https://doc.rust-lang.org/std/ptr/fn.eq.html
+
+#+begin_quote
+This can be used to compare ~&T~ references (which coerce to ~*const T~
+implicitly) by their address rather than comparing the values they point to
+(which is what the ~PartialEq~ for ~&T~ implementation does).
+
+When comparing wide pointers, both the address and the metadata are tested for
+equality. However, note that comparing trait object pointers (~*const dyn
+Trait~) is unreliable: pointers to values of the same underlying type can
+compare inequal (because vtables are duplicated in multiple codegen units), and
+pointers to values of different underlying type can compare equal (since
+identical vtables can be deduplicated within a codegen unit).
+#+end_quote
+
+** Varargs
+https://stackoverflow.com/q/28951503
+
+Varargs are used in a few cases:
+
+- Optional arguments
+- Arbitrarily many arguments of the same type
+- Arguments of arbitrary type (e.g., ~printf~)
+
+*** Optional arguments
+Use ~Option~
+
+*** Arbitrarily many arguments of one type
+Use ~&[T]~
+
+*** Arguments of various types
+If ownership is necessary, define an enum ~Arg~ to contain the arguments and use
+~&[Arg]~. E.g.,
+
+#+begin_src rust
+enum Arg {
+  ArgInt(i32),
+  ArgBool(bool),
+}
+
+// TODO
+#+end_src
+
+If ownership is not necessary, and the arguments will be used via a single
+interface given by a trait ~T~, then take the arguments as ~&[&dyn T]~.
+
+#+begin_src rust
+// TODO
+#+end_src
+
+*** Ergonomic considerations
+In any case, if the wrappers are cumbersome, then a macro can make using the
+function more ergonomic:
+
+#+begin_src rust
+// TODO
+#+end_src
+
+If the expected types are determined by one of the arguments, then creating a
+macro in the style of ~print!~ can make it so that type errors are produced at
+compile time.
+
+TODO link to tutorial for ~print!~.
+
+** Function objects, lambdas, and closures
+https://en.cppreference.com/w/cpp/utility/functional
+
+#+begin_src c++
+// TODO example of function object
+#+end_src
+
+#+begin_src c++
+// TODO example of lambda
+#+end_src
+
+In Rust...
+
+lambdas
+
+Explain the difference between ~FnOnce~, ~Fn~, ~FnMut~.
+
+*** Capturing variables
+Capture by copy/reference vs taking ownership/borrowing/copying.
+
+#+begin_src c++
+// TODO example of capturing by value vs by reference
+#+end_src
+
+In Rust, you instead express whether the closure should own the captured values
+or just borrow it...
+
+#+begin_src rust
+// TODO corresponding example with explanation
+#+end_src
+
+** Implementation reuse
+In C++, it is possible, though less common in modern C++, to use an abstract
+class, multiple inheritance, etc., to share implementation code.
+
+Composition instead of inheritance works in Rust.
+
+Traits can have default implementations of methods.
+
+(Is ~default impl~ on stable?)
+
+*** Reusing data
+*** Reusing behavior
+
+** Downcasting, "capability query", RTTI
+https://doc.rust-lang.org/std/any/index.html
+
+Possible, but not idiomatic...
+
+** Template specialization
+https://stackoverflow.com/a/66834384
+https://www.tangramvision.com/blog/c-rust-generics-and-specialization
+
+* Patterns
+** Visitor pattern and double dispatch
+Reason for visitor pattern in C++...
+
+#+begin_quote
+It should be possible to define a new operation for (some) classes of an object
+structure without changing the classes.
+#+end_quote
+
+The visitor pattern still works, but usually isn't needed. Most basic case...
+use a Rust enum.
+
+*** Adding additional variants
+Depends on goal... do you want to make it easy to find all of the functions that
+use the type and update them, or do you want to make it possible to add new
+cases without having to update old functions?
+
+If you are writing an application (i.e., you have access to all users of the
+type), it turns out that the first case is usually better. If you are writing a
+library, then the choice is harder, but it might still be better to go with the
+first case along with a semver bump...
+
+If you really need it to be otherwise, the options are:
+
+- [[https://doc.rust-lang.org/reference/attributes/type_system.html#the-non_exhaustive-attribute][~non_exhaustive~]]
+- indirection through a trait (data types a la carte?)
+
+*** Default implementation for variants
+
+*** The expression problem
+
+
+** Pointer-to-implementation (PImpl)
+https://en.cppreference.com/w/cpp/language/pimpl
+
+Pattern arises from a limitation of using header files for exposing interfaces.
+
+Reasons for using it
+- hiding of implementation
+- reducing compilation times
+- ABI stability
+
+* Other things
+- RVO and placement new
+- Signal handling
+
+* Libraries
+https://en.cppreference.com/w/cpp/links/libs
