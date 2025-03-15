@@ -500,6 +500,10 @@ Possible, but not idiomatic...
 https://stackoverflow.com/a/66834384
 https://www.tangramvision.com/blog/c-rust-generics-and-specialization
 
+** Iterators
+https://en.cppreference.com/w/cpp/iterator/iterator
+https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
+https://doc.rust-lang.org/std/iter/index.html
 * Patterns
 ** Visitor pattern and double dispatch
 Reason for visitor pattern in C++...
