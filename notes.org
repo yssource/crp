@@ -25,7 +25,53 @@ https://rust-lang.github.io/api-guidelines/naming.html
 C++ default constructors vs ~std::default::Default~
 
 *** Copy constructor
+In C++, copy constructors enable...
+
 *** Move constructor
+You were reaching for move constructors because you want to be able to transfer
+ownership and enable RVO. In C++ you need a special constructor for this because
+objects may contain pointers to themselves and because destructors are still
+called after moving. In Rust moves are trivial because an object can't refer to
+itself and the destructor (~Drop~) isn't called because...
+
+In Rust, copying and moving is about ownership, rather than about memory locations.
+
+In C++, move constructors enable the transfer of ownership. In Rust, no special
+constructor is needed for this because values can't have references to
+themselves. Instead, ownership is transferred by default, unless the ~Copy~
+trait is implemented.
+
+*** Rule of three/five/zero
+https://en.cppreference.com/w/cpp/language/rule_of_three
+
+#+begin_quote
+If a class requires a user-defined destructor, a user-defined copy constructor,
+or a user-defined copy assignment operator, it almost certainly requires all
+three.
+#+end_quote
+
+1. ~Copy~ and ~Drop~ are mutually exclusive.
+2. Rust has no user-defined copy assignment operator.
+
+#+begin_quote
+Because the presence of a user-defined (include = default or = delete declared)
+destructor, copy-constructor, or copy-assignment operator prevents implicit
+definition of the move constructor and the move assignment operator, any class
+for which move semantics are desirable, has to declare all five special member
+functions:
+#+end_quote
+
+Move semantics are always supported. See [[*Move constructor]].
+
+#+begin_quote
+Classes that have custom destructors, copy/move constructors or copy/move
+assignment operators should deal exclusively with ownership (which follows from
+the Single Responsibility Principle). Other classes should not have custom
+destructors, copy/move constructors or copy/move assignment operators.
+#+end_quote
+
+This is still recommended! Make use of ~Rc~, ~Arc~, ~Box~, ~RefCell~, ...
+
 ** Out parameters
 *** Multiple return values
 One idiom for returning multiple values in C++ is to pass in references to which
