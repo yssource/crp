@@ -504,6 +504,8 @@ https://www.tangramvision.com/blog/c-rust-generics-and-specialization
 https://en.cppreference.com/w/cpp/iterator/iterator
 https://www.internalpointers.com/post/writing-custom-iterators-modern-cpp
 https://doc.rust-lang.org/std/iter/index.html
+** RAII
+https://doc.rust-lang.org/rust-by-example/scope/raii.html
 * Patterns
 ** Visitor pattern and double dispatch
 Reason for visitor pattern in C++...
