@@ -2,6 +2,21 @@
 #+HTML_HEAD: <style>pre.src {background-color: #000000; color: #e5e5e5;}</style>
 #+HTML_HEAD: <style>pre.example {background-color: #000000; color: #e5e5e5;}</style>
 #+OPTIONS: toc:2
+* Goals
+- Enable C++ programmers to find answers starting from concepts, idioms, and
+  patterns that they are familiar with.
+- Where possible, give examples that are good enough that they can get by with
+  cargo cult programming until they are ready to go further.
+- Where some C++ approach isn't possible in Rust, give a workaround that works
+  with stable Rust.
+- Provide explanations that use C++ terms for concepts, to make them more
+  accessible.
+- Provide the mapping from C++ terms for concepts to Rust terms for concepts, to
+  aid in making other Rust resources more accessible.
+- Provide analysis of performance differences between approaches, to aid in
+  understanding trade-offs between approaches in Rust.
+- Expose users to tangential benefits of Rust by example.
+
 * Idioms
 ** Constructors
 https://rust-lang.github.io/api-guidelines/naming.html
