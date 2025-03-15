@@ -1,0 +1,6 @@
+[book]
+authors = ["Brown University Cognitive Engineering Lab"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Rust Phrasebook for C++ Programmers"
