@@ -17,6 +17,33 @@
   understanding trade-offs between approaches in Rust.
 - Expose users to tangential benefits of Rust by example.
 
+* Structure of sections
+
+Each section should include:
+
+- An example in C++ of the idiom being addressed.
+- An example of the most common idiomatic way to accomplish the same goal in
+  Rust.
+- An explanation of why the idiomatic example addresses the same issue as the
+  C++ examples.
+- Additional examples showing variations of the idiom in C++ that apply to
+  different versions of the standard or explanations of why the idiom in C++
+  does not apply to certain versions of the standard.
+- If there are additional Rust idioms that address less common use cases for the
+  C++ idiom, examples of those with explanations.
+- If there are additional engineering considerations (such as performance or
+  maintainability) involved in selecting versions of the idiomatic Rust code,
+  those trade-offs should be discussed.
+
+Having the idiomatic C++ code first will help the reader know that they are on
+the right page. Having the idiomatic Rust example follow immediately will help
+them find what they most likely need quickly.
+
+Any non-idiomatic Rust code should be clearly marked as non-idiomatic with a
+comment in the code block itself, to help readers avoid imitating discouraged
+programming styles.
+
+
 * Idioms
 ** Constructors
 https://rust-lang.github.io/api-guidelines/naming.html
