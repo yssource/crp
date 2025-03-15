@@ -1,7 +1,7 @@
 #+title: Notes on Rust Idioms and Patterns for C++ Programmers
 #+HTML_HEAD: <style>pre.src {background-color: #000000; color: #e5e5e5;}</style>
 #+HTML_HEAD: <style>pre.example {background-color: #000000; color: #e5e5e5;}</style>
-#+OPTIONS: toc:2
+#+OPTIONS: toc:3
 * Goals
 - Enable C++ programmers to find answers starting from concepts, idioms, and
   patterns that they are familiar with.
