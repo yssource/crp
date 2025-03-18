@@ -8,6 +8,7 @@
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
   - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md)
+- [Destructors](./idioms/destructors.md)
 - [Out parameters](./idioms/out_parameters.md)
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
