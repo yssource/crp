@@ -147,6 +147,11 @@ syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-in
 
 ```rust
 #[derive(Default)]
+struct A {
+    m: u32,
+}
+
+#[derive(Default)]
 struct B {
     a: A,
     b: u32,
@@ -172,6 +177,11 @@ The trait is also used to support various standard library functions, such as:
   initialized with a default value.
 
   ```rust
+  # #[derive(Default)]
+  # struct A {
+  #     m: u32,
+  # }
+  #
   fn make_boxed() -> Box<A> {
       Default::default()
   }
@@ -193,8 +203,8 @@ The trait is also used to support various standard library functions, such as:
   more convenient.
 
   ```rust
-  fn go(x: Option<A>) {
-      let a: A = x.unwrap_or_default();
+  fn go(x: Option<i32>) {
+      let a: i32 = x.unwrap_or_default();
       // ...
   }
   ```
@@ -232,8 +242,13 @@ implementation is used. See the chapter on [copy
 constructors](copy_constructors.md) for more details.
 
 ```rust
+#[derive(Default, Clone)]
+struct A {
+    m: u32,
+}
+
 fn foo() {
-    let v = vec![A::new(); 3];
+    let v: Vec<A> = vec![Default::default(); 3];
     // ...
 }
 ```
@@ -242,6 +257,11 @@ Additionally, local variables in Rust must always be explicitly initialized
 before use.
 
 ```rust
+#[derive(Default)]
+struct A {
+    m: u32,
+}
+
 fn foo() {
     let a: A; // this is NOT initialized with Default::<A>::default()
     // ...
