@@ -4,6 +4,8 @@
 
 # Idioms
 
+- [`int`, `float`, `char`, `size_t`, etc.]()
+- [Attributes]()
 - [Constructors](./idioms/constructors.md)
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
