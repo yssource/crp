@@ -197,6 +197,39 @@ impl Clone for Buffer {
 }
 ```
 
+## Assignment operators
+
+Rust does not have a copy or move assignment operator. Instead, assignment
+either moves (by transferring ownership), explicitly clones and then moves, or
+implicitly copies and then moves.
+
+```rust
+fn go() {
+    let x = Box::<u32>::new(5);
+    let y = x; // moves
+    let z = y.clone(); // explicitly clones and then moves the clone
+    let w = *y; // implicitly copies the content of the Box and then moves the copy
+}
+```
+
+For situations where something like a user-defined copy assignment could avoid
+allocations, the `Clone` trait has an additional method called `clone_from`.
+The method is usually automatically defined, but can be overridden when
+implementing the `Clone` trait.
+
+The method is not used for normal assignments, but can be explicitly used in
+situations where the performance of the assignment is significant and would be
+improved.
+
+```rust
+fn go(x: &Vec<u32>) {
+    let y = vec![0; x.len()];
+    // ...
+    y.clone_from(&x);
+    // ...
+}
+```
+
 ## Performance concerns and `Copy`
 
 The decision to implement `Copy` should be based on the semantics of the type,
