@@ -61,74 +61,77 @@ constructor because it manages a resource (a pointer acquired from a C library).
 #include <cstdlib>
 #include <cstring>
 
-class Widget {
-    size_t len;
-    char* buffer;
-public:
-    Widget(size_t len) : len(len), buffer((char*)std::calloc(sizeof(char), len)) {}
+// widget.h
+struct widget_t;
+widget_t *alloc_widget();
+void free_widget(widget_t*);
+void copy_widget(widget_t* dst, widget_t* src);
 
-    Widget(const Widget &other) : len(other.len), buffer((char*)std::malloc(len)) {
-        std::memcpy(buffer, other.buffer, len);
+// widget.cc
+class Widget {
+    widget_t* widget;
+public:
+    Widget() : widget(alloc_widget()) {}
+
+    Widget(const Widget &other) : widget(alloc_widget()) {
+        copy_widget(widget, other.widget);
     }
 
-    Widget(Widget &&other) : len(other.len), buffer(other.buffer) {
-        other.len = 0;
-        other.buffer = NULL;
+    Widget(Widget &&other) : widget(other.widget) {
+        other.widget = nullptr;
     }
 
     ~Widget() {
-        std::free(buffer);
+        free_widget(widget);
     }
 };
 ```
 
-The equivalent in Rust is somewhat noisier because it requires the use of
-`unsafe` due to handling raw pointers.
+The equivalent in Rust is:
 
 ```rust
-use std::alloc::{Layout, System};
+mod widget_ffi {
+    // Models an opaque type. See https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
+    #[repr(C)]
+    pub struct CWidget {
+        _data: [u8; 0],
+        _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+    }
+
+    extern "C" {
+        pub fn make_widget() -> *mut CWidget;
+        pub fn copy_widget(dst: *mut CWidget, src: *mut CWidget);
+        pub fn free_widget(ptr: *mut CWidget);
+    }
+}
+
+use widget_ffi::*;
 
 struct Widget {
-    len: usize,
-    buffer: *mut u8,
+    widget: *mut CWidget,
 }
 
 impl Widget {
-    fn layout(len: usize) -> Layout {
-        Layout::from_size_align(len, 8).expect("Bad length.")
-    }
-
-    pub fn new(len: usize) -> Self {
-        let buffer = unsafe {
-            let system = System::default();
-            let layout = Self::layout(len);
-            system.alloc_zeroed(layout)
-        };
-        Widget { len, buffer }
+    fn new() -> Self {
+        Widget {
+            widget: unsafe { make_widget() },
+        }
     }
 }
 
 impl Clone for Widget {
-    pub fn clone(&self) -> Self {
-        let buffer = unsafe {
-            let system = System::default();
-            let layout = Self::layout(self.len);
-            system.alloc(layout)
-        };
+    fn clone(&self) -> Self {
+        let widget = unsafe { make_widget() };
         unsafe {
-            std::ptr::copy_nonoverlapping(self.buffer, buffer, self.len);
-        };
-        Widget { len: self.len, buffer }
+            copy_widget(widget, self.widget);
+        }
+        Widget { widget }
     }
 }
 
-impl Drop for  Widget {
-    pub fn drop(&mut self) {
-        unsafe {
-            let system = System::default();
-            let layout = Self::layout(self.len);
-            system.dealloc(buffer, layout);
-        }
+impl Drop for Widget {
+    fn drop(&mut self) {
+        unsafe { free_widget(self.widget) };
     }
 }
 ```
