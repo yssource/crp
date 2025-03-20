@@ -4,6 +4,7 @@
 
 # Idioms
 
+- [Header files and modules]()
 - [`int`, `float`, `char`, `size_t`, etc.]()
 - [Attributes]()
 - [Constructors](./idioms/constructors.md)
