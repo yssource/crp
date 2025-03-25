@@ -54,6 +54,8 @@ struct Person {
 }
 ```
 
+## User-defined constructors
+
 On the other hand, the following example require a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
 
