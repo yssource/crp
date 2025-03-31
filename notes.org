@@ -22,6 +22,7 @@
 Each section should include:
 
 - An example in C++ of the idiom being addressed.
+- Prerequisites
 - An example of the most common idiomatic way to accomplish the same goal in
   Rust.
 - An explanation of why the idiomatic example addresses the same issue as the
@@ -34,6 +35,7 @@ Each section should include:
 - If there are additional engineering considerations (such as performance or
   maintainability) involved in selecting versions of the idiomatic Rust code,
   those trade-offs should be discussed.
+- Glossary
 
 Having the idiomatic C++ code first will help the reader know that they are on
 the right page. Having the idiomatic Rust example follow immediately will help
