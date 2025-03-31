@@ -42,7 +42,7 @@ pub fn compute_norm() -> i32 {
 Rust has a dedicated tuple syntax and pattern matching with `let` bindings in
 part to support use cases like this one.
 
-## The problems with the direct transliteration
+## Problems with the direct transliteration
 
 It is possible to transliterate this to Rust, but Rust requires the
 initialization of the variables. The resulting program is not idiomatic Rust.
