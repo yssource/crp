@@ -27,6 +27,7 @@
 - [Template specialization](./idioms/template_specialization.md)
 - [Iterators](./idioms/iterators.md)
 - [RAII](./idioms/raii.md)
+- [Encapsulation]()
 
 # Patterns
 
