@@ -72,6 +72,11 @@ errors.
 Additionally, the Rust compiler is tuned for optimizing the idiomatic version of
 the program, and does produce a significantly faster binary for that version.
 
+In situations where the performance of memory allocation is a concern (such as
+when it is necessary to reuse entire buffers in memory), the trade-offs may be
+different. That situation is discussed in the chapter on [pre-allocated
+buffers](/idioms/out_params/pre-allocated_buffers.md).
+
 ## Similarities with idiomatic C++ since C++11
 
 In C++11 and later, it `std::pair` and `std::tuple` are available for returning
