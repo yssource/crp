@@ -8,7 +8,12 @@ For an example, see [the example in the chapter on copy and move
 constructors](constructors/copy_and_move_constructors.html#user-defined-constructors).
 
 `Drop` implementations play the same role as destructors in C++ for types that
-manage resources (i.e., [RAII](/idioms/raii.md)).
+manage resources. That is, they enable cleanup of resources owned by the value
+at the end of the value's lifetime (i.e., [RAII](/idioms/raii.md)).
+
+In Rust the `Drop::drop` method is called the "destructor", but we will refer to
+it as "the drop method" here, to clearly distinguish between it and C++
+destructors.
 
 ## Lifetimes and destructors
 
@@ -99,6 +104,9 @@ One particular difference between C++ and Rust is that after ownership of `y` is
 moved into the function `acccept`, there is no additional object remaining, and
 so there is no additional `Drop::drop` call (which in the C++ example prints `0`).
 
+Rust's drop methods do run when leaving scope due to a panic, though not if the
+panic occurs in a destructor that was called in response to an initial panic.
+
 ## Early cleanup and explicitly destroying values
 
 In C++ you can explicitly destroy an object. This is mainly useful for
@@ -115,9 +123,10 @@ desired time.
 
 In Rust, values can be dropped early for early cleanup by using
 [`std::mem::drop`](https://doc.rust-lang.org/std/mem/fn.drop.html). This works
-because (for non-`Copy` types) ownership of the object is actually transferred
-to `std::mem::drop` function, and so `Drop::drop` is called at the end of
-`std::mem::drop`.
+because ([for non-`Copy`
+types](/idioms/constructors/copy_and_move_constructors.html#trivially-copyable-types))
+ownership of the object is actually transferred to `std::mem::drop` function,
+and so `Drop::drop` is called at the end of `std::mem::drop`.
 
 Thus, `std::mem::drop` can be used for early cleanup of resources without having
 to restructure a function to force variables out of scope early.
