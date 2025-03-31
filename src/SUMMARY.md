@@ -6,6 +6,7 @@
 
 - [Header files and modules]()
 - [`int`, `float`, `char`, `size_t`, etc.]()
+- [Overloading]()
 - [STL type equivalents]()
 - [Attributes]()
 - [Constructors](./idioms/constructors.md)
