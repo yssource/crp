@@ -24,8 +24,9 @@ There are several reasons why this idiom might be used:
 - working in a codebase that uses C-style of C++, or
 - performance concerns.
 
-The idiomatic translation of this program into Rust makes use of either tuples
-or a named structure for the return type.
+The idiomatic translation of this program into Rust makes use of either
+[tuples](https://doc.rust-lang.org/std/primitive.tuple.html) or a named
+structure for the return type.
 
 ```rust
 pub fn get_point() -> (i32, i32) {
