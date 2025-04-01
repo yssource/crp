@@ -21,7 +21,6 @@
 - [Out parameters](./idioms/out_parameters.md)
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
-  - [Error codes](./idioms/out_params/error_codes.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
 - [Exceptions and error handling](./idioms/exceptions.md)
 - [Function objects, lambdas, and closures](./idioms/function_objects_and_lambdas.md)
