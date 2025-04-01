@@ -92,6 +92,7 @@ public:
 The equivalent in Rust is:
 
 ```rust
+# mod example {
 mod widget_ffi {
     // Models an opaque type. See https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
     #[repr(C)]
@@ -107,7 +108,7 @@ mod widget_ffi {
     }
 }
 
-use widget_ffi::*;
+use self::widget_ffi::*;
 
 struct Widget {
     widget: *mut CWidget,
@@ -135,6 +136,7 @@ impl Drop for Widget {
     fn drop(&mut self) {
         unsafe { free_widget(self.widget) };
     }
+}
 }
 ```
 
@@ -180,7 +182,6 @@ after a move, because the compiler will prevent you from using a variable whose
 value has been moved.
 
 ```rust
-#[derive(Clone)]
 struct Buffer {
     len: usize,
     buffer: Box<[u8]>,
@@ -188,14 +189,14 @@ struct Buffer {
 
 impl Buffer {
     fn new(len: usize) {
-        let other_buffer: Box<[u8]> = vec![0; self.len].into_boxed_slice();
+        let other_buffer: Box<[u8]> = vec![0; len].into_boxed_slice();
     }
 }
 
 impl Clone for Buffer {
     fn clone(&self) -> Self {
         Buffer {
-            buffer_len: self.buffer_len,
+            len: self.len,
             buffer: self.buffer.clone(),
         }
     }
@@ -228,7 +229,7 @@ improved.
 
 ```rust
 fn go(x: &Vec<u32>) {
-    let y = vec![0; x.len()];
+    let mut y = vec![0; x.len()];
     // ...
     y.clone_from(&x);
     // ...
