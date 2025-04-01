@@ -4,7 +4,7 @@
 
 # Idioms
 
-- [Enums, tagged unions, and modeling data]()
+- [Classes, enums, tagged unions, and data modeling]()
 - [Nullable pointers]()
 - [Header files and modules]()
 - [Encapsulation]()
