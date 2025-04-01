@@ -5,6 +5,7 @@
 # Idioms
 
 - [Enums, tagged unions, and modeling data]()
+- [Nullable pointers]()
 - [Header files and modules]()
 - [Encapsulation]()
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
