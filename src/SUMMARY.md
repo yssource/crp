@@ -18,7 +18,7 @@
 - [RTTI](./idioms/rtti.md)
 - [Implementation reuse](./idioms/implementation_reuse.md)
 - [Iterators](./idioms/iterators.md)
-- [Out parameters](./idioms/out_parameters.md)
+- [Out parameters]()
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
