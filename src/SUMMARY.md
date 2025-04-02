@@ -5,7 +5,7 @@
 # Idioms
 
 - [Classes, enums, tagged unions, and data modeling]()
-- [Nullable pointers]()
+- [Null (`nullptr`)](./idioms/null.md)
 - [Header files and modules]()
 - [Encapsulation]()
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
