@@ -48,6 +48,7 @@
 
 - [Visitor pattern and double dispatch]()
 - [Pointer-to-implementation (PImpl)]()
+- [X macros]()
 
 # Libraries
 
