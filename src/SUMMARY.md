@@ -5,7 +5,11 @@
 # Idioms
 
 - [Classes, enums, tagged unions, and data modeling]()
-- [Null (`nullptr`)](./idioms/null.md)
+- [Null (`nullptr`)]()
+  - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
+  - [Default arguments]()
+  - [Sentinel values]()
+  - [Moved members](./idioms/null/moved_members.md)
 - [Header files and modules]()
 - [Encapsulation]()
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
@@ -14,6 +18,7 @@
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
   - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md)
+  - [Separate construction and initialization](./idioms/constructors/partial_initialzation.md)
 - [Destructors and resource cleanup](./idioms/destructors.md)
 - [RTTI](./idioms/rtti.md)
 - [Implementation reuse](./idioms/implementation_reuse.md)
