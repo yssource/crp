@@ -30,32 +30,31 @@
   - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md)
   - [Separate construction and initialization](./idioms/constructors/partial_initialzation.md)
 - [Destructors and resource cleanup](./idioms/destructors.md)
-- [RTTI](./idioms/rtti.md)
-- [Implementation reuse](./idioms/implementation_reuse.md)
-- [Iterators](./idioms/iterators.md)
+- [RTTI]()
+- [Iterators]()
 - [Out parameters]()
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
 - [Exceptions and error handling](./idioms/exceptions.md)
-- [Function objects, lambdas, and closures](./idioms/function_objects_and_lambdas.md)
-- [Template specialization](./idioms/template_specialization.md)
+- [Function objects, lambdas, and closures]()
 - [Object identity](./idioms/object_identity.md)
-- [Varargs](./idioms/varargs.md)
+- [Varargs]()
 - [Attributes]()
 - [STL type equivalents]()
+- [Scratch buffers]()
 
 # Patterns
 
-- [Visitor pattern and double dispatch](./patterns/visitor_pattern.md)
-- [Pointer-to-implementation (PImpl)](./patterns/pimpl.md)
+- [Visitor pattern and double dispatch]()
+- [Pointer-to-implementation (PImpl)]()
 
 # Libraries
 
 # Optimizations
 
-- [NRVO, RVO, and placement new](./optimizations/rvo_and_placement_new.md)
+- [NRVO, RVO, and placement new]()
 
 # Tooling
 
-- [Build systems (CMake)](./tooling/build_systems.md)
+- [Build systems (CMake)]()
