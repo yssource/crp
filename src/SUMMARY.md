@@ -4,7 +4,14 @@
 
 # Idioms
 
-- [Classes, enums, tagged unions, and data modeling]()
+- [Data modeling]()
+  - [Enums and tagged unions]()
+  - [Modeling shallow type hierarchies]()
+  - [Abstract classes and interfaces]()
+  - [Abstract classes and implementation reuse]()
+  - [Template classes, functions, and methods]()
+  - [Template specialization]()
+  - [Static and dynamic dispatch (virtual methods)]()
 - [Null (`nullptr`)]()
   - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
   - [Default arguments]()
@@ -12,6 +19,9 @@
   - [Moved members](./idioms/null/moved_members.md)
 - [Header files and modules]()
 - [Encapsulation]()
+  - [Visibility]()
+  - [Maintaining invariants]()
+  - [Preventing modification]()
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
 - [Overloading]()
 - [Constructors](./idioms/constructors.md)
