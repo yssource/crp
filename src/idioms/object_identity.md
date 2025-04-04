@@ -163,6 +163,6 @@ struct Graph {
 ```
 
 If performance requirements make the use of synthetic identifiers unacceptable,
-then we recommend [Learn Rust With Entirely Too Many Linked
-Lists](https://rust-unofficial.github.io/too-many-lists/) as a resource for how
-to produce the required self-referential data structures using unsafe Rust.
+then it may be necessary to use prevent the value from being moved by using
+[`Pin`](https://doc.rust-lang.org/std/pin/index.html), which is similar to
+deleting the move constructor in C++.
