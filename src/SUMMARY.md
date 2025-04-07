@@ -14,7 +14,6 @@
   - [Static and dynamic dispatch (virtual methods)]()
 - [Null (`nullptr`)]()
   - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
-  - [Default arguments]()
   - [Sentinel values]()
   - [Moved members](./idioms/null/moved_members.md)
 - [Encapsulation]()
