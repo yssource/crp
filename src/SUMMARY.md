@@ -4,8 +4,9 @@
 
 # Idioms
 
-- [Data modeling]()
-  - [Enums and tagged unions]()
+- [Data modeling](./idioms/data_modeling.md)
+  - [Enums](./idioms/data_modeling/enums.md)
+  - [Tagged unions]()
   - [Modeling shallow type hierarchies]()
   - [Abstract classes and interfaces]()
   - [Abstract classes and implementation reuse]()
