@@ -6,7 +6,7 @@
 
 - [Data modeling](./idioms/data_modeling.md)
   - [Enums](./idioms/data_modeling/enums.md)
-  - [Tagged unions]()
+  - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md)
   - [Modeling shallow type hierarchies]()
   - [Abstract classes and interfaces]()
   - [Abstract classes and implementation reuse]()
