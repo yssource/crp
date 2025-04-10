@@ -9,7 +9,7 @@
   - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md)
   - [Pure virtual classes, interfaces, and dynamic dispatch](./idioms/data_modeling/pure_virtual_classes.md)
   - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
-  - [Abstract classes and implementation reuse]()
+  - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md)
   - [Modeling shallow type hierarchies]()
   - [Template classes, functions, and methods]()
   - [Template specialization]()
