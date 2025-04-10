@@ -3,7 +3,9 @@
 In C++ the mechanisms available for data modeling are classes, enums, and
 unions.
 
-Rust, on the other hand, uses records and algebraic data types (ADTs).
+Rust, on the other hand, uses records
+([structs](https://doc.rust-lang.org/book/ch05-00-structs.html)) and algebraic
+data types ([enums](https://doc.rust-lang.org/book/ch06-00-enums.html)).
 
 One major difference between C++ and Rust that arises from this is that C++
 types are open (i.e., you can define a new variant of a type by defining a
