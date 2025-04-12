@@ -11,7 +11,7 @@
   - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
   - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md)
   - [Modeling shallow type hierarchies]()
-  - [Template classes, functions, and methods]()
+  - [Template classes, functions, and methods](./idioms/data_modeling/templates.md)
   - [Template specialization]()
   - [Static and dynamic dispatch (virtual methods)]()
 - [Null (`nullptr`)]()
