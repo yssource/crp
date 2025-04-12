@@ -39,7 +39,7 @@ Instead, Rust modules control visibility and linkage simultaneously and expose
 public definitions for use by other modules. Using Rust modules, something like
 the above definitions becomes
 
-```rust
+```rust,ignore
 // person.rs
 pub struct Person {
     name: String,
