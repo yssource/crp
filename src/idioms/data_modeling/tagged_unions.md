@@ -268,7 +268,7 @@ example.cc: In lambda function:
 example.cc:23:7: warning: control reaches end of non-void function [-Wreturn-type]
 ```
 
-```rust
+```rust,ignore
 enum Shape {
     Rectangle { width: f64, height: f64 },
     Triangle { base: f64, height: f64 },
