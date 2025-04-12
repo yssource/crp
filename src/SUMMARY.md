@@ -49,6 +49,7 @@
 
 - [Visitor pattern and double dispatch]()
 - [Pointer-to-implementation (PImpl)]()
+- [Curiously recurring template pattern (CRTP)]()
 - [X macros]()
 
 # Libraries
