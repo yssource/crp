@@ -13,7 +13,6 @@
   - [Modeling shallow type hierarchies]()
   - [Template classes, functions, and methods](./idioms/data_modeling/templates.md)
   - [Template specialization](./idioms/data_modeling/template_specialization.md)
-  - [Static and dynamic dispatch (virtual methods)]()
 - [Null (`nullptr`)]()
   - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
   - [Sentinel values]()
