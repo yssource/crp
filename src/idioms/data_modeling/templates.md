@@ -185,7 +185,7 @@ individual methods rather than for the whole generic class.
 Best practice in Rust to put the trait bounds on the specific things that
 require the bounds, in order to make the overall use of the types more flexible.
 
-Also, a more idiomatic implementation of `smallest_node` is
+As an aside, a more idiomatic implementation of `smallest_node` is
 
 ```rust
 # pub struct DirectedGraph<Label> {
@@ -233,6 +233,8 @@ where
 }
 # }
 ```
+
+TODO explain why this is more idiomatic?
 
 ## `constexpr` template parameters
 
