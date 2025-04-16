@@ -10,7 +10,6 @@
   - [Pure virtual classes, interfaces, and dynamic dispatch](./idioms/data_modeling/pure_virtual_classes.md)
   - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
   - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md)
-  - [Modeling shallow type hierarchies]()
   - [Template classes, functions, and methods](./idioms/data_modeling/templates.md)
   - [Template specialization](./idioms/data_modeling/template_specialization.md)
 - [Null (`nullptr`)]()
