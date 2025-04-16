@@ -14,7 +14,7 @@
   - [Template specialization](./idioms/data_modeling/template_specialization.md)
 - [Null (`nullptr`)]()
   - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
-  - [Sentinel values]()
+  - [Sentinel values](./idioms/null/sentinel_values.md)
   - [Moved members](./idioms/null/moved_members.md)
 - [Encapsulation]()
   - [Header files](./idioms/encapsulation/headers.md)
