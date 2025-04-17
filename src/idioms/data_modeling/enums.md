@@ -16,7 +16,7 @@ enum Pin : uint8_t {
     Pin3 = 0x04
 };
 
-enum PinMode : uint8_t {
+enum Mode : uint8_t {
     Output            = 0x03,
     Pullup            = 0x04,
     Analog            = 0x27
@@ -25,7 +25,7 @@ enum PinMode : uint8_t {
 
 void lowLevelSetPin(uint8_t pin, uint8_t mode);
 
-void setPinMode(Pin pin, PinMode mode) {
+void setPinMode(Pin pin, Mode mode) {
     lowLevelSetPin(pin, mode);
 }
 ```
