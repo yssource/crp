@@ -30,8 +30,8 @@ void setPinMode(Pin pin, Mode mode) {
 }
 ```
 
-While Rust enums are more general (which will be show in later chapters), they
-also can be used for this sort of modeling.
+While Rust enums are [more general](./idioms/data_modeling/tagged_unions.md),
+they also can be used for this sort of modeling.
 
 ```rust
 #[repr(u8)]
@@ -60,7 +60,7 @@ fn set_pin_mode(pin: Pin, mode: Mode) {
 }
 ```
 
-The `#[repr(u8)]` attribute ensure that the representation of the enum is the
+The `#[repr(u8)]` attribute ensures that the representation of the enum is the
 same as a byte (like declaring the underlying type of an enum in C++). The enum
 values can then be freely converted to the underlying type with the `as`.
 
@@ -131,7 +131,7 @@ impl TryFrom<u8> for Pin {
 See [Exceptions and error handling](/idioms/exceptions.md) for examples of how
 to ergonomically handle the result of `try_from`.
 
-If low level performance more of a concern than memory safety,
+If low-level performance is more of a concern than memory safety,
 `std::mem::transmute` is analogous to a C++ reinterpret cast, but requires
 unsafe Rust because its use can result in undefined behavior. Uses of
 `std::mem::transmute` for this purpose should not be hidden behind an interface
