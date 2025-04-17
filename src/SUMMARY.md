@@ -19,7 +19,7 @@
 - [Encapsulation]()
   - [Header files](./idioms/encapsulation/headers.md)
   - [Anonymous namespaces and `static`](./idioms/encapsulation/anonymous_namespaces.md)
-  - [Private members and friends]()
+  - [Private members and friends](./idioms/encapsulation/private_and_friends.md)
   - [Returning const references]()
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
 - [Overloading]()
