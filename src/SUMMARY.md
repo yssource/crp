@@ -21,7 +21,7 @@
   - [Anonymous namespaces and `static`](./idioms/encapsulation/anonymous_namespaces.md)
   - [Private members and friends](./idioms/encapsulation/private_and_friends.md)
   - [Private constructors](./idioms/encapsulation/private_constructors.md)
-  - [Returning const references]()
+  - [Setters and getters](./idioms/encapsulation/setters_and_getters.md)
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
 - [Overloading]()
 - [Constructors](./idioms/constructors.md)
