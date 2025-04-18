@@ -30,13 +30,18 @@ zero-sized types, the additional field can have no performance cost. The [unit
 type](https://doc.rust-lang.org/std/primitive.unit.html) has zero size and can
 be used for this purpose.
 
-
 ```rust
 mod person {
     pub struct Person {
         pub name: String,
         pub age: i32,
         _private: (),
+    }
+
+    impl Person {
+        pub fn new(name: String, age: i32) -> Person {
+            Person { name, age, _private: () }
+        }
     }
 }
 
@@ -55,6 +60,10 @@ fn main() {
     //     name: "Bob".to_string(),
     //     age: 55,
     // };
+
+    let carol = Person::new("Carol".to_string(), 20);
+    // Can match on the public fields, and then use .. to ignore the remaning ones.
+    let Person { name, age, .. } = carol;
 }
 ```
 
@@ -141,28 +150,51 @@ active.
 
 ```rust
 mod shape {
+    pub struct Triangle {
+        pub base: f64,
+        pub height: f64,
+        _private: (),
+    }
+    pub struct Circle {
+        pub radius: f64,
+        _private: (),
+    }
+
     pub enum Shape {
-        Triangle { base: f64, height: f64 },
-        Circle { radius: f64 },
+        Triangle(Triangle),
+        Circle(Circle),
+    }
+
+    impl Shape {
+        pub fn new_triangle(base: f64, height: f64) -> Shape {
+            Shape::Triangle(Triangle {
+                base,
+                height,
+                _private: (),
+            })
+        }
+
+        pub fn new_circle(radius: f64) -> Shape {
+            Shape::Circle(Circle {
+                radius,
+                _private: (),
+            })
+        }
     }
 }
 
 use shape::*;
 
 fn main() {
-    let triangle = Shape::Triangle {
-        base: 1.0,
-        height: 2.0,
-    };
-
-    let circle = Shape::Circle { radius: 1.0 };
+    let triangle = Shape::new_triangle(1.0, 2.0);
+    let circle = Shape::new_circle(1.0);
 
     match circle {
-        Shape::Triangle { base, height } => {
+        Shape::Triangle(Triangle { base, height, .. }) => {
             println!("Triangle: {}, {}", base, height);
         }
-        Shape::Circle { radius } => {
-            println!("Circle {}", radius);
+        Shape::Circle(Circle { radius, .. }) => {
+            println!("Circle: {}", radius);
         }
     }
 }
@@ -220,7 +252,10 @@ fn main() {
 If the purpose of making the variants private is to ensure that invariants are
 met, then it can be useful to expose the implementing enum (`ShapeKind`) but not
 the field of the wrapping struct (`Shape`), with the invariants only being
-guaranteed when the wrapping struct is used.
+guaranteed when the wrapping struct is used. In this case, it is necessary to
+make the field private and define a getter function, since otherwise the field
+would be modifiable, possibly violating the invariant that the wrapping struct
+represents.
 
 ```rust
 mod shape {
@@ -232,9 +267,9 @@ mod shape {
     pub struct Shape(ShapeKind);
 
     impl Shape {
-        pub fn new(kind: ShapeKind) -> Shape {
+        pub fn new(kind: ShapeKind) -> Option<Shape> {
             // ... check invariants ...
-            Shape(kind)
+            Some(Shape(kind))
         }
 
         pub fn get_kind(&self) -> &ShapeKind {
@@ -250,12 +285,14 @@ fn main() {
         base: 1.0,
         height: 2.0,
     });
-    let circle = Shape::new(ShapeKind::Circle { radius: 1.0 });
+    let Some(circle) = Shape::new(ShapeKind::Circle { radius: 1.0 }) else {
+        return;
+    };
 
     // Does not compile because Shape has private fields.
     // match circle {
-    //   Shape(_) -> {}
-    // }
+    //   Shape(c) => {}
+    // };
 
     match circle.get_kind() {
         ShapeKind::Triangle { base, height } => {
@@ -272,3 +309,43 @@ The situation in Rust resembles the situation in C++ when using `std::variant`,
 for which it is not possible to make the variants themselves private. Instead
 either the constructors for the types that form the variants can be made private
 or the variant can be wrapped in a class with appropriate visibility controls.
+
+## Rust's `#[non_exhaustive]` annotation
+
+If a struct or enum is intended to be public within a
+[crate](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html), but
+should not be constructed outside of the crate, then the `#[non_exhaustive]`
+attribute can be used to constrain construction. The attribute can be applied to
+both structs and to individual enum variants with the same effect as adding a
+private field.
+
+However, the attribute applies the constraint at the level of the crate, not at
+the level of a module.
+
+```rust
+#[non_exhaustive]
+pub struct Person {
+    pub name: String,
+    pub age: i32,
+}
+
+pub enum Shape {
+    #[non_exhaustive]
+    Triangle { base: f64, height: f64 },
+    #[non_exhaustive]
+    Circle { radius: f64 },
+}
+```
+
+The attribute is more typically used to force clients of a library to include
+the wildcard when matching on the struct fields, making it so that adding
+additional fields to a struct is not breaking change (i.e., that it does not
+require the increase of the major version component when using semantic
+versioning).
+
+Applying the `#[non_exhasutive]` attribute to the enum itself makes it as if one
+of the variants were private, requiring a wildcard when matching on the variant
+itself. This has the same effect in terms of versioning as when used on a struct
+but is less advantageous. In most cases, code failing to compile when a new enum
+variant is added is desirable, since that indicates a new case that requires
+logic.
