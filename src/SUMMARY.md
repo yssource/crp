@@ -12,7 +12,7 @@
   - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md)
   - [Template classes, functions, and methods](./idioms/data_modeling/templates.md)
   - [Template specialization](./idioms/data_modeling/template_specialization.md)
-- [Null (`nullptr`)]()
+- [Null (`nullptr`)](./idioms/null.md)
   - [Zero-length arrays](./idioms/null/zero_length_arrays.md)
   - [Sentinel values](./idioms/null/sentinel_values.md)
   - [Moved members](./idioms/null/moved_members.md)
