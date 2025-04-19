@@ -37,7 +37,49 @@ impl Vec2 {
 }
 ```
 
-Some reasons for the difference are:
+One major reason for the difference is a limitation of the borrow checker. With
+a getter function the entire structure is borrowed, preventing mutable use of
+other fields of the structure.
+
+```rust,ignore
+struct Person {
+    name: String,
+    age: u32,
+}
+
+impl Person {
+    fn get_name(&self) -> &String {
+        &self.name
+    }
+}
+
+fn main() {
+    let mut alice = Person { name: "Alice".to_string(), age: 42 };
+    let name = alice.get_name();
+
+    alice.age = 43;
+
+    println!("{}", name);
+}
+```
+
+```text
+error[E0506]: cannot assign to `alice.age` because it is borrowed
+  --> example.rs:16:5
+   |
+14 |     let name = alice.get_name();
+   |                ----- `alice.age` is borrowed here
+15 |
+16 |     alice.age = 43;
+   |     ^^^^^^^^^^^^^^ `alice.age` is assigned to here but it was already borrowed
+17 |
+18 |     println!("{}", name);
+   |                    ---- borrow later used here
+
+error: aborting due to 1 previous error
+```
+
+Some additional reasons for the difference are:
 
 - Ergonomics: Public members make it possible to use pattern matching.
 - Transparency of performance: A change in representation would dramatically
