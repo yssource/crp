@@ -24,6 +24,7 @@
   - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md)
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
 - [Overloading]()
+- [Type conversions]()
 - [Constructors](./idioms/constructors.md)
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
