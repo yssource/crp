@@ -72,7 +72,7 @@ or array-specific functionality is needed.
 Unlike in C++ where the conversion from arrays to pointers is built into the
 language, this is actually a general mechanism provided by the [`Deref`
 trait](https://doc.rust-lang.org/std/ops/trait.Deref.html), which provides one
-kind of [user-defined conversion](#user-defined-conversions).
+kind of [user-defined conversion](/idioms/user-defined_conversions.md).
 
 ## Function to pointer
 
@@ -412,4 +412,5 @@ fn main() {
 
 ## User-defined conversions
 
-TODO
+User-defined conversions are covered in a [separate
+chapter](/idioms/user-defined_conversions.md).
