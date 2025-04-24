@@ -23,7 +23,7 @@
   - [Private constructors](./idioms/encapsulation/private_constructors.md)
   - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md)
 - [Primitive types: `int`, `float`, `size_t`, etc.]()
-- [Type conversions]()
+- [Type promotions and conversions](./idioms/promotions_and_conversions.md)
 - [Overloading](./idioms/overloading.md)
 - [Constructors](./idioms/constructors.md)
   - [Default constructors](./idioms/constructors/default_constructors.md)
