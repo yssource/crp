@@ -58,13 +58,14 @@ where
 
 ## Overloaded methods
 
-In C++ it is possible to have multiple methods with different signatures on the
-same type. In Rust there can be at most one method with the same signature for
-each trait implementation and at most one inherent method with the same
-signature for a type.
+In C++ it is possible to have methods with the same name but different
+signatures on the same type. In Rust there can be at most one method with the
+same name for each trait implementation and at most one inherent method with the
+same name for a type.
 
-In those cases, the desired method must be distinguished at the call site by
-specifying the trait.
+In cases where there are multiple methods with the same names because the method
+is defined for multiple traits, the desired method must be distinguished at the
+call site by specifying the trait.
 
 ```rust
 trait TraitA {
@@ -106,6 +107,35 @@ fn main() {
 
     // Calling the method from TraitB
     println!("{}", TraitB::go(&my_struct));
+}
+```
+
+One exception to this is when the methods are all from the same generic trait
+with with different type parameters for the implementations. In that case, if
+the signature is sufficient to determine which implementation to use, the trait
+does not need to be specified to resolve the method. This is common when using
+the [`From` trait](https://doc.rust-lang.org/std/convert/trait.From.html).
+
+```rust
+struct Widget;
+
+impl From<i32> for Widget {
+    fn from(x: i32) -> Widget {
+        Widget
+    }
+}
+
+impl From<f32> for Widget {
+    fn from(x: f32) -> Widget {
+        Widget
+    }
+}
+
+fn main() {
+    // Calls <Widget as From<i32>>::from
+    Widget::from(5);
+    // Calls <Widget as From<f32>>::from
+    Widget::from(1.0);
 }
 ```
 
