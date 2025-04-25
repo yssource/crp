@@ -51,7 +51,7 @@ fn common_function_name() {
 Rust avoids the linkage problem by controlling linkage and visibility
 simultaneously, with declarations always also being definitions. Instead of
 translation units, programs are structured in terms of
-[modules](/idioms/encapsulation/headers.html), which provide both namespaces and
+[modules](/idioms/encapsulation/headers.md), which provide both namespaces and
 visibility controls over definitions, enabling the Rust compiler to guarantee
 that symbol collision issues cannot happen.
 

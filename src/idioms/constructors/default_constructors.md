@@ -270,6 +270,7 @@ fn foo() {
 
 Since Rust structures do not have inheritance, there is not a direct equivalent
 to using the default constructor for initializing a base class. However, see the
-chapter on [implementation reuse](/idoms/implementation-reuse.html) or the
-section on [traits in the Rust
-book](https://doc.rust-lang.org/book/ch10-02-traits.html) for alternatives.
+chapter on [implementation
+reuse](/idioms/data_modeling/inheritance_and_reuse.md) or the section on [traits
+in the Rust book](https://doc.rust-lang.org/book/ch10-02-traits.html) for
+alternatives.

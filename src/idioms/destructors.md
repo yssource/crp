@@ -4,8 +4,8 @@ In C++, destructors are defined by providing a special member function. To
 achieve the equivalent in Rust, implement the [`Drop`
 trait](https://doc.rust-lang.org/std/ops/trait.Drop.html).
 
-For an example, see [the example in the chapter on copy and move
-constructors](constructors/copy_and_move_constructors.html#user-defined-constructors).
+For an example, see [the chapter on copy and move
+constructors](/idioms/constructors/copy_and_move_constructors.md#user-defined-constructors).
 
 `Drop` implementations play the same role as destructors in C++ for types that
 manage resources. That is, they enable cleanup of resources owned by the value
@@ -124,7 +124,7 @@ desired time.
 In Rust, values can be dropped early for early cleanup by using
 [`std::mem::drop`](https://doc.rust-lang.org/std/mem/fn.drop.html). This works
 because ([for non-`Copy`
-types](/idioms/constructors/copy_and_move_constructors.html#trivially-copyable-types))
+types](/idioms/constructors/copy_and_move_constructors.md#trivially-copyable-types))
 ownership of the object is actually transferred to `std::mem::drop` function,
 and so `Drop::drop` is called at the end of `std::mem::drop`.
 
