@@ -21,7 +21,7 @@ C++ destructors are called in reverse order of construction when variables go ou
 of scope, of for dynamically allocated objects, when they are deleted. Because
 of how move constructors work, this includes destructors of moved objects.
 
-```c++
+```cpp
 #include <iostream>
 #include <utility>
 

@@ -10,7 +10,7 @@ is significantly less restrictive than the other two C++ approaches, because it
 does not require that `area()` return a `double`, only that it return a value
 that can be promoted to a double.
 
-```c++
+```cpp
 #include <iostream>
 
 struct Triangle {
@@ -38,7 +38,7 @@ int main() {
 The second C++ approach uses a concept to restrict the return type, but
 otherwise is the same as the first.
 
-```c++
+```cpp
 #include <iostream>
 
 template <typename T>
@@ -112,7 +112,7 @@ A closer equivalent to the above Rust program in C++ would be the following,
 which uses a combination of pure virtual classes and concepts to achieve both
 static dispatch and nominal typing.
 
-```c++
+```cpp
 #include <concepts>
 #include <iostream>
 

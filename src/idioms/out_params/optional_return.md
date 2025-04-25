@@ -10,7 +10,7 @@ values](/idioms/out_params/multiple_return.md):
 - working in a codebase that uses C-style of C++, and
 - performance concerns.
 
-```c++
+```cpp
 #include <iostream>
 
 bool safe_divide(unsigned int dividend,
@@ -119,7 +119,7 @@ values](/idioms/out_params/multiple_return.md#problems-with-the-direct-translite
 C++17 and later offer `std::optional`, which can be used to express optional
 return values in a way similar to the idiomatic Rust example.
 
-```c++
+```cpp
 #include <iostream>
 #include <optional>
 

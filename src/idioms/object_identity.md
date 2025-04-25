@@ -21,7 +21,7 @@ For example, when implementing the copy-assignment operator, one might
 short-circuit when the copied object and the assignee are the same.
 Not that in this use the pointer values are not stored.
 
-```c++
+```cpp
 struct Person
 {
     std::string name;
@@ -52,7 +52,7 @@ the object's primary use is to be stored in a hash set), and comparison of
 unequal objects is expensive, comparing object identity might be used as
 optimization for the equality comparison operator overload.
 
-```c++
+```cpp
 struct Person
 {
     std::string name;
@@ -113,7 +113,7 @@ Similarly, when comparing whether two variable declarations represent
 declarations of the same variable, [a pointer to some canonical `VarDecl` is
 used](https://github.com/llvm/llvm-project/blob/aa33c095617400a23a2b814c4defeb12e7761639/clang/lib/AST/Stmt.cpp#L1476-L1485):
 
-```c++
+```cpp
 VarDecl *VarDecl::getCanonicalDecl();
 
 bool CapturedStmt::capturesVariable(const VarDecl *Var) const {

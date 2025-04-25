@@ -3,7 +3,7 @@
 C++ has a special concept of default constructors to support several scenarios
 in which they are implicitly called.
 
-```c++
+```cpp
 class Person {
     int age;
 
@@ -47,7 +47,7 @@ In C++ if a member is not explicitly initialized by a constructor, then it is
 default-initialized. When the type of the member is a class, the
 default-initialization invokes the default constructor.
 
-```c++
+```cpp
 class Person {
   int age;
 
@@ -142,7 +142,7 @@ impl Student {
 In C++, arrays without explicit initialization are default-initialized using the
 default constructors.
 
-```c++
+```cpp
 class Person {
   int age;
 
@@ -194,7 +194,7 @@ types, such as `std::vector`. Before C++11 one value would be default
 constructed, and the elements would be copy constructed from that initial
 element. Since C++11, all elements are default constructed.
 
-```c++
+```cpp
 #include <vector>
 
 class Person {
@@ -248,7 +248,7 @@ fn main() {
 In C++, the default constructor is used to perform default-initialization of
 local variables that are not explicitly initialized.
 
-```c++
+```cpp
 class Person {
   int age;
 
@@ -281,7 +281,7 @@ fn main() {
 In C++, the default constructor is used to initialize the base class object if
 it no other constructor is specified.
 
-```c++
+```cpp
 class Base {
   int x;
 

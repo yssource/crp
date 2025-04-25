@@ -14,7 +14,7 @@ In these situations, C++ programs tend to pre-allocate buffers that are reused
 for all calls. This also usually enables allocating the buffer on the stack,
 rather than having to perform dynamic allocation. For example,
 
-```c++
+```cpp
 #include <fstream>
 
 int main() {

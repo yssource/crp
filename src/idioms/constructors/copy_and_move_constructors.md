@@ -12,7 +12,7 @@ purposes.
 For the following C++ classes, the implicitly defined copy and move constructors
 are sufficient.
 
-```c++
+```cpp
 #include <memory>
 #include <string>
 
@@ -59,7 +59,7 @@ struct Person {
 On the other hand, the following example require a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
 
-```c++
+```cpp
 #include <cstdlib>
 #include <cstring>
 

@@ -5,7 +5,7 @@
 Because unions cannot be used for type punning in C++, when they are used it is
 usually with a tag to discriminate between which variant of the union is active.
 
-```c++
+```cpp
 enum Tag { Rectangle, Triangle };
 
 struct Shape {
@@ -63,7 +63,7 @@ omitted.
 A C++ program like the following requires more restructuring of the types to
 achieve the same goal in Rust.
 
-```c++
+```cpp
 #include <ranges>
 #include <vector>
 
@@ -154,7 +154,7 @@ their own types from the start.
 
 In more modern C++, `std::variant` is more similar in usage to Rust.
 
-```c++
+```cpp
 #include <variant>
 
 struct Rectangle {
@@ -189,7 +189,7 @@ read, which removes one of the barriers to using tagged unions more frequently.
 Compare the errors in C++ (using gcc) and Rust when the `Triangle` case is
 omitted.
 
-```c++
+```cpp
 #include <variant>
 
 struct Rectangle {

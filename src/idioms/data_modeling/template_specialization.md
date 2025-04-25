@@ -42,7 +42,7 @@ return in a later call.
 
 Compare this with a C++ function with a similar signature:
 
-```c++
+```cpp
 template <totally_ordered T>
 T max(const T &x, const T &y) {
   return (x > y) ? x : y;

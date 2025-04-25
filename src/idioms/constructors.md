@@ -2,7 +2,7 @@
 
 In C++, constructors initialize objects.
 
-```c++
+```cpp
 class Person {
   int age;
 
@@ -19,7 +19,7 @@ int main() {
 At the point when a constructor is executed, storage for the object has been
 allocated and the constructor is only performing initialization.
 
-```c++
+```cpp
 class Person {
   int age;
   // non-owning pointer
@@ -109,7 +109,7 @@ above where the class stores a pointer to itself upon construction.
 
 In C++ the only way constructors can indicate failure is by throwing exceptions.
 
-```c++
+```cpp
 #include <iostream>
 #include <stdexcept>
 

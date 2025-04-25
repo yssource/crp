@@ -3,7 +3,7 @@
 A second common use is for partially constructed objects, e.g., in codebases
 that make initialization a separate step from construction.
 
-```c++
+```cpp
 #include <string>
 #include <memory>
 

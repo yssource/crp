@@ -4,7 +4,7 @@
 
 In C++ lvalues are automatically converted to rvalues when needed.
 
-```c++
+```cpp
 int main() {
     int x(0); // Local variables are an lvalues,
     x = 42; // and therefore may be assigned to.
@@ -33,7 +33,7 @@ fn main() {
 
 In C++, arrays are automatically converted to pointers as required.
 
-```c++
+```cpp
 #include <cstring>
 
 int main() {
@@ -79,7 +79,7 @@ kind of [user-defined conversion](/idioms/user-defined_conversions.md).
 In C++ functions and static member functions are automatically converted to
 function pointers.
 
-```c++
+```cpp
 int twice(int n) { return n * n; }
 
 int main() {
@@ -130,7 +130,7 @@ In C++ there are several kinds of implicit conversions that occur between
 numeric types. The most commonly encountered are numeric promotions, which
 convert numeric types to larger types.
 
-```c++
+```cpp
 int main() {
   int x(0);
   long y = x;
@@ -165,7 +165,7 @@ fn main() {
 There are several implicit conversions that occur in C++ that are not lossless.
 For example, integers can be implicitly converted to unsigned integers in C++.
 
-```c++
+```cpp
 int main() {
   int x(42);
   unsigned int y = x;
@@ -199,7 +199,7 @@ value-preserving. For example, in C++ `int32_t` can implicitly be converted to
 `float` despite `float` not being able to represent all 32 bit the integers
 precisely.
 
-```c++
+```cpp
 #include <cstdint>
 
 int main() {
@@ -248,7 +248,7 @@ producing unexpected behavior.
 
 In C++ enums can be implicitly converted to integer types.
 
-```c++
+```cpp
 enum Shape {
   Triangle = 0,
   Circle,
@@ -272,7 +272,7 @@ given in the [chapter on enums](/idioms/data_modeling/enums.md).
 In C++ qualification conversions enable the use of const (or volatile) values
 where the const (or volatile) qualifier is not expected.
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 
@@ -313,7 +313,7 @@ which they can fit from `int`, `long int`, or `long long int`. When the literal
 is then assigned to a variable of a different type, an implicit conversion is
 performed.
 
-```c++
+```cpp
 #include <cstdint>
 
 int main() {
@@ -351,7 +351,7 @@ fn main() {
 The safe bool idiom exists to make it possible to use types as conditions. Since
 C++11 this idiom is straightforward to implement.
 
-```c++
+```cpp
 struct Wire {
   bool ready;
   unsigned int value;

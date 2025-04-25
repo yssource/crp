@@ -8,7 +8,7 @@ For example, without the use of anonymous namespaces, the following would result
 in undefined behavior (and no linking error, due to the use of inline producing
 weak symbols in the object files).
 
-```c++
+```cpp
 /// a.cc
 namespace {
     inline void common_function_name() {

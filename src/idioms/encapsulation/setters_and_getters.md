@@ -9,7 +9,7 @@ to access the fields. This choice would typically be made in case a
 representation change (such as using polar instead of rectangular coordinates)
 needed to be made later without breaking clients.
 
-```c++
+```cpp
 class Vec2 {
   double x;
   double y;

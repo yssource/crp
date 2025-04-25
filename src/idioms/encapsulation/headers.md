@@ -7,7 +7,7 @@ included in the header are considered to be private to the defining translation
 unit (though, to enforce this convention other mechanisms, such as [anonymous
 namespaces](/idioms/encapsulation/anonymous_namespaces.md), are required).
 
-```c++
+```cpp
 // person.h
 class Person {
     std::string name;

@@ -4,3 +4,7 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Rust Phrasebook for C++ Programmers"
+
+[output.html]
+additional-css = ["custom.css"]
+code.hidelines = {cpp = "$"}

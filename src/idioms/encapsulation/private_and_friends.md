@@ -5,7 +5,7 @@
 In C++ the unit of encapsulation is the class, and so visibility controls access
 to members at the class boundary. For example,
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 
@@ -73,7 +73,7 @@ for it to access internal methods while keeping them private from other uses.
 This would be required even if the `TreeNode` class were defined as an inner
 class of `BinaryTree`.
 
-```c++
+```cpp
 #include <memory>
 
 class BinaryTree;
@@ -200,7 +200,7 @@ The passkey idiom is also sometimes used to provide finer-grained control over
 access to members than is possible with friend declarations. In either case, the
 effect is achieved by modeling a capability-like system.
 
-```c++
+```cpp
 #include <iostream>
 #include <memory>
 #include <string>
@@ -307,7 +307,7 @@ available for unit testing. Though this practice is often discouraged in C++, it
 is sometimes necessary in order to test other-wise private helper inner classes
 or helper methods.
 
-```C++
+```cpp
 #include <string>
 
 class Person {

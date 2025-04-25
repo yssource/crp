@@ -3,7 +3,7 @@
 C++ supports overloading of functions, so long as the invocations of the
 functions can be distinguished by the number or types of their arguments.
 
-```c++
+```cpp
 #include <string>
 
 double twice(double x) {
@@ -35,7 +35,7 @@ fn twice(x: f64) -> f64 {
 In practice, an example like the above would also likely be implemented in a
 more structured way even in C++, using templates.
 
-```c++
+```cpp
 template <typename T>
 T twice(T x) {
 	return x + x;
@@ -144,7 +144,7 @@ fn main() {
 In C++ most operators can either be overloaded either with a free-standing
 function or by providing a method defining the operator on a class.
 
-```c++
+```cpp
 struct Vec2 {
   double x;
   double y;
@@ -301,7 +301,7 @@ fn main() {
 Default arguments in C++ are sometimes implemented in terms of function
 overloading.
 
-```c++
+```cpp
 unsigned int shift(unsigned int x, unsigned int shiftAmount) {
     return x << shiftAmount;
 }

@@ -9,7 +9,7 @@ Many designs in C++ borrow the convention from C of using a null pointer as a
 sentinel value for a method that returns owned pointers. For example, a method
 that parses a large structure may produce `std::nullptr` in the case of failure.
 
-```c++
+```cpp
 #include <memory>
 
 class LargeStructure {
@@ -61,7 +61,7 @@ When a possibly-failing function produces an integer, it is also common to use
 an otherwise unused or unlikely integer value as a sentinel value, such as `0`
 or `INT_MAX`.
 
-```c++
+```cpp
 #include <algorithm>
 
 int gcd(int a, int b) {

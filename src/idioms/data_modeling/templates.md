@@ -10,7 +10,7 @@ adjacency list, where the graph is generic in the type of the labels on the
 nodes. Though the example shows a template class, the same comparisons with Rust
 apply to template methods and template functions.
 
-```c++
+```cpp
 #include <stdexcept>
 #include <vector>
 
@@ -85,7 +85,7 @@ in C++, one can instead take a type parameter in Rust.
 The differences become more apparent when one attempts to perform operations on
 the values. For example, adding a method to get the smallest node in the graph.
 
-```c++
+```cpp
 #include <optional>
 //...
 
@@ -242,7 +242,7 @@ Rust also supports the equivalent of constexpr template parameters. For example,
 one can define a generic function that returns an array consecutive integers
 starting from a specific value and whose size is determined at compile time.
 
-```c++
+```cpp
 #include <array>
 
 template <constexpr N>

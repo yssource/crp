@@ -7,7 +7,7 @@ when working with hardware, system calls, or protocol implementations.
 For example, the various modes for a GPIO pin could be modeled as an enum, which
 would restrict methods using the mode to valid values.
 
-```c++
+```cpp
 #include <cstdint>
 
 enum Pin : uint8_t {
@@ -70,7 +70,7 @@ themselves](https://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#1766).
 Often the conversion is done by a function that checks that the value to convert
 is a valid enum value.
 
-```c++
+```cpp
 Pin cast_to_pin(uint8_t pin) {
     return static_cast<Pin>(pin);
 }

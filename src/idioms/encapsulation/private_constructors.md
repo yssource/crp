@@ -3,7 +3,7 @@
 In C++ constructors for classes can be made private by declaring them private,
 or by defining a class using `class` and using the default private visibility.
 
-```c++
+```cpp
 #include <string>
 
 struct Person {
@@ -75,7 +75,7 @@ In the following example, the `circle` variant of the `Shape` union is not
 public, so it can only be accessed from within the definition of `Shape`, as it
 is by the `make_circle` static method.
 
-```c++
+```cpp
 #include <iostream>
 
 struct Triangle {

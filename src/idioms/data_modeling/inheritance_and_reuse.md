@@ -8,7 +8,7 @@ simple case of using inheritance for reuse of implementations. For example, in
 the following example two virtual methods are used to support a method whose
 implementation is provided by the abstract class.
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 

@@ -3,7 +3,7 @@
 One idiom for returning multiple values from a function or method in C++ is to
 pass in references to which the values can be assigned.
 
-```c++
+```cpp
 void get_point(int &x, int &y) {
   x = 5;
   y = 6;
@@ -78,7 +78,7 @@ buffers](/idioms/out_params/pre-allocated_buffers.md).
 In C++11 and later, `std::pair` and `std::tuple` are available for returning
 multiple values instead of assigning to reference parameters.
 
-```c++
+```cpp
 #include <tuple>
 #include <utility>
 

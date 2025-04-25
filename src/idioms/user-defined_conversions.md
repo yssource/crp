@@ -9,7 +9,7 @@ conversions occur with regularity in C++ code. In the following example both the
 assignments and the function calls make use of implicit conversions as provided
 by a converting constructor.
 
-```c++
+```cpp
 struct Widget {
   Widget(int) {}
   Widget(int, int) {}
@@ -77,7 +77,7 @@ for types that implement the `From` trait.
 C++ conversion functions enable conversions in the other direction, from the
 defined class to another type.
 
-```c++
+```cpp
 #include <utility>
 
 struct Point {
@@ -138,7 +138,7 @@ An important part of `From` is that the conversion takes ownership of the
 converted value. When this is not desired in C++, the conversion function can
 just take and return references.
 
-```c++
+```cpp
 #include <iostream>
 #include <string>
 
@@ -238,7 +238,7 @@ literal strings can more easily be used as paths.
 In C++ when conversions might fail it is possible (though bad practice) to throw
 an exception from the converting constructor or converting function.
 
-```c++
+```cpp
 #include <stdexcept>
 #include <string>
 

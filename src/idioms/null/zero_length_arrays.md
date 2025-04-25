@@ -4,7 +4,7 @@ In C++ codebases that are written in a C style or that make use of C libraries,
 null pointers may be used to represent empty arrays. This is because there is
 little practical difference between an array of size zero and a null pointer.
 
-```c++
+```cpp
 #include <cstddef>
 #include <cassert>
 

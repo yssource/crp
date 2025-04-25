@@ -3,7 +3,7 @@
 One common use of null pointers in modern C++ is as values for the members of
 moved objects so that the destructor can still safely be called. E.g.,
 
-```c++,hidelines=#
+```cpp,hidelines=#
 # #include <cstdlib>
 # #include <cstring>
 #
