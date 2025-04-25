@@ -5,9 +5,15 @@ In C++, constructors initialize objects.
 ```c++
 class Person {
   int age;
+
 public:
   Person(int a) : age(a) {}
 };
+
+int main() {
+  Person person(42);
+  // ...
+}
 ```
 
 At the point when a constructor is executed, storage for the object has been
@@ -16,17 +22,24 @@ allocated and the constructor is only performing initialization.
 ```c++
 class Person {
   int age;
-  A* best_friend;
+  // non-owning pointer
+  Person *best_friend;
+
 public:
-  A(int a) : age(a), best_friend(this) {}
+  Person(int a) : age(a), best_friend(this) {}
 };
+
+int main() {
+  Person person(42);
+  // ...
+}
 ```
 
-## Constructors in Rust
-
-Rust does not have constructors in the same way as C++. Instead the term
-"constructor" in Rust refers to a static method associated with a type (i.e., a
-method that does not have a `self` parameter), which returns a value of the
+Rust does not have constructors in the same way as C++. In Rust, there is a
+single fundamental way to create an object, which is to initialize all of its
+members at once. The term "constructor" or "constructor method" in Rust refers
+to something more like a factory: a static method associated with a type (i.e.,
+a method that does not have a `self` parameter), which returns a value of the
 type.
 
 ```rust
@@ -35,9 +48,14 @@ struct Person {
 }
 
 impl Person {
-    pub const fn with_age(a: i32) -> Self {
+    const fn with_age(a: i32) -> Self {
         Self { age: a }
     }
+}
+
+fn main() {
+    let person = Person::with_age(42);
+    // ...
 }
 ```
 
@@ -48,24 +66,24 @@ are usually named `with_details` (e.g., `Person::with_name`). See the [naming
 guidelines](https://rust-lang.github.io/api-guidelines/naming.html) for the
 conventions on how to name constructor methods in Rust.
 
-If the fields to be initialized are public, there is a reasonable default value,
-and the value does not manage a resource, then it is also common to use record
-update syntax to initialize a value based on some default value:
+If the fields to be initialized are visible, there is a reasonable default
+value, and the value does not manage a resource, then it is also common to use
+record update syntax to initialize a value based on some default value:
 
 ```rust
 struct Point {
-    pub x: i32,
-    pub y: i32,
-    pub z: i32,
+    x: i32,
+    y: i32,
+    z: i32,
 }
 
 impl Point {
-    pub const fn zero() -> Self {
+    const fn zero() -> Self {
         Self { x: 0, y: 0, z: 0 }
     }
 }
 
-fn go() {
+fn main() {
     let x_unit = Point {
         x: 1,
         ..Point::zero()
@@ -73,10 +91,6 @@ fn go() {
     // ...
 }
 ```
-
-A similar approach in C++ would likely be discouraged because it would require
-mutating a value, and so would prevent the variable from being `const`. In Rust
-this is not required. This way of creating values is idiomatic.
 
 ## Storage allocation vs initialization
 
@@ -91,24 +105,32 @@ computed (in terms of the semantics of the language--the optimizer may still
 avoid the copy). Therefore there is no way in Rust to write the C++ example
 above where the class stores a pointer to itself upon construction.
 
-<!-- TODO refer to resource on how to model self-referential data structures. -->
-
 ## Fallible constructors
 
 In C++ the only way constructors can indicate failure is by throwing exceptions.
 
 ```c++
+#include <iostream>
 #include <stdexcept>
 
 class Person {
   int age;
+
 public:
-  A(int a) : age(a) {
-    if myint < 0 {
-        throw std::domain_error("Bad argument");
+  Person(int a) : age(a) {
+    if (age < 0) {
+      throw std::domain_error("Bad argument");
     }
   }
 };
+
+int main() {
+  try {
+    Person person(-4);
+  } catch (const std::domain_error &e) {
+    std::cout << e.what() << std::endl;
+  }
+}
 ```
 
 In Rust, because constructors are normal static methods, fallible constructors
@@ -120,13 +142,26 @@ struct Person {
     age: i32,
 }
 
+#[derive(Debug)]
+struct NegativeAgeError(i32);
+
 impl Person {
-    # // TODO showcase better practice for error type?
-    pub fn with_age(a: i32) -> Result<Self, &'static str> {
+    fn with_age(a: i32) -> Result<Self, NegativeAgeError> {
         if a < 0 {
-            Err("Bad argument")
+            Err(NegativeAgeError(a))
         } else {
             Ok(Self { age: a })
+        }
+    }
+}
+
+fn main() {
+    match Person::with_age(-4) {
+        Err(err) => {
+            println!("{:?}", err);
+        }
+        Ok(person) => {
+            // ...
         }
     }
 }
