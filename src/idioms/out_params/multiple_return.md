@@ -1,20 +1,18 @@
 # Multiple return values
 
-One idiom for returning multiple values in C++ is to pass in references to which
-the values can be assigned. E.g.,
+One idiom for returning multiple values from a function or method in C++ is to
+pass in references to which the values can be assigned.
 
 ```c++
 void get_point(int &x, int &y) {
-    x = 5;
-    y = 6;
+  x = 5;
+  y = 6;
 }
 
-int compute_norm() {
-    int x, y;
-
-    get_point(x, y);
-
-    return x + y;
+int main() {
+  int x, y;
+  get_point(x, y);
+  // ...
 }
 ```
 
@@ -29,23 +27,24 @@ The idiomatic translation of this program into Rust makes use of either
 structure for the return type.
 
 ```rust
-pub fn get_point() -> (i32, i32) {
+fn get_point() -> (i32, i32) {
     (5, 6)
 }
 
-pub fn compute_norm() -> i32 {
+fn main() {
     let (x, y) = get_point();
-    x + y
+    // ...
 }
 ```
 
-Rust has a dedicated tuple syntax and pattern matching with `let` bindings in
-part to support use cases like this one.
+Rust has a dedicated tuple syntax and supports pattern matching with `let`
+bindings in part to support use cases like this one.
 
 ## Problems with the direct transliteration
 
-It is possible to transliterate this to Rust, but Rust requires the
-initialization of the variables. The resulting program is not idiomatic Rust.
+It is possible to transliterate the original example that uses out parameters to
+Rust, but Rust requires the initialization of the variables before they can be
+passed to a function. The resulting program is not idiomatic Rust.
 
 ```rust
 // NOT IDIOIMATIC RUST
@@ -54,23 +53,20 @@ fn get_point(x: &mut i32, y: &mut i32) {
     *y = 6;
 }
 
-fn compute_norm() -> i32 {
+fn main() {
     let mut x = 0; // initliazed to arbitrary values
     let mut y = 0;
-
     get_point(&mut x, &mut y);
-
-    x + y
+    // ...
 }
 ```
 
-In addition to sacrificing conciseness, this approach requires assigning
-arbitrary initial values to the variables and making the variables mutable, both
-of which make it harder for the compiler to help with avoiding programming
-errors.
+This approach requires assigning arbitrary initial values to the variables and
+making the variables mutable, both of which make it harder for the compiler to
+help with avoiding programming errors.
 
 Additionally, the Rust compiler is tuned for optimizing the idiomatic version of
-the program, and does produce a significantly faster binary for that version.
+the program, and produces a significantly faster binary for that version.
 
 In situations where the performance of memory allocation is a concern (such as
 when it is necessary to reuse entire buffers in memory), the trade-offs may be
@@ -79,22 +75,21 @@ buffers](/idioms/out_params/pre-allocated_buffers.md).
 
 ## Similarities with idiomatic C++ since C++11
 
-In C++11 and later, it `std::pair` and `std::tuple` are available for returning
+In C++11 and later, `std::pair` and `std::tuple` are available for returning
 multiple values instead of assigning to reference parameters.
 
 ```c++
-#include <utility>
 #include <tuple>
+#include <utility>
 
-std::pair<int,int> get_point() {
-	return std::pair<int,int>(5, 6);
+std::pair<int, int> get_point() {
+  return std::pair<int, int>(5, 6);
 }
 
-int compute_norm() {
-	int x, y;
-	std::tie(x, y) = get_point();
-
-    return x + y;
+int main() {
+  int x, y;
+  std::tie(x, y) = get_point();
+  // ...
 }
 ```
 
