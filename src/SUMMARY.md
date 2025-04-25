@@ -34,7 +34,7 @@
 - [Destructors and resource cleanup](./idioms/destructors.md)
 - [RTTI]()
 - [Iterators]()
-- [Out parameters]()
+- [Out parameters](./idioms/out_params.md)
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
