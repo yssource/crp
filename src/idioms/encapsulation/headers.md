@@ -10,31 +10,30 @@ namespaces](/idioms/encapsulation/anonymous_namespaces.md), are required).
 ```cpp
 // person.h
 class Person {
-    std::string name;
+  std::string name;
+
 public:
-    Person(std::string name) : name(name) {}
-    const std::string& getName();
+  Person(std::string name) : name(name) {}
+  const std::string &getName();
 };
 
 // person.cc
-std::string& Person::getName() {
-    return this.name;
+std::string &Person::getName() {
+  return this.name;
 }
 
 // client.cc
 #include "person.h"
 
-int go() {
-    Person p("Alice");
-    std::string& name = p.getName();
+int main() {
+  Person p("Alice".to_string());
+  std::string &name = p.getName();
 
-    // ...
-
-    return 0;
+  // ...
 }
 ```
 
-Rust does uses neither textually-included header files nor forward declarations.
+Rust uses neither textually-included header files nor forward declarations.
 Instead, Rust modules control visibility and linkage simultaneously and expose
 public definitions for use by other modules. Using Rust modules, something like
 the above definitions becomes
@@ -60,19 +59,21 @@ mod person;
 
 use person::*;
 
-fn go() {
+fn main() {
     let p = Person::new("Alice");
+    // doesn't compile, private field
+    // let name = p.name;
     let name = p.name();
 
     //...
 }
 ```
 
-In the `person.rs`, the `Person` type is public by the `name` field is not. This
+In `person.rs`, the `Person` type is public but the `name` field is not. This
 prevents both direct construction of values of the type (similar to private
-members preventing aggregate initialization) and field access (including
-preventing pattern matching). The static method `new` and method `name` are
-exposed to clients of the module by the `pub` visibility declarations.
+members preventing aggregate initialization in C++) and prevents field access.
+The static method `Person::new(String)` and method `Person::name()` are exposed
+to clients of the module by the `pub` visibility declarations.
 
 In the `client` module, the `mod` declaration defines the content of `person.rs`
 as a submodule named `person`. The `use` declaration brings the contents of the
@@ -81,8 +82,8 @@ as a submodule named `person`. The `use` declaration brings the contents of the
 ## The essence of the difference
 
 A C++ program is a collection of translation units. Header files are required to
-make the providing of forward declarations of definitions from other translation
-units manageable.
+make providing forward declarations of definitions from other translation units
+manageable.
 
 A Rust program is a tree of modules. Definitions in one module may access items
 from other modules based on visibility declarations given in the definitions of
