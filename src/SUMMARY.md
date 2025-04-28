@@ -1,6 +1,6 @@
 # Summary
 
-[How to use this book](./how_to_use_this_book.md)
+[Rust Phrasebook for C++ Programmers](./title-page.md)
 
 # Idioms
 

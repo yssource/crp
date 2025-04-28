@@ -1,24 +1,19 @@
-# How to use this book
-
-> 10. Get into a rut early: Do the same process the same way. Accumulate idioms.
->     Standardize. The only difference(!) between Shakespeare and you was the
->     size of his idiom list - not the size of his vocabulary.
-
-—Alan Perlis, Epigrams on Programming
+# Rust Phrasebook for C++ Programmers
 
 The goal of this book is to make programming in Rust less frustrating for C++
 programmers by providing translations of common C++ idioms and patterns into
-idiomatic Rust, along with explanations of the reasons for and engineering
-trade-offs with the differences.
+idiomatic Rust. Along with the translations, there are explanations of the
+reasons for the differences and descriptions of the and engineering trade-offs
+involved.
 
-The translations are often not straightforward transliterations, but rather are
-more comprehensive changes of to how to approach, using stable Rust, the kinds
-of problems that the C++ idioms and patterns are intended to address.
+The translations are often not straightforward transliterations. Instead, they
+are more comprehensive changes of to how to approach, using Rust, the kinds of
+problems that the C++ idioms and patterns are intended to address.
 
 The book is structured to make it possible to read it front-to-back. Ideally,
 after reading this book, one's "idiom list" for Rust should be significantly
-more fleshed out, leading to a more enjoyable and productive experience
-programming in Rust.
+more robust, leading to a more enjoyable and productive experience programming
+in Rust.
 
 The chapters are also organized around C++ concepts instead of Rust concepts, to
 aid C++ programmers in finding a specific solution to a problem in terms that
