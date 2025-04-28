@@ -38,7 +38,7 @@ struct Person {
 
 The equivalent in Rust is
 
-```Rust
+```rust
 use std::rc::Rc;
 
 #[derive(Clone, Copy)]
