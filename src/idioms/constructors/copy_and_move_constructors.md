@@ -10,18 +10,22 @@ implementations of the `Clone` and `Copy` traits are good enough for most
 purposes.
 
 For the following C++ classes, the implicitly defined copy and move constructors
-are sufficient.
+are sufficient. The equivalent in Rust uses a derive macro provided by the
+standard library to implement the corresponding traits.
+
+<div class="comparison">
 
 ```cpp
-#include <memory>
-#include <string>
-
+$#include <memory>
+$#include <string>
+$
 struct Age {
   unsigned int years;
 
   Age(unsigned int years) : years(years) {}
 
-  // copy and move constructors and destructor implicilty declared and defined
+  // copy and move constructors and destructor
+  // implicilty declared and defined
 };
 
 struct Person {
@@ -29,15 +33,16 @@ struct Person {
   std::string name;
   std::shared_ptr<Person> best_friend;
 
-  Person(Age age, std::string name, std::shared_ptr<Person> best_friend)
-      : age(age), name(name), best_friend(best_friend) {}
+  Person(Age age,
+         std::string name,
+         std::shared_ptr<Person> best_friend)
+      : age(age), name(name),
+        best_friend(best_friend) {}
 
-  // copy and move constructors and destructor implicilty declared and defined
+  // copy and move constructors and destructor
+  // implicilty declared and defined
 };
 ```
-
-The equivalent in Rust uses a derive macro provided by the
-standard library to implement the corresponding traits.
 
 ```rust
 use std::rc::Rc;
@@ -55,10 +60,15 @@ struct Person {
 }
 ```
 
+</div>
+
 ## User-defined constructors
 
 On the other hand, the following example require a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
+The equivalent in Rust requires a custom implementation of the `Clone` trait.
+
+<div class="comparison">
 
 ```cpp
 #include <cstdlib>
@@ -91,8 +101,6 @@ public:
 };
 ```
 
-The equivalent in Rust requires a custom implementation of the `Clone` trait.
-
 ```rust
 # mod example {
 mod widget_ffi {
@@ -101,12 +109,18 @@ mod widget_ffi {
     #[repr(C)]
     pub struct CWidget {
         _data: [u8; 0],
-        _marker: core::marker::PhantomData<(*mut u8, core::marker::PhantomPinned)>,
+        _marker: core::marker::PhantomData<(
+            *mut u8,
+            core::marker::PhantomPinned,
+        )>,
     }
 
     extern "C" {
         pub fn make_widget() -> *mut CWidget;
-        pub fn copy_widget(dst: *mut CWidget, src: *mut CWidget);
+        pub fn copy_widget(
+            dst: *mut CWidget,
+            src: *mut CWidget,
+        );
         pub fn free_widget(ptr: *mut CWidget);
     }
 }
@@ -142,6 +156,8 @@ impl Drop for Widget {
 }
 # }
 ```
+
+</div>
 
 Just as with how in C++ it is uncommon to need user-defined implementations for
 copy and move constructors or user-defined implementations for destructors, in
