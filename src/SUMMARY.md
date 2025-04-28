@@ -61,5 +61,6 @@
 
 # Tooling
 
-- [Build systems (CMake)]()
 - [Unit tests]()
+- [Documentation (Doxygen)]()
+- [Build systems (CMake)]()
