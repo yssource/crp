@@ -36,7 +36,8 @@ struct Person {
 };
 ```
 
-The equivalent in Rust is
+The equivalent in Rust uses a derive macro provided by the
+standard library to implement the corresponding traits.
 
 ```rust
 use std::rc::Rc;
@@ -90,12 +91,13 @@ public:
 };
 ```
 
-The equivalent in Rust is requires a custom implementation of the `Clone` trait.
+The equivalent in Rust requires a custom implementation of the `Clone` trait.
 
 ```rust
 # mod example {
 mod widget_ffi {
-    // Models an opaque type. See https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
+    // Models an opaque type.
+    // See https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs
     #[repr(C)]
     pub struct CWidget {
         _data: [u8; 0],
@@ -178,12 +180,13 @@ does not. This is because neither `std::String` nor `Rc<Person>` implement
 heap, and so are not trivially copyable.
 
 Rust prevents implementing `Copy` for a type if any of its fields are not
-`Copy`. but does not prevent implementing `Copy` for types that should not be
+`Copy`, but does not prevent implementing `Copy` for types that should not be
 copied bit-for-bit due to their intended meaning, which is usually indicated by
-a user-defined `Clone` implementation. Rust does not permit the implementation
-of both `Copy` and `Drop` for the same type. This aligns with the C++ standard's
-requirement that trivially copyable types not implement a user-defined
-destructor.
+a user-defined `Clone` implementation.
+
+Rust does not permit the implementation of both `Copy` and `Drop` for the same
+type. This aligns with the C++ standard's requirement that trivially copyable
+types not implement a user-defined destructor.
 
 ## Move constructors
 
@@ -210,9 +213,9 @@ fn main() {
 ```
 
 For situations where something like a user-defined copy assignment could avoid
-allocations, the `Clone` trait has an additional method called `clone_from`.
-The method is usually automatically defined, but can be overridden when
-implementing the `Clone` trait to provide an efficient implementation.
+allocations, the `Clone` trait has an additional method called `clone_from`. The
+method is automatically defined, but can be overridden when implementing the
+`Clone` trait to provide an efficient implementation.
 
 The method is not used for normal assignments, but can be explicitly used in
 situations where the performance of the assignment is significant and would be
