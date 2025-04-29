@@ -7,6 +7,12 @@ included in the header are considered to be private to the defining translation
 unit (though, to enforce this convention other mechanisms, such as [anonymous
 namespaces](/idioms/encapsulation/anonymous_namespaces.md), are required).
 
+In contrast, Rust uses neither textually-included header files nor forward
+declarations. Instead, Rust modules control visibility and linkage
+simultaneously and expose public definitions for use by other modules.
+
+<div class="comparison">
+
 ```cpp
 // person.h
 class Person {
@@ -18,25 +24,24 @@ public:
 };
 
 // person.cc
-std::string &Person::getName() {
-  return this.name;
+#include <string>
+#include "person.h"
+
+const std::string &Person::getName() {
+  return this->name;
 }
 
 // client.cc
+#include <string>
 #include "person.h"
 
 int main() {
-  Person p("Alice".to_string());
-  std::string &name = p.getName();
+  Person p("Alice");
+  const std::string &name = p.getName();
 
   // ...
 }
 ```
-
-Rust uses neither textually-included header files nor forward declarations.
-Instead, Rust modules control visibility and linkage simultaneously and expose
-public definitions for use by other modules. Using Rust modules, something like
-the above definitions becomes
 
 ```rust,ignore
 // person.rs
@@ -60,7 +65,7 @@ mod person;
 use person::*;
 
 fn main() {
-    let p = Person::new("Alice");
+    let p = Person::new("Alice".to_string());
     // doesn't compile, private field
     // let name = p.name;
     let name = p.name();
@@ -68,6 +73,8 @@ fn main() {
     //...
 }
 ```
+
+</div>
 
 In `person.rs`, the `Person` type is public but the `name` field is not. This
 prevents both direct construction of values of the type (similar to private
