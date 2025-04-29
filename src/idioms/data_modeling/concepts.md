@@ -4,8 +4,14 @@ In C++ static dispatch over an interface is achieved by implementing a template
 function or template method that interacts with the type using some expected
 interface.
 
-The template function `twice_area` in the example below makes use of an `area()`
+The template function `twiceArea` in the example below makes use of an `area()`
 method on the template type parameter.
+
+To achieve the same goal in Rust involves defining a trait with the desired
+method and using the trait as a bound on the type parameter for the generic
+function.
+
+<div class="comparison">
 
 ```cpp
 #include <iostream>
@@ -14,7 +20,8 @@ struct Triangle {
   double base;
   double height;
 
-  Triangle(double base, double height) : base(base), height(height) {}
+  Triangle(double base, double height)
+      : base(base), height(height) {}
 
   double area() {
     return 0.5 * base * height;
@@ -22,7 +29,7 @@ struct Triangle {
 };
 
 template <class T>
-double twice_area(T shape) {
+double twiceArea(T shape) {
   return shape.area() * 2;
 }
 
@@ -33,15 +40,6 @@ int main() {
   return 0;
 }
 ```
-
-To achieve the same goal in Rust involves defining a trait with the desired
-method and using the trait as a bound on the type parameter for the generic
-function.
-
-Note that in the following Rust example, the definition of the trait and the
-struct have not changed from the example in the chapter on [virtual methods and
-dynamic dispatch](/idioms/data_modeling/pure_virtual_classes.md). Even so, this
-example does use static dispatch.
 
 ```rust
 trait Shape {
@@ -72,6 +70,13 @@ fn main() {
     println!("{}", twice_area(triangle));
 }
 ```
+
+</div>
+
+Note that in the Rust example, the definition of the trait and the struct have
+not changed from the example in the chapter on [virtual methods and dynamic
+dispatch](/idioms/data_modeling/pure_virtual_classes.md). Even so, this example
+does use static dispatch.
 
 The difference between Rust and C++ in the above examples arises from Rust being
 nominally typed (types must opt in to supporting a specific interface, merely
