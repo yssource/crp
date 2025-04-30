@@ -259,3 +259,5 @@ fn main() {
     print_area(&scaled_triangle);
 }
 ```
+
+{{#quiz pure_virtual_classes.toml}}

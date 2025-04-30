@@ -8,3 +8,5 @@ title = "Rust Phrasebook for C++ Programmers"
 [output.html]
 additional-css = ["custom.css"]
 code.hidelines = {cpp = "$"}
+
+[preprocessor.quiz]
