@@ -10,6 +10,11 @@ values](/idioms/out_params/multiple_return.md):
 - working in a codebase that uses C-style of C++, and
 - performance concerns.
 
+The idiomatic Rust approach for optionally returning a value is to return a
+value of type [`Option`](https://doc.rust-lang.org/std/option/index.html).
+
+<div class="comparison">
+
 ```cpp
 #include <iostream>
 
@@ -24,7 +29,8 @@ bool safe_divide(unsigned int dividend,
   }
 }
 
-void go(unsigned int dividend, unsigned int divisor) {
+void go(unsigned int dividend,
+        unsigned int divisor) {
   unsigned int quotient;
   if (safe_divide(dividend, divisor, quotient)) {
     std::cout << quotient << std::endl;
@@ -39,11 +45,11 @@ int main() {
 }
 ```
 
-The idiomatic Rust approach for optionally returning a value is to return a
-value of type [`Option`](https://doc.rust-lang.org/std/option/index.html).
-
 ```rust
-fn safe_divide(dividend: u32, divisor: u32) -> Option<u32> {
+fn safe_divide(
+    dividend: u32,
+    divisor: u32,
+) -> Option<u32> {
     if divisor != 0 {
         Some(dividend / divisor)
     } else {
@@ -67,6 +73,8 @@ fn main() {
     go(10, 0);
 }
 ```
+
+</div>
 
 When there is useful information to provide in the failing case, the [`Result`
 type](https://doc.rust-lang.org/std/result/) can be used instead. The [chapter
