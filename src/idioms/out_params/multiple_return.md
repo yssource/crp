@@ -3,6 +3,18 @@
 One idiom for returning multiple values from a function or method in C++ is to
 pass in references to which the values can be assigned.
 
+There are several reasons why this idiom might be used:
+
+- compatibility with versions of C++ earlier than C++11,
+- working in a codebase that uses C-style of C++, or
+- performance concerns.
+
+The idiomatic translation of this program into Rust makes use of either
+[tuples](https://doc.rust-lang.org/std/primitive.tuple.html) or a named
+structure for the return type.
+
+<div class="comparison">
+
 ```cpp
 void get_point(int &x, int &y) {
   x = 5;
@@ -16,16 +28,6 @@ int main() {
 }
 ```
 
-There are several reasons why this idiom might be used:
-
-- compatibility with versions of C++ earlier than C++11,
-- working in a codebase that uses C-style of C++, or
-- performance concerns.
-
-The idiomatic translation of this program into Rust makes use of either
-[tuples](https://doc.rust-lang.org/std/primitive.tuple.html) or a named
-structure for the return type.
-
 ```rust
 fn get_point() -> (i32, i32) {
     (5, 6)
@@ -36,6 +38,8 @@ fn main() {
     // ...
 }
 ```
+
+</div>
 
 Rust has a dedicated tuple syntax and supports pattern matching with `let`
 bindings in part to support use cases like this one.
