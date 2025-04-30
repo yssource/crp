@@ -7,9 +7,9 @@ interface.
 The template function `twiceArea` in the example below makes use of an `area()`
 method on the template type parameter.
 
-To achieve the same goal in Rust involves defining a trait with the desired
-method and using the trait as a bound on the type parameter for the generic
-function.
+To achieve the same goal in Rust involves defining a trait (`Shape`) with the
+desired method (`twice_area`) and using the trait as a bound on the type
+parameter for the generic function.
 
 <div class="comparison">
 
@@ -28,6 +28,7 @@ struct Triangle {
   }
 };
 
+// Generic function using interface
 template <class T>
 double twiceArea(T shape) {
   return shape.area() * 2;
@@ -42,6 +43,7 @@ int main() {
 ```
 
 ```rust
+// Interface that generic function will use
 trait Shape {
     fn area(&self) -> f64;
 }
@@ -51,12 +53,14 @@ struct Triangle {
     height: f64,
 }
 
+// Implementation of interface for type
 impl Shape for Triangle {
     fn area(&self) -> f64 {
         0.5 * self.base * self.height
     }
 }
 
+// Generic function using interface
 fn twice_area<T: Shape>(shape: T) -> f64 {
     2.0 * shape.area()
 }
