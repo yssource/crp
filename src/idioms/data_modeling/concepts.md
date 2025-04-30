@@ -36,7 +36,7 @@ double twiceArea(T shape) {
 int main() {
   Triangle triangle{1.0, 1.0};
 
-  std::cout << twice_area(triangle) << std::endl;
+  std::cout << twiceArea(triangle) << std::endl;
   return 0;
 }
 ```
@@ -125,7 +125,7 @@ concept shape = requires(T t) {
 };
 
 template <shape T>
-double twice_area(T shape) {
+double twiceArea(T shape) {
   return shape.area() * 2;
 }
 ```
@@ -157,14 +157,14 @@ struct Triangle : Shape {
 };
 
 template <shape T>
-double twice_area(T shape) {
+double twiceArea(T shape) {
   return shape.area() * 2;
 }
 
 int main() {
   Triangle triangle{1.0, 1.0};
 
-  std::cout << twice_area(triangle) << std::endl;
+  std::cout << twiceArea(triangle) << std::endl;
   return 0;
 }
 ```
@@ -187,7 +187,7 @@ template <typename T>
 concept shape = std::derived_from<T, Shape>;
 
 template <shape T>
-double twice_area(T shape) {
+double twiceArea(T shape) {
   // note the call to a method not defined in Shape
   return shape.volume() * 2;
 }
