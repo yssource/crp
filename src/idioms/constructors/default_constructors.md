@@ -47,6 +47,11 @@ In C++ if a member is not explicitly initialized by a constructor, then it is
 default-initialized. When the type of the member is a class, the
 default-initialization invokes the default constructor.
 
+In Rust, if all of the fields of a struct implement the `Default` trait, then an
+implementation for the structure can be provided by the compiler.
+
+<div class="comparison">
+
 ```cpp
 class Person {
   int age;
@@ -60,9 +65,6 @@ class Student {
 }
 ```
 
-In Rust, if all of the fields of a struct implement the `Default` trait, then an
-implementation for the structure can be provided by the compiler.
-
 ```rust
 #[derive(Default)]
 struct Person {
@@ -75,7 +77,9 @@ struct Student {
 }
 ```
 
-This is equivalent to writing
+</div>
+
+The use of the derive macros in Rust is equivalent to writing the following.
 
 ```rust
 struct Person {
@@ -142,6 +146,10 @@ impl Student {
 In C++, arrays without explicit initialization are default-initialized using the
 default constructors.
 
+In Rust, the value with which to initialize the array must be provided.
+
+<div class="comparison">
+
 ```cpp
 class Person {
   int age;
@@ -156,8 +164,6 @@ int main() {
 }
 ```
 
-n Rust, the value with which to initialize the array must be provided.
-
 ```rust
 #[derive(Default)]
 struct Person {
@@ -170,6 +176,8 @@ fn main() {
     // ...
 }
 ```
+
+</div>
 
 If the type happens to be [trivially
 copyable](/idioms/constructors/copy_and_move_constructors.md#trivially-copyable-types),
@@ -194,6 +202,12 @@ types, such as `std::vector`. Before C++11 one value would be default
 constructed, and the elements would be copy constructed from that initial
 element. Since C++11, all elements are default constructed.
 
+As with array initialization, the values must be explicitly specified in Rust.
+The vector can be constructed from an array, enabling the same syntax as with
+arrays.
+
+<div class="comparison">
+
 ```cpp
 #include <vector>
 
@@ -210,10 +224,6 @@ int main() {
 }
 ```
 
-As with array initialization, the values must be explicitly specified in Rust.
-The vector can be constructed from an array, enabling the same syntax as with
-arrays.
-
 ```rust
 #[derive(Default)]
 struct Person {
@@ -226,6 +236,8 @@ fn main() {
     // ...
 }
 ```
+
+</div>
 
 If the type implements the `Clone` trait, then the array can be constructed
 using the `vec!` macro. See the chapter on [copy
@@ -248,6 +260,11 @@ fn main() {
 In C++, the default constructor is used to perform default-initialization of
 local variables that are not explicitly initialized.
 
+
+In Rust, initialization of local variables is always explicit.
+
+<div class="comparison">
+
 ```cpp
 class Person {
   int age;
@@ -262,8 +279,6 @@ int main() {
 }
 ```
 
-In Rust, initialization of local variables is always explicit.
-
 ```rust
 #[derive(Clone, Default)]
 struct Person {
@@ -275,6 +290,8 @@ fn main() {
     // ...
 }
 ```
+
+</div>
 
 ## Implicit initialization of the base class object
 
