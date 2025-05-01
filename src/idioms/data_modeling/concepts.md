@@ -345,3 +345,5 @@ fn store<'s, S: Shape + 's>(x: S, data: &mut Box<dyn Shape + 's>) {
     *data = Box::new(x);
 }
 ```
+
+{{#quiz concepts.toml}}
