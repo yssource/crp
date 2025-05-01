@@ -302,4 +302,4 @@ fn main() {
 }
 ```
 
-{{#quiz pure_virtual_classes.toml}}
+{{#quiz abstract_classes.toml}}
