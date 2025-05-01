@@ -244,3 +244,104 @@ where
 
 The more verbose form is preferred used when there are many type parameters or
 those type parameters must implement many traits.
+
+## Generics and lifetimes
+
+When defining a template in C++ that makes use of a type template parameter, the
+lifetimes of references stored within objects of that type must be tracked
+manually by the programmer.
+
+Rust checks the bounds on lifetimes of references contained within type
+parameters. [Just as with trait object
+types](/idioms/data_modeling/abstract_classes.md#trait-objects-and-lifetimes),
+these bounds are usually inferred according to the [lifetime elision
+rules](https://doc.rust-lang.org/reference/lifetime-elision.html). When they
+cannot be inferred, or they are inferred incorrectly, the bounds can be declared
+manually.
+
+In the following example, the bounds have to be given manually because the
+inferred bounds are incorrect.
+
+```rust,ignore
+trait Shape {}
+
+fn store<S: Shape>(x: S, data: &mut Box<dyn Shape>) {
+    *data = Box::new(x);
+}
+```
+
+```text
+error[E0310]: the parameter type `S` may not live long enough
+ --> example.rs:7:5
+  |
+7 |     *data = Box::new(x);
+  |     ^^^^^
+  |     |
+  |     the parameter type `S` must be valid for the static lifetime...
+  |     ...so that the type `S` will meet its required lifetime bounds
+  |
+```
+
+The error message becomes clearer when the inferred lifetime bounds are made
+explicit. With the given type for `store`, the argument for `x` could be
+something that has a lifetime that does not last as long as the lifetimes in the
+contents in the box.
+
+```rust,ignore
+# trait Shape {}
+#
+# struct Triangle {
+#     base: f64,
+#     height: f64,
+# }
+#
+# impl Shape for Triangle {}
+#
+// The type parameter S is assigned no lifetime bound.
+fn store<'a, S: Shape>(
+    x: S,
+    // The reference is assigned a fresh lifetime by rule
+    // [lifetime-elision.function.implicit-lifetime-parameters].
+    //
+    // The trait object is assigned 'static by rule
+    // [lifetime-elision.trait-object.default] and
+    // [lifetime-elision.trait-object.innermost-type].
+    data: &'a mut Box<dyn Shape + 'static>,
+) {
+    *data = Box::new(x);
+}
+
+// An example of how the implementation of store could be misused with
+// the given type.
+fn main() {
+    let triangle = Triangle {
+        base: 1.0,
+        height: 2.0,
+    };
+    let mut b: Box<dyn Shape> = Box::new(triangle);
+    {
+        let short_lived_triangle = Triangle {
+            base: 5.0,
+            height: 10.0,
+        };
+        store(short_lived_triangle, &mut b);
+    }
+    // Here b contains a dangling reference.
+}
+```
+
+For this specific case, the most general solution is to define a new lifetime
+parameter to bound both `S` and `dyn Shape`. The type parameter for the
+reference can be elided, because it will be assigned a fresh lifetime parameter.
+
+```rust
+trait Shape {}
+
+// Note the common bound
+// -----------------here-\
+// ----------------------|---------------------------and here-\
+//                       v                                    v
+fn store<'s, S: Shape + 's>(x: S, data: &mut Box<dyn Shape + 's>) {
+    *data = Box::new(x);
+}
+```
