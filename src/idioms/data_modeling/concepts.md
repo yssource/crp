@@ -30,7 +30,7 @@ struct Triangle {
 
 // Generic function using interface
 template <class T>
-double twiceArea(T shape) {
+double twiceArea(T &shape) {
   return shape.area() * 2;
 }
 
@@ -61,7 +61,7 @@ impl Shape for Triangle {
 }
 
 // Generic function using interface
-fn twice_area<T: Shape>(shape: T) -> f64 {
+fn twice_area<T: Shape>(shape: &T) -> f64 {
     2.0 * shape.area()
 }
 
@@ -71,7 +71,7 @@ fn main() {
         height: 1.0,
     };
 
-    println!("{}", twice_area(triangle));
+    println!("{}", twice_area(&triangle));
 }
 ```
 
@@ -204,21 +204,18 @@ trait Shape {
     fn area(&self) -> f64;
 }
 
-fn twice_area<T: Shape>(shape: T) -> f64 {
+fn twice_area<T: Shape>(shape: &T) -> f64 {
     // note the call to a method not defined in Shape
     2.0 * shape.volume()
 }
 ```
 
 ```text
-error[E0599]: no method named `volume` found for type parameter `T` in the current scope
+error[E0599]: no method named `volume` found for reference `&T` in the current scope
  --> example.rs:7:17
   |
-5 | fn twice_area<T: Shape>(shape: T) -> f64 {
-  |               - method `volume` not found for this type parameter
-6 |     // note the call to a method not defined in Shape
 7 |     2.0 * shape.volume()
-  |                 ^^^^^^ method not found in `T`
+  |                 ^^^^^^ method not found in `&T`
 ```
 
 These additional static checks mean that in many situations where C++ templates
@@ -229,7 +226,7 @@ would be useful but hard to implement correctly, Rust generics are freely used.
 In the above examples, the function requiring a trait was defined like the following.
 
 ```rust,ignore
-fn twice_area<T: Shape>(shape: T) -> f64 {
+fn twice_area<T: Shape>(shape: &T) -> f64 {
     2.0 * shape.area()
 }
 ```
@@ -237,7 +234,7 @@ fn twice_area<T: Shape>(shape: T) -> f64 {
 This is a commonly used shorthand for the following:
 
 ```rust,ignore
-fn twice_area<T>(shape: T) -> f64
+fn twice_area<T>(shape: &T) -> f64
 where
     T: Shape,
 {
