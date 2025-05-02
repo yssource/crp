@@ -255,3 +255,5 @@ should instead use a reference (`&T` or `&mut T`) or put the value on the heap
 [`Rc<T>`](https://doc.rust-lang.org/std/rc/index.html)). These approaches
 correspond to passing by reference, or using a `std::unique_ptr`
 `std::shared_ptr` in C++.
+
+{{#quiz copy_and_move_constructors.toml}}
