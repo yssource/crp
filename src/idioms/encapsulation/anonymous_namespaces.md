@@ -80,3 +80,5 @@ Additionally, using
 in Rust to bypass name mangling in order to produce functions that can be easily
 referred to from C or C++ can cause undefined behavior due to name collision
 during linking.
+
+{{#quiz anonymous_namespaces.toml}}
