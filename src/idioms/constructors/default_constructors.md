@@ -361,3 +361,5 @@ fn go(x: Option<i32>) {
 ```
 
 In C++, `std::optional` does not have an equivalent method.
+
+{{#quiz default_constructors.toml}}
