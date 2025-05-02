@@ -271,3 +271,5 @@ fn main() {
     go(10, 0);
 }
 ```
+
+{{#quiz optional_return.toml}}
