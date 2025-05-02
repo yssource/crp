@@ -99,3 +99,5 @@ int main() {
 
 This more closely aligns with the normal Rust idiom for returning multiple
 values.
+
+{{#quiz multiple_return.toml}}
