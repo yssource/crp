@@ -33,3 +33,7 @@ We're seeking feedback on this book! At the bottom of every page there is a link
 to a form where you can submit feedback. Whether you've found a mistake or just
 want to let us know which topic you'd like us to cover next, use the form to
 send us a message!
+
+This book is incomplete and may include links to chapters that have not yet been
+published. If you encounter such a link and want us to prioritize that chapter,
+let us know using the feedback form.
