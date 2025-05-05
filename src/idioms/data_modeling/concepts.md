@@ -242,8 +242,8 @@ where
 }
 ```
 
-The more verbose form is preferred used when there are many type parameters or
-those type parameters must implement many traits.
+The more verbose form is preferred when there are many type parameters or those
+type parameters must implement many traits.
 
 ## Generics and lifetimes
 
