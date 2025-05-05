@@ -235,7 +235,10 @@ method is automatically defined, but can be overridden when implementing the
 
 The method is not used for normal assignments, but can be explicitly used in
 situations where the performance of the assignment is significant and would be
-improved by using the more efficient implementation, if one is defined.
+improved by using the more efficient implementation, if one is defined. The
+implementation can be made more efficient because `clone_from` takes ownership
+of the object to which the values are being assigned, and so can do things like
+reuse memory to avoid allocations.
 
 ```rust
 fn go(x: &Vec<u32>) {
@@ -253,7 +256,7 @@ not on performance. If the size of objects being copied is a concern, then one
 should instead use a reference (`&T` or `&mut T`) or put the value on the heap
 ([`Box<T>`](https://doc.rust-lang.org/std/boxed/index.html) or
 [`Rc<T>`](https://doc.rust-lang.org/std/rc/index.html)). These approaches
-correspond to passing by reference, or using a `std::unique_ptr`
+correspond to passing by reference, or using a `std::unique_ptr` or
 `std::shared_ptr` in C++.
 
 {{#quiz copy_and_move_constructors.toml}}
