@@ -7,13 +7,13 @@ Rust, on the other hand, uses records
 ([structs](https://doc.rust-lang.org/book/ch05-00-structs.html)) and algebraic
 data types ([enums](https://doc.rust-lang.org/book/ch06-00-enums.html)).
 
-Although Rust supports one major piece of object oriented design, interface
-polymorphism, Rust also has language features for modeling things using
+Although Rust supports one major piece of object oriented design, polymorphism
+using interfaces, Rust also has language features for modeling things using
 algebraic data types (which in simple cases are like a much more ergonomic
 `std::variant`).
 
 This section gives examples of common constructions used when programming in C++
-data and how to achieve the same effects using Rust's features.
+and how to achieve the same effects using Rust's features.
 
 ## Fixed operations, varying data
 
