@@ -29,4 +29,7 @@ a complement to [The Embedded Rust Book](https://docs.rust-embedded.org/book/).
 
 ## Feedback on this book
 
-TODO: add ask for feedback on missing content
+We're seeking feedback on this book! At the bottom of every page there is a link
+to a form where you can submit feedback. Whether you've found a mistake or just
+want to let us know which topic you'd like us to cover next, use the form to
+send us a message!
