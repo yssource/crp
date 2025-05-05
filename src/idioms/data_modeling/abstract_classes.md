@@ -9,10 +9,10 @@ base type.
 
 The following example defines an interface, two implementations of that
 interface, and a function that takes an argument that satisfies the interface.
-In C++ the interface is defined with an abstract class where all of the methods
-are pure virtual methods, and in Rust the interface is defined with a trait. In
-both languages, the function (`printArea` in C++ and `print_area` in Rust)
-invokes a method using dynamic dispatch.
+In C++ the interface is defined with an abstract class with pure virtual
+methods, and in Rust the interface is defined with a trait. In both languages,
+the function (`printArea` in C++ and `print_area` in Rust) invokes a method
+using dynamic dispatch.
 
 <div class="comparison">
 
@@ -28,7 +28,7 @@ struct Shape {
 };
 
 // Implement the interface for a concrete class
-struct Triangle : Shape {
+struct Triangle : public Shape {
   double base;
   double height;
 
@@ -41,7 +41,7 @@ struct Triangle : Shape {
 };
 
 // Implement the interface for a concrete class
-struct Rectangle : Shape {
+struct Rectangle : public Shape {
   double width;
   double height;
 
@@ -139,27 +139,49 @@ fn main() {
 
 </div>
 
-Rust does not have an equivalent for the virtual destructor declaration because
-in Rust every vtable includes the drop behavior (whether given by a user defined
-`Drop` implementation or not) required for the value.
+There are several places where the Rust implementation differs slightly from the
+C++ implementation.
+
+In Rust, a trait's methods are always visible whenever the trait itself is
+visible. Additionally, the fact that a type implements a trait is always visible
+whenever both the trait and the type are visible. This properties of Rust
+explain the lack of visibility declarations in places where one might find them
+in C++.
+
+Rather than mark method arguments as `static` to show that they are associated
+with the type instead of with values of the type, methods that can be called on
+values of the type take an explicit `self` parameter. This syntactic choice
+makes it possible to indicate (in way similar to other parameters) whether the
+method mutates the object (by taking `&mut self` instead of `&self`) and whether
+it takes ownership of the object (by taking `self` instead of `&self`).
+
+Rust methods do not need to be declared as virtual. Because of differences in
+vtable representation, all methods for a type are available for dynamic
+dispatch. Types of values that use vtables are indicated with the `dyn` keyword.
+This is further described [below](#vtables-and-rust-trait-object-types).
+
+Additionally, Rust does not have an equivalent for the virtual destructor
+declaration because in Rust every vtable includes the drop behavior (whether
+given by a user defined `Drop` implementation or not) required for the value.
 
 ## Vtables and Rust trait object types
 
-In C++ dynamic dispatch against an interface defined by an abstract base class
-is achieved by accessing the object through a pointer or reference. To make this
-possible, objects include a vtable.
+C++ and Rust both requires some kind of indirection to perform dynamic dispatch
+against an interface. In C++ this indirection takes the form of a pointer to the
+abstract class (instead of the derived concrete class), making use of a vtable
+to resolve the virtual method.
 
-Rust requires the same kind of indirection. The type `dyn Shape` in the above
-example is the type of a trait object for the `Shape` trait. A trait object
-includes a vtable along with the underlying value.
+In the above Rust example, the type `dyn Shape` is the type of a trait object
+for the `Shape` trait. A trait object includes a vtable along with the
+underlying value.
 
-In C++ all objects whose class inheriting from a class with a virtual method
-have a vtable in their representation, whether dynamic dispatch is used or not.
+In C++ all objects whose class inherits from a class with a virtual method have
+a vtable in their representation, whether dynamic dispatch is used or not.
 Pointers or references to objects are the same size as pointers to objects
 without virtual methods, but every object includes its vtable.
 
 In Rust, vtables are present only when values are represented as trait objects.
-The reference to the trait object is twice the size as a normal reference since
+The reference to the trait object is twice the size of a normal reference since
 it includes both the pointer to the value and the pointer to the vtable. In the
 Rust example above, the local variable `triangle` in `main` does not have a
 vtable in its representation, but when the reference to it is converted to a
