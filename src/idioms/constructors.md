@@ -61,14 +61,15 @@ fn main() {
 
 Typically the primary constructor for a type is named `new`, especially if it
 takes no arguments. See the chapter on [default
-constructors](constructors/default_constructors.html). Additional constructors
-are usually named `with_details` (e.g., `Person::with_name`). See the [naming
+constructors](constructors/default_constructors.html). Constructors based on
+some specific property of the value are usually named `with_details` (e.g.,
+`Person::with_name`). See the [naming
 guidelines](https://rust-lang.github.io/api-guidelines/naming.html) for the
 conventions on how to name constructor methods in Rust.
 
 If the fields to be initialized are visible, there is a reasonable default
 value, and the value does not manage a resource, then it is also common to use
-record update syntax to initialize a value based on some default value:
+record update syntax to initialize a value based on some default value.
 
 ```rust
 struct Point {
@@ -92,6 +93,10 @@ fn main() {
 }
 ```
 
+Despite the name, "record update syntax" does not modify a record but instead
+creates a new value based on another one, taking ownership of it in order to do
+so.
+
 ## Storage allocation vs initialization
 
 The actual construction of a structure or enum value in Rust occurs where the
@@ -99,11 +104,12 @@ structure construction syntax `A { ... }` is, after the evaluation of the
 expressions for the fields.
 
 A significant implication of this difference is that storage is not allocated
-for a struct in Rust at the point where the "constructor" is called, and in fact
-is not allocated until after the values of the fields of a struct have been
-computed (in terms of the semantics of the language--the optimizer may still
-avoid the copy). Therefore there is no way in Rust to write the C++ example
-above where the class stores a pointer to itself upon construction.
+for a struct in Rust at the point where the constructor method (such as
+`Person::with_age`) is called, and in fact is not allocated until after the
+values of the fields of a struct have been computed (in terms of the semantics
+of the language--the optimizer may still avoid the copy). Therefore there is no
+way in Rust to write the C++ example above where the class stores a pointer to
+itself upon construction.
 
 ## Fallible constructors
 
