@@ -1,0 +1,11 @@
+name: Deploy mdbook to GitHub Pages
+
+on:
+  push: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/build.yml
