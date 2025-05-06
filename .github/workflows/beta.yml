@@ -1,0 +1,14 @@
+name: Deploy mdbook to GitHub Pages
+
+on:
+  push:
+    branches: [beta]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/build.yml
+    with:
+      destination_dir: beta
