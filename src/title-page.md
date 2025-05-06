@@ -1,23 +1,19 @@
-# Rust Phrasebook for C++ Programmers
+# C++ to Rust Phrasebook
 
 The goal of this book is to make programming in Rust less frustrating for C++
 programmers by providing translations of common C++ idioms and patterns into
-idiomatic Rust. Along with the translations, there are explanations of the
-reasons for the differences and descriptions of the and engineering trade-offs
-involved.
+idiomatic Rust. Along with the translations, we provide descriptions of the engineering trade-offs involved.
+The translations are often not straightforward transliterations. They demonstrate how to holistically
+follow Rust's philosophy in addressing systems programming problems through the lens of comparable C++ idioms.
 
-The translations are often not straightforward transliterations. Instead, they
-are more comprehensive changes of to how to approach, using Rust, the kinds of
-problems that the C++ idioms and patterns are intended to address.
-
-The book is structured to make it possible to read it front-to-back. Ideally,
-after reading this book, one's "idiom list" for Rust should be significantly
-more robust, leading to a more enjoyable and productive experience programming
-in Rust.
-
+The book can be read front-to-back, but is designed to be used random-access: 
+when you are writing Rust code and think, "I know how to do this in C++ but not Rust", then
+look for the corresponding chapter in this book.
 The chapters are also organized around C++ concepts instead of Rust concepts, to
 aid C++ programmers in finding a specific solution to a problem in terms that
 will be natural to them while they are learning Rust.
+
+**This iteration is a first draft of a subset of the full book. Our current goal is to get early feedback on the utility of this format before writing the remaining chapters.**
 
 ## Other resources
 

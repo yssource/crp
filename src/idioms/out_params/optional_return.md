@@ -156,9 +156,26 @@ int main() {
 
 ## Helpful `Option` utilities
 
-When the `None` case really is an edge case, the [`let-else`
-syntax](https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html)
-can be used to make that clearer:
+Rust provides several syntactic sugars for simplifying use of functions that return `Option`. If a failure should be propagated to the caller, then use the `?` operator:
+
+```rust
+# fn safe_divide(dividend: u32, divisor: u32) -> Option<u32> {
+#     if divisor != 0 {
+#         Some(dividend / divisor)
+#     } else {
+#         None
+#     }
+# }
+#
+fn go(dividend: u32, divisor: u32) -> Option<()> {
+    let quotient = safe_divide(dividend, divisor)?;
+    println!("{}", quotient);
+    Some(())
+}
+```
+
+If `None` should not be propagated, it is sometimes clearer to use [`let-else`
+syntax](https://doc.rust-lang.org/rust-by-example/flow_control/let_else.html):
 
 ```rust
 # fn safe_divide(dividend: u32, divisor: u32) -> Option<u32> {

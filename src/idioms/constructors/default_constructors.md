@@ -172,7 +172,8 @@ struct Person {
 
 fn main() {
     // std::array::from_fn provides the index to the callback
-    let people: [Person; 3] = std::array::from_fn(|_| Default::default());
+    let people: [Person; 3] = 
+        std::array::from_fn(|_| Default::default());
     // ...
 }
 ```

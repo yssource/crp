@@ -1,6 +1,6 @@
 # Summary
 
-[Rust Phrasebook for C++ Programmers](./title-page.md)
+[C++ to Rust Phrasebook](./title-page.md)
 
 # Idioms
 

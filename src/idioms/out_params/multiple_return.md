@@ -51,7 +51,7 @@ Rust, but Rust requires the initialization of the variables before they can be
 passed to a function. The resulting program is not idiomatic Rust.
 
 ```rust
-// NOT IDIOIMATIC RUST
+// NOT IDIOMATIC RUST
 fn get_point(x: &mut i32, y: &mut i32) {
     *x = 5;
     *y = 6;

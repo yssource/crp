@@ -25,7 +25,7 @@ struct Age {
   Age(unsigned int years) : years(years) {}
 
   // copy and move constructors and destructor
-  // implicilty declared and defined
+  // implicitly declared and defined
 };
 
 struct Person {
@@ -64,7 +64,7 @@ struct Person {
 
 ## User-defined constructors
 
-On the other hand, the following example require a user-defined copy and move
+On the other hand, the following example requires a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
 The equivalent in Rust requires a custom implementation of the `Clone` trait.
 

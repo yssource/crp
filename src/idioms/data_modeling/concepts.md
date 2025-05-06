@@ -1,6 +1,6 @@
 # Concepts, interfaces, and static dispatch
 
-In C++ static dispatch over an interface is achieved by implementing a template
+In C++, static dispatch over an interface is achieved by implementing a template
 function or template method that interacts with the type using some expected
 interface.
 
@@ -80,10 +80,10 @@ fn main() {
 
 Note that in the Rust example, the definition of the trait and the struct have
 not changed from the example in the chapter on [virtual methods and dynamic
-dispatch](/idioms/data_modeling/pure_virtual_classes.md). Even so, this example
+dispatch](/idioms/data_modeling/abstract_classes.md). Even so, this example
 does use static dispatch. This is the result of a design trade-off in Rust
 around the representation of vtables and vptrs which is [described later in that
-chapter](/idioms/data_modeling/pure_virtual_classes.md#vtables-and-rust-trait-object-types).
+chapter](/idioms/data_modeling/abstract_classes.md#vtables-and-rust-trait-object-types).
 
 The difference between Rust and C++ in the above examples arises from Rust being
 nominally typed (types must opt in to supporting a specific interface, merely
@@ -248,7 +248,14 @@ where
 ```
 
 The more verbose form is preferred when there are many type parameters or those
-type parameters must implement many traits.
+type parameters must implement many traits. An even shorter-hand available in some
+cases is the `impl` keyword:
+
+```rust,ignore
+fn twice_area(shape: &impl Shape) -> f64 {
+    2.0 * shape.area()
+}
+```
 
 ## Generics and lifetimes
 

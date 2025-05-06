@@ -6,7 +6,7 @@ rule](https://timsong-cpp.github.io/cppwp/n4950/basic.def.odr#14) and result in
 undefined behavior (which at best manifests as linking errors).
 
 For example, without the use of anonymous namespaces, the following would result
-in undefined behavior (and no linking error, due to the use of inline producing
+in undefined behavior (and no linking error, due to the use of `inline` producing
 weak symbols in the object files).
 
 ```cpp
@@ -70,15 +70,13 @@ Additionally,
 
 ## Caveats about C interoperability
 
-When using libraries not managed by Rust, such as C or C++ static or dynamic
-libraries or when producing Rust static or dynamic libraries to be used by C or
-C++ programs, the usual problems can occur if there are symbol collisions in the
-object files.
+When using libraries not managed by Rust, the usual problems can occur if there are symbol collisions in the
+object files. This can arise when using C or C++ static or dynamic libraries. 
+It can also arise when using Rust static or dynamic libraries built for use in C or
+C++ programs.
 
-Additionally, using
-[`#[unsafe(no_mangle)]`](https://doc.rust-lang.org/reference/abi.html#the-no_mangle-attribute)
-in Rust to bypass name mangling in order to produce functions that can be easily
-referred to from C or C++ can cause undefined behavior due to name collision
-during linking.
+Rust provides [`#[unsafe(no_mangle)]`](https://doc.rust-lang.org/reference/abi.html#the-no_mangle-attribute) to bypass name mangling
+in order to produce functions that can be easily
+referred to from C or C++. This can also cause undefined behavior due to name collision.
 
 {{#quiz anonymous_namespaces.toml}}

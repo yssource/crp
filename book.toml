@@ -3,10 +3,12 @@ authors = ["Brown University Cognitive Engineering Lab"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Rust Phrasebook for C++ Programmers"
+title = "C++ to Rust Phrasebook"
 
 [output.html]
 additional-css = ["custom.css"]
 code.hidelines = {cpp = "$"}
 
 [preprocessor.quiz]
+initial-text = "Check your understanding"
+fullscreen = true

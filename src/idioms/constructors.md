@@ -107,13 +107,17 @@ A significant implication of this difference is that storage is not allocated
 for a struct in Rust at the point where the constructor method (such as
 `Person::with_age`) is called, and in fact is not allocated until after the
 values of the fields of a struct have been computed (in terms of the semantics
-of the language--the optimizer may still avoid the copy). Therefore there is no
-way in Rust to write the C++ example above where the class stores a pointer to
-itself upon construction.
+of the language &mdash; the optimizer may still avoid the copy). Therefore there is no
+easy way in Rust to write the C++ example above where the class stores a pointer to
+itself upon construction (this requires tools like [`Pin`](https://doc.rust-lang.org/std/pin/struct.Pin.html) and [`MaybeUninit`](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html)).
 
 ## Fallible constructors
 
-In C++ the only way constructors can indicate failure is by throwing exceptions.
+In C++ the only way constructors can indicate failure is by throwing exceptions. In Rust, because constructors are normal static methods, fallible constructors
+can instead return `Result` (akin to `std::expected`) or `Option` (akin to
+`std::optional`).
+
+<div class="comparison">
 
 ```cpp
 #include <iostream>
@@ -139,10 +143,6 @@ int main() {
 }
 ```
 
-In Rust, because constructors are normal static methods, fallible constructors
-can instead return `Result` (akin to `std::expected`) or `Option` (akin to
-`std::optional`).
-
 ```rust
 struct Person {
     age: i32,
@@ -164,7 +164,7 @@ impl Person {
 fn main() {
     match Person::with_age(-4) {
         Err(err) => {
-            println!("{:?}", err);
+            println!("{err:?}");
         }
         Ok(person) => {
             // ...
@@ -172,6 +172,9 @@ fn main() {
     }
 }
 ```
+
+</div>
+
 
 See [the chapter on exceptions](/exceptions.md) for more information on how C++
 exceptions and exception handling translate to Rust.
