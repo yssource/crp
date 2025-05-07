@@ -227,3 +227,5 @@ fn main() {
 ```
 
 </div>
+
+{{#quiz type_equivalents.toml}}
