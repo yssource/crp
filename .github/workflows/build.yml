@@ -27,10 +27,12 @@ jobs:
 
       - name: Build
         run: mdbook build
+        env:
+          MDBOOK_OUTPUT__HTML__SITE_URL: "${{ inputs.site_url }}"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
-          destination_dir: ${{ inputs.destination_dir }} 
+          destination_dir: ${{ inputs.destination_dir }}
