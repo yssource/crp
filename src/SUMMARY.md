@@ -22,7 +22,7 @@
   <!-- - [Private members and friends](./idioms/encapsulation/private_and_friends.md) -->
   <!-- - [Private constructors](./idioms/encapsulation/private_constructors.md) -->
   <!-- - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md) -->
-<!-- - [Primitive types: `int`, `float`, `size_t`, etc.]() -->
+- [Type equivalents](./idioms/type_equivalents.md)
 <!-- - [Type promotions and conversions](./idioms/promotions_and_conversions.md) -->
 <!-- - [User-defined conversions](./idioms/user-defined_conversions.md) -->
 <!-- - [Overloading](./idioms/overloading.md) -->
@@ -43,7 +43,6 @@
 <!-- - [Object identity](./idioms/object_identity.md) -->
 <!-- - [Varargs]() -->
 <!-- - [Attributes]() -->
-<!-- - [STL type equivalents]() -->
 <!-- - [Scratch buffers]() -->
 
 <!-- # Patterns -->
