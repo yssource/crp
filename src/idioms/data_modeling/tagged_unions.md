@@ -458,3 +458,5 @@ help: ensure that all possible cases are being handled by adding a match arm wit
 ```
 
 </div>
+
+{{#quiz tagged_unions.toml}}
