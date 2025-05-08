@@ -44,6 +44,7 @@
 <!-- - [Varargs]() -->
 <!-- - [Attributes]() -->
 <!-- - [Scratch buffers]() -->
+<!-- - [Calling C (FFI)]() -->
 
 <!-- # Patterns -->
 
