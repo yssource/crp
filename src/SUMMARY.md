@@ -6,9 +6,9 @@
 
 - [Data modeling](./idioms/data_modeling.md)
   <!-- - [Enums](./idioms/data_modeling/enums.md) -->
-  <!-- - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md) -->
   - [Abstract classes, interfaces, and dynamic dispatch](./idioms/data_modeling/abstract_classes.md)
   - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
+  - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md)
   <!-- - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md) -->
   <!-- - [Template classes, functions, and methods](./idioms/data_modeling/templates.md) -->
   <!-- - [Template specialization](./idioms/data_modeling/template_specialization.md) -->
