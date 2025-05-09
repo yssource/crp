@@ -236,3 +236,5 @@ impl Pin {
 ```
 
 </div>
+
+{{#quiz enums.toml}}
