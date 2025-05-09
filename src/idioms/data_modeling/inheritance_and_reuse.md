@@ -104,3 +104,5 @@ in modern C++, inheritance hierarchies in Rust tend to be shallow. In situations
 with complex multiple inheritance, however, the diamond problem cannot arise in
 Rust because traits cannot override other traits implementations. Therefore, all
 paths to a common parent trait resolve to the same implementation.
+
+{{#quiz inheritance_and_reuse.toml}}
