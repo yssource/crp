@@ -487,3 +487,5 @@ private trait methods.
 
 The default visibility for trait methods differs from Rust structs where the
 default visibility is private to the defining module.
+
+{{#quiz private_and_friends.toml}}
