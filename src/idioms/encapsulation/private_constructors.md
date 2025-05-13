@@ -373,3 +373,5 @@ itself. This has the same effect in terms of versioning as when used on a struct
 but is less advantageous. In most cases, code failing to compile when a new enum
 variant is added is desirable, since that indicates a new case that requires
 handling logic.
+
+{{#quiz private_constructors.toml}}
