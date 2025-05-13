@@ -176,5 +176,5 @@ fn main() {
 </div>
 
 
-See [the chapter on exceptions](/exceptions.md) for more information on how C++
-exceptions and exception handling translate to Rust.
+See [the chapter on exceptions](/idioms/exceptions.md) for more information on
+how C++ exceptions and exception handling translate to Rust.
