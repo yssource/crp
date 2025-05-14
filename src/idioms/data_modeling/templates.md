@@ -408,3 +408,5 @@ and `cfg!` macro](https://doc.rust-lang.org/rust-by-example/attribute/cfg.html).
 The separation of conditional compilation from generics in Rust involves similar
 design considerations as the omission of [template
 specialization](/idioms/data_modeling/template_specialization.md) from Rust.
+
+{{#quiz templates.toml}}
