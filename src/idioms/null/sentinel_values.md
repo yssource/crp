@@ -170,3 +170,5 @@ In situations where `std::optional` would be used as a sentinel value in C++,
 the two is that safe Rust requires either explicitly checking whether the value is
 `None`, while in C++ one can attempt to access the value without checking (at
 the risk of undefined behavior).
+
+{{#quiz sentinel_values.toml}}
