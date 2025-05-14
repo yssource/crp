@@ -20,7 +20,7 @@
 - [Null (`nullptr`)](./idioms/null.md)
   <!-- - [Zero-length arrays](./idioms/null/zero_length_arrays.md) -->
   - [Sentinel values](./idioms/null/sentinel_values.md)
-  <!-- - [Moved members](./idioms/null/moved_members.md) -->
+  - [Moved members](./idioms/null/moved_members.md)
 - [Encapsulation](./idioms/encapsulation.md)
   - [Header files](./idioms/encapsulation/headers.md)
   - [Anonymous namespaces and `static`](./idioms/encapsulation/anonymous_namespaces.md)
