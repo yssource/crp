@@ -85,3 +85,5 @@ a non-null pointer to a value of type `T`, and to `NonZeroU8` and other non-zero
 integral types. The optimization for the reference case is what makes
 `Option<&T>` and `Option<&mut T>` safer equivalents to using non-owning
 observation pointers in C++.
+
+{{#quiz template_specialization.toml}}
