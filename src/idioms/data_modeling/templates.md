@@ -396,33 +396,12 @@ defined with all of the generic type parameters filled in. It can be useful to
 refer to this type especially in cases where there are many parameters that
 would otherwise have to be listed out.
 
-```rust
-// Self is equivalent to Wrapper<T>
-struct Wrapper<T>(T, Option<Box<Self>>);
-
-impl Wrapper<i32> {
-    // Self is equivalent to Wrapper<i32>
-    fn zero() -> Self {
-        Wrapper(0, None)
-    }
-}
-
-impl<T> Wrapper<T> {
-    // Self is equivalent to Wrapper<T>
-    fn new() -> Self
-    where
-        T: Default,
-    {
-        Wrapper(Default::default(), None)
-    }
-}
-```
-
-The `Self` type can also be used when defining generic traits to refer to the
+The `Self` type is necessary when defining generic traits to refer to the
 concrete implementing type. Because Rust does not have inheritance between
 concrete types and does not have method overriding, this is sufficient to avoid
-the need to pass the implementing type as a type parameter. For examples of
-this, see the chapter on the [curiously reoccurring template
+the need to pass the implementing type as a type parameter.
+
+For examples of this, see the chapter on the [curiously reoccurring template
 pattern](/patterns/crtp.md).
 
 ## A note on type checking and type errors
