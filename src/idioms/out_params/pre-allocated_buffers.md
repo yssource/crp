@@ -110,3 +110,5 @@ On the nightly branch of Rust, one can use
 achieve the same results as when using slices of `MaybeUninit`, but without
 having to write any unsafe code. The IO APIs for avoiding unnecessary
 initialization use `BorrowedBuf` instead of slices of `MaybeUninit`.
+
+{{#quiz pre-allocated_buffers.toml}}
