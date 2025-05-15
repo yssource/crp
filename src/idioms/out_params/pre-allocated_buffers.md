@@ -12,44 +12,51 @@ Some of these situations include:
 
 In these situations, C++ programs tend to pre-allocate buffers that are reused
 for all calls. This also usually enables allocating the buffer on the stack,
-rather than having to perform dynamic allocation. For example,
+rather than having to use dynamic storage.
+
+The following example pre-allocates a buffer and reads a large file into it
+within a loop.
+
+<div class="comparison">
 
 ```cpp
 #include <fstream>
 
 int main() {
-    std::ifstream file("/path/to/file");
-    if (!file.is_open()) {
-        return -1;
-    }
+  std::ifstream file("/path/to/file");
+  if (!file.is_open()) {
+    return -1;
+  }
 
-    char buf[1024];
-    while (file.good()) {
-        file.read(buf, sizeof buf);
-        std::streamsize count = file.gcount();
+  byte buf[1024];
+  while (file.good()) {
+    file.read(buf, sizeof buf);
+    std::streamsize count = file.gcount();
 
-        // use data in buf
-    }
+    // use data in buf
+  }
 
-    return 0;
+  return 0;
 }
 ```
 
-An equivalent Rust program is:
-
 ```rust,no_run
 use std::fs::File;
-use std::io::{Read, BufReader};
+use std::io::{BufReader, Read};
 
 fn main() -> Result<(), std::io::Error> {
-    let mut f = BufReader::new(File::open("/path/to/file")?);
+    let mut f = BufReader::new(File::open(
+        "/path/to/file",
+    )?);
 
     let mut buf = [0u8; 1024];
 
-    while let count = f.read(&mut buf)? {
+    loop {
+        let count = f.read(&mut buf)?;
         if count == 0 {
             break;
         }
+
         // use data in buf
     }
 
@@ -57,12 +64,14 @@ fn main() -> Result<(), std::io::Error> {
 }
 ```
 
+</div>
+
 The major difference between the C++ program and the Rust program is that in the
 Rust program the buffer must be initialized before it can be used. In most
 cases, this one-time initialization cost is not significant. When it is, unsafe
 Rust is required to avoid the initialization.
 
-The technique makes use of
+The technique for avoiding initialization makes use of
 [`std::mem::MaybeUninit`](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html).
 [Examples of safe usage of
 `MaybeUninit`](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html#examples)
@@ -75,7 +84,7 @@ that uses the API.
 
 If the callee might need to grow the provided buffer and dynamic allocation is
 allowed, then a `&mut Vec<T>` can be used instead of `&mut [T]`. This is similar
-to providing a `std::vector<T>&` in C++. To avoid unnecessary allocations, the
+to providing a `std::vector<T>&` in C++. To avoid unnecessary reallocation, the
 vector can be created using `Vec::<T>::with_capacity(n)`.
 
 ## A note on reading files
@@ -96,8 +105,8 @@ larges amount of data in chunks, such as cryptography algorithms.
 ## Upcoming changes and `BorrowedBuf`
 
 The Rust community is refining approaches to working with uninitialized buffers.
-If you can use the nightly branch of Rust, you can use
+On the nightly branch of Rust, one can use
 [`BorrowedBuf`](https://doc.rust-lang.org/std/io/struct.BorrowedBuf.html) to
 achieve the same results as when using slices of `MaybeUninit`, but without
-having to write any unsafe code yourself. The IO APIs for avoiding unnecessary
+having to write any unsafe code. The IO APIs for avoiding unnecessary
 initialization use `BorrowedBuf` instead of slices of `MaybeUninit`.
