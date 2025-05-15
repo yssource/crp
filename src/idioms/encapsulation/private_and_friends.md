@@ -488,4 +488,14 @@ private trait methods.
 The default visibility for trait methods differs from Rust structs where the
 default visibility is private to the defining module.
 
+## Private constructors and friends
+
+In C++ one can control which classes can derive from a specific class by making
+all of the constructors private and then declaring classes which may derive from
+it as friends.
+
+In Rust, one can achieve the similar goal of controlling which types can
+implement a trait by using the [sealed trait
+pattern](https://predr.ag/blog/definitive-guide-to-sealed-traits-in-rust/).
+
 {{#quiz private_and_friends.toml}}
