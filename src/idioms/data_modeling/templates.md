@@ -295,6 +295,62 @@ impl<Label> DirectedGraph<Label> {
 }
 ```
 
+An even more idiomatic implementation would make use of the [itertools
+crate](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.position_min).
+
+```rust
+use itertools::*;
+
+# pub struct DirectedGraph<Label> {
+#     adjacencies: Vec<Vec<usize>>,
+#     node_labels: Vec<Label>,
+# }
+#
+impl<Label> DirectedGraph<Label> {
+#     pub fn new() -> Self {
+#         DirectedGraph {
+#             adjacencies: Vec::new(),
+#             node_labels: Vec::new(),
+#         }
+#     }
+#
+#     pub fn add_node(
+#         &mut self,
+#         label: Label,
+#     ) -> usize {
+#         self.adjacencies.push(Vec::new());
+#         self.node_labels.push(label);
+#         self.num_nodes() - 1
+#     }
+#
+#     pub fn num_nodes(&self) -> usize {
+#         self.node_labels.len()
+#     }
+#
+#     pub fn add_edge(
+#         &mut self,
+#         from: usize,
+#         to: usize,
+#     ) -> Result<(), &str> {
+#         if from > self.num_nodes()
+#             || to > self.num_nodes()
+#         {
+#             Err("Node not in graph.")
+#         } else {
+#             self.adjacencies[from].push(to);
+#             Ok(())
+#         }
+#     }
+#
+    pub fn smallest_node(&self) -> Option<usize>
+    where
+        Label: Ord,
+    {
+        self.node_labels.iter().position_min()
+    }
+}
+```
+
 ## `constexpr` template parameters
 
 Rust also supports the equivalent of constexpr template parameters. For example,
