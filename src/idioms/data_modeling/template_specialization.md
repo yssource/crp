@@ -5,20 +5,95 @@ different implementations for different parameters. Most STL implementations
 make use of this to, for example, provide a [space-efficient representation of
 `std::vector<bool>`](https://en.cppreference.com/w/cpp/container/vector_bool).
 
-In Rust it is not possible to specialize a generic implementation in this way.
-This is because unlike C++ templates, Rust's generics are not a mechanism for
-metaprogramming.
+Because of the possibility of template specialization, when a C++ function
+operates on values of a template class like `std::vector`, the function is
+essentially defined in terms of the interface provided by the template class,
+rather than for a specific implementation.
 
-Instead it is more common in Rust to define traits for interfaces and to
-implement generic functions over those interfaces, enabling clients to select
-their choice of representation by using a different concrete type. This is more
-practical to do in Rust than in C++ because generics not being a metaprogramming
-facility means that generic entities can be type checked locally, making them
-easier to define.
+To accomplish the same thing in Rust requires defining the function in terms of
+a trait for the interface against which it operates. This enables clients to
+select their choice of representation for data by using any concrete type that
+implements the interface.
 
-Additionally, because generic functions can only interact with generic values in
-ways defined by the trait bounds, it is easier to test generic implementations.
-In particular, code testing a generic implementation only has to consider the
+This is more practical to do in Rust than in C++, because generics not being a
+general metaprogramming facility means that [generic entities can be type
+checked
+locally](/idioms/data_modeling/templates.md#a-note-on-type-checking-and-type-errors),
+making them easier to define. It is more common to do in Rust than in C++
+because Rust does not have [implementation
+inheritance](/idioms/data_modeling/inheritance_and_reuse.md), so there is a
+sharper line between interface and implementation than there is in C++.
+
+The following example shows how a Rust function can be implemented so that
+different concrete representations can be selected by a client. For a compact
+bit vector representation, the example uses the
+[`BitVec`](https://docs.rs/bitvec/latest/bitvec/vec/struct.BitVec.html) type
+from the [bitvec crate](https://docs.rs/bitvec/latest/bitvec/). `BitVec` is
+intended intended to provide an API similar to `Vec<bool>` or
+`std::vector<bool>`.
+
+<div class="comparison">
+
+```cpp
+#include <string>
+#include <vector>
+
+template <typename T>
+void push_if_even(int n,
+                  std::vector<T> &collection,
+                  T item) {
+  if (n % 2 == 0) {
+    collection.push_back(item);
+  }
+}
+
+int main() {
+  // Operate on the default std::vector
+  // implementation
+  std::vector<std::string> v{"a", "b"};
+  push_if_even(2, v, std::string("c"));
+
+  // Operate on the (likely space-optimized)
+  // std::vector implementation
+  std::vector<bool> bv{false, true};
+  push_if_even(2, bv, false);
+}
+```
+
+```rust
+// The Extend trait is for types that support
+// appending values to the collection.
+fn push_if_even<T, I: Extend<T>>(
+    n: u32,
+    collection: &mut I,
+    item: T,
+) {
+    if n % 2 == 0 {
+        collection.extend([item]);
+    }
+}
+
+use bitvec::prelude::*;
+
+fn main() {
+    // Operate on Vec
+    let mut v =
+        vec!["a".to_string(), "b".to_string()];
+    push_if_even(2, &mut v, "c".to_string());
+
+    // Operate on BitVec
+    let mut bv = bitvec![0, 1];
+    push_if_even(2, &mut bv, 0);
+}
+```
+
+</div>
+
+## Trade-offs between generics and templates
+
+Because generic functions can only interact with generic values in ways defined
+by the trait bounds, it is easier to test generic implementations. In
+particular, code testing a generic implementation only has to consider the
 possible behaviors of the given trait.
 
 For a comparison, consider the following programs.
