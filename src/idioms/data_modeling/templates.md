@@ -412,12 +412,123 @@ reported. Some of this difference cannot be achieved by consistently using C++
 concepts to declare the operations required.
 
 For example, one might accidentally make the `nodeLabels` member a vector of
-integers instead of a vector of the label parameter. If all of the test cases
+`size_t` instead of a vector of the label parameter. If all of the test cases
 for the graph used label types that were convertible to integers, the error
 would not be detected.
 
 A similar Rust program fails to compile, even without a function that
 instantiates the generic structure with a concrete type.
+
+<div class="comparison">
+
+```cpp
+#include <stdexcept>
+#include <vector>
+
+template <typename Label>
+class DirectedGraph {
+  // The mistake is here: size_t should be Label
+  std::vector<std::vector<size_t>> adjacencies;
+  std::vector<size_t> nodeLabels;
+
+public:
+  Label getNode(size_t nodeId) {
+    return nodeLabels[nodeId];
+  }
+
+  size_t addNode(Label label) {
+    adjacencies.push_back(std::vector<size_t>());
+    nodeLabels.push_back(label);
+    return numNodes() - 1;
+  }
+
+  size_t numNodes() const {
+    return adjacencies.size();
+  }
+};
+
+#define BOOST_TEST_MODULE DirectedGraphTests
+#include <boost/test/included/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(test_add_node_int) {
+  DirectedGraph<int> g;
+  auto n1 = g.addNode(1);
+  BOOST_CHECK_EQUAL(1, g.getNode(n1));
+}
+
+BOOST_AUTO_TEST_CASE(test_add_node_float) {
+  DirectedGraph<float> g;
+  float label = 1.0f;
+  auto n1 = g.addNode(label);
+  BOOST_CHECK_CLOSE(label, g.getNode(n1), 0.0001);
+}
+```
+
+```rust
+pub struct DirectedGraph<Label> {
+    // The mistake is here: size_t should be Label
+    adjacencies: Vec<Vec<usize>>,
+    node_labels: Vec<usize>,
+}
+
+impl<Label> DirectedGraph<Label> {
+    pub fn new() -> Self {
+        DirectedGraph {
+            adjacencies: Vec::new(),
+            node_labels: Vec::new(),
+        }
+    }
+
+    pub fn get_node(
+        &self,
+        node_id: usize,
+    ) -> Option<&Label> {
+        self.node_labels.get(node_id)
+    }
+
+    pub fn add_node(
+        &mut self,
+        label: Label,
+    ) -> usize {
+        self.adjacencies.push(Vec::new());
+        self.node_labels.push(label);
+        self.num_nodes() - 1
+    }
+
+    pub fn num_nodes(&self) -> usize {
+        self.node_labels.len()
+    }
+}
+```
+
+</div>
+
+Despite the error, the C++ example compiles and passes the tests.
+
+```text
+Running 2 test cases...
+
+*** No errors detected
+```
+
+Even without test cases, the Rust example fails to compile and produces a
+message useful for identifying the error.
+
+```text
+error[E0308]: mismatched types
+    --> example.rs:26:31
+     |
+6    | impl<Label> DirectedGraph<Label> {
+     |      ----- found this type parameter
+...
+26   |         self.node_labels.push(label);
+     |                          ---- ^^^^^ expected `usize`, found type parameter `Label`
+     |                          |
+     |                          arguments to this method are incorrect
+     |
+     = note:        expected type `usize`
+             found type parameter `Label`
+```
 
 ## Lifetimes parameters
 
