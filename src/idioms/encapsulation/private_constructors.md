@@ -3,6 +3,17 @@
 In C++ constructors for classes can be made private by declaring them private,
 or by defining a class using `class` and using the default private visibility.
 
+In Rust, constructors (the actual constructors, not ["constructor
+methods"](/idioms/constructors.md)) for structs are visible from wherever the
+type and all fields are visible. To achieve similar visibility restrictions as
+in the C++ example, an additional private field needs to be added to the struct
+in Rust. Because Rust supports zero-sized types, the additional field can have
+no performance cost. The [unit
+type](https://doc.rust-lang.org/std/primitive.unit.html) has zero size and can
+be used for this purpose.
+
+<div class="comparison">
+
 ```cpp
 #include <string>
 
@@ -15,20 +26,14 @@ private:
 };
 
 int main() {
-  // Person nobody; // <-- fails to compile, Person::Person() private
-  // Person alice{"Alice", 42}; // <-- fails to compile since C++20
+  // fails to compile, Person::Person() private
+  // Person nobody;
+
+  // fails to compile since C++20
+  // Person alice{"Alice", 42};
   return 0;
 }
 ```
-
-In Rust, constructors for structs are visible from wherever the type and all
-fields are visible.
-
-To achieve similar visibility restrictions as the above example, an additional
-private field needs to be added to the struct in Rust. Because Rust supports
-zero-sized types, the additional field can have no performance cost. The [unit
-type](https://doc.rust-lang.org/std/primitive.unit.html) has zero size and can
-be used for this purpose.
 
 ```rust
 mod person {
@@ -39,8 +44,15 @@ mod person {
     }
 
     impl Person {
-        pub fn new(name: String, age: i32) -> Person {
-            Person { name, age, _private: () }
+        pub fn new(
+            name: String,
+            age: i32,
+        ) -> Person {
+            Person {
+                name,
+                age,
+                _private: (),
+            }
         }
     }
 }
@@ -48,24 +60,30 @@ mod person {
 use person::*;
 
 fn main() {
-    // field `_private` of struct `person::Person` is private
+    // field `_private` of struct `person::Person`
+    // is private
     // let alice = Person {
     //     name: "Alice".to_string(),
     //     age: 42,
     //     _private: (),
     // };
 
-    // cannot construct `person::Person` with struct literal syntax due to private fields
+    // cannot construct `person::Person` with
+    // struct literal syntax due to private fields
     // let bob = Person {
     //     name: "Bob".to_string(),
     //     age: 55,
     // };
 
-    let carol = Person::new("Carol".to_string(), 20);
-    // Can match on the public fields, and then use .. to ignore the remaning ones.
+    let carol =
+        Person::new("Carol".to_string(), 20);
+    // Can match on the public fields, and then
+    // use .. to ignore the remaning ones.
     let Person { name, age, .. } = carol;
 }
 ```
+
+</div>
 
 ## Enums
 
@@ -105,9 +123,12 @@ int main() {
   Shape triangle;
   triangle.triangle = Triangle{1.0, 2.0};
   Shape circle = Shape::make_circle(1.0);
-  // circle.circle = Circle{1.0}; // fails to compile
 
-  // std::cout << shape.circle.radius; // fails to compile
+  // fails to compile
+  // circle.circle = Circle{1.0};
+
+  // fails to compile
+  // std::cout << shape.circle.radius;
 }
 ```
 
@@ -125,6 +146,7 @@ mod shape {
 use shape::*;
 
 fn main() {
+    // Variant constructor is accesssible despite not being marked pub.
     let triangle = Shape::Triangle {
         base: 1.0,
         height: 2.0,
@@ -132,6 +154,7 @@ fn main() {
 
     let circle = Shape::Circle { radius: 1.0 };
 
+    // Fields accessbile despite not being marked pub.
     match circle {
         Shape::Triangle { base, height } => {
             println!("Triangle: {}, {}", base, height);
@@ -264,6 +287,7 @@ mod shape {
         Circle { radius: f64 },
     }
 
+    // The field of Shape is private.
     pub struct Shape(ShapeKind);
 
     impl Shape {
@@ -340,12 +364,14 @@ pub enum Shape {
 The attribute is more typically used to force clients of a library to include
 the wildcard when matching on the struct fields, making it so that adding
 additional fields to a struct is not breaking change (i.e., that it does not
-require the increase of the major version component when using semantic
-versioning).
+[require the increase of the major version component when using semantic
+versioning](https://doc.rust-lang.org/cargo/reference/semver.html)).
 
 Applying the `#[non_exhasutive]` attribute to the enum itself makes it as if one
 of the variants were private, requiring a wildcard when matching on the variant
 itself. This has the same effect in terms of versioning as when used on a struct
 but is less advantageous. In most cases, code failing to compile when a new enum
 variant is added is desirable, since that indicates a new case that requires
-logic.
+handling logic.
+
+{{#quiz private_constructors.toml}}

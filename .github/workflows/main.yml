@@ -10,3 +10,5 @@ permissions:
 jobs:
   deploy:
     uses: ./.github/workflows/build.yml
+    with:
+      site_url: /crp/

@@ -242,7 +242,8 @@ fn main() {
 
 If the type implements the `Clone` trait, then the array can be constructed
 using the `vec!` macro. See the chapter on [copy
-constructors](copy_constructors.md) for more details on `Clone`.
+constructors](/idioms/constructors/copy_and_move_constructors.md) for more
+details on `Clone`.
 
 ```rust
 #[derive(Clone, Default)]

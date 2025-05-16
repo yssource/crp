@@ -101,6 +101,6 @@ the module themselves.
 Modules and visibility declarations are more powerful than shown in the above
 example. More details on how to use modules, `pub`, and `use` to achieve
 encapsulation goals are described in the chapter on [private members and
-friends](./idioms/encapsulation/private_members.md).
+friends](/idioms/encapsulation/private_and_friends.md).
 
 {{#quiz headers.toml}}

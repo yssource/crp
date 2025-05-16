@@ -4,33 +4,33 @@
 
 # Idioms
 
-- [Data modeling](./idioms/data_modeling.md)
-  <!-- - [Enums](./idioms/data_modeling/enums.md) -->
-  <!-- - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md) -->
-  - [Abstract classes, interfaces, and dynamic dispatch](./idioms/data_modeling/abstract_classes.md)
-  - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
-  <!-- - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md) -->
-  <!-- - [Template classes, functions, and methods](./idioms/data_modeling/templates.md) -->
-  <!-- - [Template specialization](./idioms/data_modeling/template_specialization.md) -->
-<!-- - [Null (`nullptr`)](./idioms/null.md) -->
-<!--   - [Zero-length arrays](./idioms/null/zero_length_arrays.md) -->
-<!--   - [Sentinel values](./idioms/null/sentinel_values.md) -->
-<!--   - [Moved members](./idioms/null/moved_members.md) -->
-- [Encapsulation](./idioms/encapsulation.md)
-  - [Header files](./idioms/encapsulation/headers.md)
-  - [Anonymous namespaces and `static`](./idioms/encapsulation/anonymous_namespaces.md)
-  <!-- - [Private members and friends](./idioms/encapsulation/private_and_friends.md) -->
-  <!-- - [Private constructors](./idioms/encapsulation/private_constructors.md) -->
-  <!-- - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md) -->
-<!-- - [Primitive types: `int`, `float`, `size_t`, etc.]() -->
-<!-- - [Type promotions and conversions](./idioms/promotions_and_conversions.md) -->
-<!-- - [User-defined conversions](./idioms/user-defined_conversions.md) -->
-<!-- - [Overloading](./idioms/overloading.md) -->
 - [Constructors](./idioms/constructors.md)
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
   <!-- - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md) -->
   <!-- - [Separate construction and initialization](./idioms/constructors/partial_initialzation.md) -->
+- [Data modeling](./idioms/data_modeling.md)
+  - [Abstract classes, interfaces, and dynamic dispatch](./idioms/data_modeling/abstract_classes.md)
+  - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
+  - [Enums](./idioms/data_modeling/enums.md)
+  - [Tagged unions and `std::variant`](./idioms/data_modeling/tagged_unions.md)
+  - [Inheritance and implementation reuse](./idioms/data_modeling/inheritance_and_reuse.md)
+  - [Template classes, functions, and methods](./idioms/data_modeling/templates.md)
+  - [Template specialization](./idioms/data_modeling/template_specialization.md)
+- [Null (`nullptr`)](./idioms/null.md)
+  <!-- - [Zero-length arrays](./idioms/null/zero_length_arrays.md) -->
+  - [Sentinel values](./idioms/null/sentinel_values.md)
+  - [Moved members](./idioms/null/moved_members.md)
+- [Encapsulation](./idioms/encapsulation.md)
+  - [Header files](./idioms/encapsulation/headers.md)
+  - [Anonymous namespaces and `static`](./idioms/encapsulation/anonymous_namespaces.md)
+  - [Private members and friends](./idioms/encapsulation/private_and_friends.md)
+  - [Private constructors](./idioms/encapsulation/private_constructors.md)
+  <!-- - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md) -->
+- [Type equivalents](./idioms/type_equivalents.md)
+<!-- - [Type promotions and conversions](./idioms/promotions_and_conversions.md) -->
+<!-- - [User-defined conversions](./idioms/user-defined_conversions.md) -->
+<!-- - [Overloading](./idioms/overloading.md) -->
 <!-- - [Destructors and resource cleanup](./idioms/destructors.md) -->
 <!-- - [RTTI]() -->
 <!-- - [Iterators]() -->
@@ -43,8 +43,8 @@
 <!-- - [Object identity](./idioms/object_identity.md) -->
 <!-- - [Varargs]() -->
 <!-- - [Attributes]() -->
-<!-- - [STL type equivalents]() -->
 <!-- - [Scratch buffers]() -->
+<!-- - [Calling C (FFI)]() -->
 
 <!-- # Patterns -->
 

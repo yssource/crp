@@ -21,26 +21,9 @@ ways defined by the trait bounds, it is easier to test generic implementations.
 In particular, code testing a generic implementation only has to consider the
 possible behaviors of the given trait.
 
-For a comparison, consider the following Rust program.
+For a comparison, consider the following programs.
 
-```rust
-fn max<'a, T: Ord>(x: &'a T, y: &'a T) -> &'a T {
-    if x > y {
-        x
-    } else {
-        y
-    }
-}
-```
-
-The _parametricity properties_ of the program mean that (assuming safe Rust)
-from the type alone one can tell that if the function returns, it must return
-exactly one of `x` or `y`. This is because the trait bound `Ord` doesn't give
-any way to construct new values of type `T`, and the use of references doesn't
-give any way for the function to store one of `x` or `y` from an earlier call to
-return in a later call.
-
-Compare this with a C++ function with a similar signature:
+<div class="comparison">
 
 ```cpp
 template <totally_ordered T>
@@ -54,14 +37,34 @@ int max(const int &x, const int &y) {
 }
 ```
 
-In this case, a call to `max` with `int` as the template parameter will give a
-distinctly different result than with any other parameter because of the
+```rust
+fn max<'a, T: Ord>(x: &'a T, y: &'a T) -> &'a T {
+    if x > y {
+        x
+    } else {
+        y
+    }
+}
+```
+
+</div>
+
+In the Rust program, _parametricity_ means that (assuming safe Rust) from the
+type alone one can tell that if the function returns, it must return exactly one
+of `x` or `y`. This is because the trait bound `Ord` doesn't give any way to
+construct new values of type `T`, and the use of references doesn't give any way
+for the function to store one of `x` or `y` from an earlier call to return in a
+later call.
+
+In the C++ program, a call to `max` with `int` as the template parameter will
+give a distinctly different result than with any other parameter because of the
 template specialization enabling the behavior of the function to vary based on
 the type.
 
-The trade-off is that specialized implementations are harder to use because they
-must have different names, but that they are easier to use because it is easier
-to write generic code while being confident about its correctness.
+The trade-off is that in Rust specialized implementations are harder to use
+because they must have different names, but that they are easier to write
+because it is easier to write generic code while being confident about its
+correctness.
 
 ## Niche optimization
 
@@ -82,3 +85,5 @@ a non-null pointer to a value of type `T`, and to `NonZeroU8` and other non-zero
 integral types. The optimization for the reference case is what makes
 `Option<&T>` and `Option<&mut T>` safer equivalents to using non-owning
 observation pointers in C++.
+
+{{#quiz template_specialization.toml}}

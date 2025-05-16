@@ -24,7 +24,7 @@ interfaces that defines the required operations are defined. Concrete types,
 possibly defined by the client, implement those interfaces.
 
 This way of modeling data can make use of either
-[dynamic](/idioms/data_modeling/pure_virtual_classes.md) or [static
+[dynamic](/idioms/data_modeling/abstract_classes.md) or [static
 dispatch](/idioms/data_modeling/concepts.md), each of which is covered in its
 own section.
 

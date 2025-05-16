@@ -3,10 +3,10 @@
 One common use of null pointers in modern C++ is as values for the members of
 moved objects so that the destructor can still safely be called. E.g.,
 
-```cpp,hidelines=#
-# #include <cstdlib>
-# #include <cstring>
-#
+```cpp
+$#include <cstdlib>
+$#include <cstring>
+$
 // widget.h
 struct widget_t;
 widget_t *alloc_widget();
@@ -17,12 +17,12 @@ void copy_widget(widget_t* dst, widget_t* src);
 class Widget {
     widget_t* widget;
 public:
-#    Widget() : widget(alloc_widget()) {}
-#
-#    Widget(const Widget &other) : widget(alloc_widget()) {
-#        copy_widget(widget, other.widget);
-#    }
-#
+$    Widget() : widget(alloc_widget()) {}
+$
+$    Widget(const Widget &other) : widget(alloc_widget()) {
+$        copy_widget(widget, other.widget);
+$    }
+$
     Widget(Widget &&other) : widget(other.widget) {
         other.widget = nullptr;
     }

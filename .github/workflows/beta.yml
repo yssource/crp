@@ -12,3 +12,4 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       destination_dir: beta
+      site_url: /crp/beta/
