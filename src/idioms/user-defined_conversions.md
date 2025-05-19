@@ -261,13 +261,13 @@ int main() {
 }
 ```
 
-Because error handling in Rust [does not use exceptions](TODO), the [`TryFrom`
-trait](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) and [`TryInto`
-trait](https://doc.rust-lang.org/std/convert/trait.TryInto.html) can be
-implemented instead. These traits differ from `From` and `Into` in that they
-return a `Result`, which may indicate a failing case. When a conversion may fail
-one should implement `TryFrom` and rely on the client to call `unwrap` on the
-result, rather than panic in a `From` implementation.
+Because error handling in Rust [does not use exceptions](/idioms/exceptions.md),
+the [`TryFrom` trait](https://doc.rust-lang.org/std/convert/trait.TryFrom.html)
+and [`TryInto` trait](https://doc.rust-lang.org/std/convert/trait.TryInto.html)
+can be implemented instead. These traits differ from `From` and `Into` in that
+they return a `Result`, which may indicate a failing case. When a conversion may
+fail one should implement `TryFrom` and rely on the client to call `unwrap` on
+the result, rather than panic in a `From` implementation.
 
 ```rust
 use std::convert::TryFrom;
