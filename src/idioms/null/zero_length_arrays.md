@@ -49,3 +49,5 @@ fn main() {
 ```
 
 </div>
+
+{{#quiz zero_length_arrays.toml}}
