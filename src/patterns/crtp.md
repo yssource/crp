@@ -245,3 +245,5 @@ does not have inheritance between concrete
 types](/idioms/data_modeling/inheritance_and_reuse.md). This contrasts with C++
 where a value may be used at any number of types which are concrete, and so it
 would not be clear which type something like `Self` should refer to.
+
+{{#quiz crtp.toml}}
