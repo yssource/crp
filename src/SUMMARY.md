@@ -46,11 +46,11 @@
 <!-- - [Scratch buffers]() -->
 <!-- - [Calling C (FFI)]() -->
 
-<!-- # Patterns -->
+# Patterns
 
 <!-- - [Visitor pattern and double dispatch]() -->
 <!-- - [Pointer-to-implementation (PImpl)]() -->
-<!-- - [Curiously recurring template pattern (CRTP)]() -->
+- [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 <!-- - [X macros]() -->
 
 <!-- # Libraries -->
