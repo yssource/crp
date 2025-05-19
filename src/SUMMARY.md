@@ -7,7 +7,7 @@
 - [Constructors](./idioms/constructors.md)
   - [Default constructors](./idioms/constructors/default_constructors.md)
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
-  <!-- - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md) -->
+  - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md)
   <!-- - [Separate construction and initialization](./idioms/constructors/partial_initialzation.md) -->
 - [Data modeling](./idioms/data_modeling.md)
   - [Abstract classes, interfaces, and dynamic dispatch](./idioms/data_modeling/abstract_classes.md)
