@@ -402,7 +402,7 @@ concrete types and does not have method overriding, this is sufficient to avoid
 the need to pass the implementing type as a type parameter.
 
 For examples of this, see the chapter on the [curiously reoccurring template
-pattern](/patterns/crtp.md).
+pattern](/patterns/crtp.md#method-chaining).
 
 ## A note on type checking and type errors
 
