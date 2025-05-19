@@ -48,12 +48,14 @@
 
 # Patterns
 
-<!-- - [Visitor pattern and double dispatch]() -->
+<!-- - [Visitor pattern and double dispatch](./patterns/visitor.md) -->
 <!-- - [Pointer-to-implementation (PImpl)]() -->
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 <!-- - [X macros]() -->
 
 <!-- # Libraries -->
+
+<!-- - [Alternatives for commonly used C++ libraries](./libraries.md) -->
 
 <!-- # Optimizations -->
 
@@ -61,6 +63,6 @@
 
 <!-- # Tooling -->
 
-<!-- - [Unit tests]() -->
+<!-- - [Unit tests](./tooling/unit_tests.md) -->
 <!-- - [Documentation (Doxygen)]() -->
 <!-- - [Build systems (CMake)]() -->
