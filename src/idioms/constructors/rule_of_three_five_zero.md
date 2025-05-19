@@ -43,3 +43,5 @@ accomplish the same goal, one instead must define a new type with a user-defined
 `Drop` implementation, as is done in [the example in the chapter on copy and
 move
 constructors](/idioms/constructors/copy_and_move_constructors.md#user-defined-constructors).
+
+{{#quiz rule_of_three_five_zero.toml}}
