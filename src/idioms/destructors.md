@@ -1,52 +1,65 @@
 # Destructors and resource cleanup
 
-In C++, destructors are defined by providing a special member function. To
-achieve the equivalent in Rust, implement the [`Drop`
-trait](https://doc.rust-lang.org/std/ops/trait.Drop.html).
+In C++, a destructor for a class `T` is defined by providing a special member
+function `~T()`. To achieve the equivalent in Rust, the [`Drop`
+trait](https://doc.rust-lang.org/std/ops/trait.Drop.html) is implemented for a
+type.
 
 For an example, see [the chapter on copy and move
 constructors](/idioms/constructors/copy_and_move_constructors.md#user-defined-constructors).
 
 `Drop` implementations play the same role as destructors in C++ for types that
 manage resources. That is, they enable cleanup of resources owned by the value
-at the end of the value's lifetime (i.e., [RAII](/idioms/raii.md)).
+at the end of the value's lifetime.
 
-In Rust the `Drop::drop` method is called the "destructor", but we will refer to
-it as "the drop method" here, to clearly distinguish between it and C++
-destructors.
+In Rust the `Drop::drop` method of a value is called automatically by a
+destructor when the variable that owns the value goes out of scope. Unlike in
+C++, the drop method cannot be called manually. Instead the automatic "drop
+glue" implicitly calls the destructors of fields.
 
 ## Lifetimes and destructors
 
-C++ destructors are called in reverse order of construction when variables go out
-of scope, of for dynamically allocated objects, when they are deleted. Because
-of how move constructors work, this includes destructors of moved objects.
+C++ destructors are called in reverse order of construction when variables go
+out of scope, or for dynamically allocated objects, when they are deleted. This
+includes destructors of moved-from objects.
+
+In Rust, the drop order is similar to that of C++ (reverse order of
+declaration). If additional specific details about the drop order are needed
+(e.g., for writing unsafe code), the full rules for the drop order are described
+in [the language
+reference](https://doc.rust-lang.org/reference/destructors.html). However,
+moving an object in Rust does not leave a moved-from object on which a
+destructor will be called.
+
+<div class="comparison">
 
 ```cpp
 #include <iostream>
 #include <utility>
 
 struct A {
-    int id;
+  int id;
 
-    A(int id) : id(id) {}
+  A(int id) : id(id) {}
 
-    // copy constructor
-    A(A& other) : id(other.id) {}
+  // copy constructor
+  A(A &other) : id(other.id) {}
 
-    // move constructor
-    A(A&& other) : id(other.id) {
-        other.id = 0;
-    }
+  // move constructor
+  A(A &&other) : id(other.id) {
+    other.id = 0;
+  }
 
-    // deconstructor
-    ~A() {
-        std::cout << id << std::endl;
-    }
+  // deconstructor
+  ~A() {
+    std::cout << id << std::endl;
+  }
 };
 
 int accept(A x) {
-    return x.id;
-} // the destructor of x is called after the return expression is evaluated
+  return x.id;
+} // the destructor of x is called after the
+  // return expression is evaluated
 
 // Prints:
 // 2
@@ -54,22 +67,16 @@ int accept(A x) {
 // 0
 // 1
 int main() {
-    A x(1);
-    A y(2);
+  A x(1);
+  A y(2);
 
-    accept(std::move(y));
+  accept(std::move(y));
 
-	A z(3);
+  A z(3);
 
-    return 0;
+  return 0;
 }
 ```
-
-In Rust, the drop order is similar to that of C++ (reverse order of
-declaration). If additional specific details about the drop order are needed
-(e.g., for writing unsafe code), the full rules for the drop order are described
-in [the language
-reference](https://doc.rust-lang.org/reference/destructors.html).
 
 ```rust
 struct A {
@@ -100,9 +107,11 @@ fn main() {
 }
 ```
 
-One particular difference between C++ and Rust is that after ownership of `y` is
-moved into the function `acccept`, there is no additional object remaining, and
-so there is no additional `Drop::drop` call (which in the C++ example prints `0`).
+</div>
+
+In Rust, after ownership of `y` is moved into the function `acccept`, there is
+no additional object remaining, and so there is no additional `Drop::drop` call
+(which in the C++ example prints `0`).
 
 Rust's drop methods do run when leaving scope due to a panic, though not if the
 panic occurs in a destructor that was called in response to an initial panic.
@@ -126,7 +135,8 @@ In Rust, values can be dropped early for early cleanup by using
 because ([for non-`Copy`
 types](/idioms/constructors/copy_and_move_constructors.md#trivially-copyable-types))
 ownership of the object is actually transferred to `std::mem::drop` function,
-and so `Drop::drop` is called at the end of `std::mem::drop`.
+and so `Drop::drop` is called at the end of `std::mem::drop` when the lifetime
+of the parameter ends.
 
 Thus, `std::mem::drop` can be used for early cleanup of resources without having
 to restructure a function to force variables out of scope early.
