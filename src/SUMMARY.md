@@ -9,6 +9,7 @@
   - [Copy and move constructors](./idioms/constructors/copy_and_move_constructors.md)
   - [Rule of three/five/zero](./idioms/constructors/rule_of_three_five_zero.md)
   <!-- - [Separate construction and initialization](./idioms/constructors/partial_initialzation.md) -->
+- [Destructors and resource cleanup](./idioms/destructors.md)
 - [Data modeling](./idioms/data_modeling.md)
   - [Abstract classes, interfaces, and dynamic dispatch](./idioms/data_modeling/abstract_classes.md)
   - [Concepts, interfaces, and static dispatch](./idioms/data_modeling/concepts.md)
@@ -31,7 +32,6 @@
 <!-- - [Type promotions and conversions](./idioms/promotions_and_conversions.md) -->
 <!-- - [User-defined conversions](./idioms/user-defined_conversions.md) -->
 <!-- - [Overloading](./idioms/overloading.md) -->
-<!-- - [Destructors and resource cleanup](./idioms/destructors.md) -->
 <!-- - [RTTI]() -->
 <!-- - [Iterators]() -->
 - [Out parameters](./idioms/out_params.md)
