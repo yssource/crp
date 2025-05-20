@@ -392,3 +392,5 @@ impl Vec3 {
 This differs from the conversion methods supported by the `From` and `Into`
 traits, which have the additional purpose of supporting trait bounds on generic
 functions which should take any type convertible to a specific type.
+
+{{#quiz overloading.toml}}
