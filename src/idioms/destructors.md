@@ -157,3 +157,5 @@ fn main() {
     // ... use v2
 }
 ```
+
+{{#quiz destructors.toml}}
