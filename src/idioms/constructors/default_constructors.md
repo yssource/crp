@@ -111,10 +111,10 @@ Unlike C++ where the default initialization value for integers is indeterminate,
 in Rust the default value for the primitive integer and floating point types is
 zero.
 
-Deriving the `Default` trait has a similar effect on code concision as eliding
-initialization in C++. In situations where all of the types implement the
-`Default` trait, but only some of the fields should have their default values,
-one can use [struct update
+<a name="struct-update"></a> Deriving the `Default` trait has a similar effect
+on code concision as eliding initialization in C++. In situations where all of
+the types implement the `Default` trait, but only some of the fields should have
+their default values, one can use [struct update
 syntax](https://doc.rust-lang.org/book/ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax)
 to define a constructor method without enumerating the values for all of the
 fields.
