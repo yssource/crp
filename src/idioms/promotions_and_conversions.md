@@ -480,3 +480,5 @@ fn main() {
 
 User-defined conversions are covered in a [separate
 chapter](/idioms/user-defined_conversions.md).
+
+{{#quiz promotions_and_conversions.toml}}
