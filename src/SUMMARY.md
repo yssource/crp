@@ -29,7 +29,7 @@
   - [Private constructors](./idioms/encapsulation/private_constructors.md)
   <!-- - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md) -->
 - [Type equivalents](./idioms/type_equivalents.md)
-<!-- - [Type promotions and conversions](./idioms/promotions_and_conversions.md) -->
+- [Type promotions and conversions](./idioms/promotions_and_conversions.md)
 <!-- - [User-defined conversions](./idioms/user-defined_conversions.md) -->
 - [Overloading](./idioms/overloading.md)
 <!-- - [RTTI]() -->
