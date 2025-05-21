@@ -8,7 +8,7 @@ and initialization.
   Rust](#using-virtual-methods-during-initialization).
 - For pre-allocating storage or re-using allocated objects, the techniques and
   limitations described in the chapter on [pre-allocated
-  buffers](./idioms/out_params/pre-allocated_buffers.md) apply.
+  buffers](/idioms/out_params/pre-allocated_buffers.md) apply.
 
 ## Rust builder pattern
 
