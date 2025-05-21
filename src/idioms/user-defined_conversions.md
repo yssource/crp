@@ -343,3 +343,5 @@ the traits for a custom pointer-like type is given in the Rust book.
 A summary of when to use which kind of conversion interface is given in the
 documentation for the [`std::convert`
 module](https://doc.rust-lang.org/std/convert/index.html).
+
+{{#quiz user-defined_conversions.toml}}
