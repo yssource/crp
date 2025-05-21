@@ -298,7 +298,7 @@ impl<Label> DirectedGraph<Label> {
 An even more idiomatic implementation would make use of the [itertools
 crate](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.position_min).
 
-```rust
+```rust,ignore
 use itertools::*;
 
 # pub struct DirectedGraph<Label> {
@@ -464,7 +464,7 @@ BOOST_AUTO_TEST_CASE(test_add_node_float) {
 }
 ```
 
-```rust
+```rust,ignore
 pub struct DirectedGraph<Label> {
     // The mistake is here: size_t should be Label
     adjacencies: Vec<Vec<usize>>,

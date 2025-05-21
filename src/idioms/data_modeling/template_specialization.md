@@ -60,7 +60,7 @@ int main() {
 }
 ```
 
-```rust
+```rust,ignore
 // The Extend trait is for types that support
 // appending values to the collection.
 fn push_if_even<T, I: Extend<T>>(
