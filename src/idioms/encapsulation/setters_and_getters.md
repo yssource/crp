@@ -3,11 +3,18 @@
 Setters and getters work similarly in C++ and Rust, but are used less frequently
 in Rust.
 
-It would not be unusual to see the following representation of a two-dimensional
-vector in C++, which hides its implementation and provides setters and getters
-to access the fields. This choice would typically be made in case a
-representation change (such as using polar instead of rectangular coordinates)
-needed to be made later without breaking clients.
+It would [not be
+unusual](https://docs.rs/bevy/0.16.0/bevy/math/struct.Vec2.html) to see the
+following representation of a two-dimensional vector in C++, which hides its
+implementation and provides setters and getters to access the fields. This
+choice would typically be made in case a representation change (such as using
+polar instead of rectangular coordinates) needed to be made later without
+breaking clients.
+
+On the other hand, in Rust such a type would almost always be defined with
+public fields.
+
+<div class="comparison">
 
 ```cpp
 class Vec2 {
@@ -23,11 +30,9 @@ public:
 };
 ```
 
-On the other hand, in Rust such a type would almost always be defined with
-public fields.
-
 ```rust
 pub struct Vec2 {
+    // public fields instead of getters
     pub x: f64,
     pub y: f64,
 }
@@ -37,9 +42,14 @@ impl Vec2 {
 }
 ```
 
+</div>
+
 One major reason for the difference is a limitation of the borrow checker. With
 a getter function the entire structure is borrowed, preventing mutable use of
 other fields of the structure.
+
+The following program will not compile because `get_name()` borrows all of
+`alice`.
 
 ```rust,ignore
 struct Person {
@@ -79,7 +89,7 @@ error[E0506]: cannot assign to `alice.age` because it is borrowed
 error: aborting due to 1 previous error
 ```
 
-Some additional reasons for the difference are:
+Some additional reasons for the difference in approach are:
 
 - Ergonomics: Public members make it possible to use pattern matching.
 - Transparency of performance: A change in representation would dramatically
@@ -97,35 +107,53 @@ represents the data with an invariant is defined and access to the fields of the
 underlying struct is provided by via a non-`mut` reference.
 
 ```rust
-mod vec2 {
-    #[derive(Debug, Clone, Copy)]
-    pub struct Vec2 {
-        pub x: f64,
-        pub y: f64,
+pub struct Vec2 {
+    pub x: f64,
+    pub y: f64,
+}
+
+/// Represents a 2-vector that has magnitude 1.
+pub struct Normalized(Vec2); // note the private field
+
+fn sqrt_approx_zero(x: f64) -> bool {
+    x < 0.001
+}
+
+impl Normalized {
+    pub fn from_vec2(v: Vec2) -> Option<Self> {
+        if sqrt_approx_zero(v.x * v.x + v.y * v.x - 1.0) {
+            Some(Self(v))
+        } else {
+            None
+        }
     }
 
-    /// Represents a 2-vector that has magnitude 1.
-    #[derive(Debug, Clone, Copy)]
-    pub struct Normalized(Vec2); // note the private field
-
-    fn sqrt_approx_zero(x: f64) -> bool {
-        x < 0.001
-    }
-
-    impl Normalized {
-        pub fn from_vec2(v: Vec2) -> Option<Normalized> {
-            if sqrt_approx_zero(v.x * v.x + v.y * v.x - 1.0) {
-                Some(Normalized(v))
-            } else {
-                None
-            }
-        }
-
-        // The getter provides a reference to the underlying Vec2 value
-        // permitting mutation.
-        pub fn get(&self) -> &Vec2 {
-            &self.0
-        }
+    // The getter provides a reference to the underlying Vec2 value
+    // without permitting mutation.
+    pub fn get(&self) -> &Vec2 {
+        &self.0
     }
 }
 ```
+
+
+## Borrowing from indexed structures
+
+A significant limitation that arises from the way that getter methods interact
+with the borrow checker is that it isn't possible to mutably borrow multiple
+elements from an indexed structure like a vector using a methods like
+`Vec::get_mut`.
+
+The built-in indexed types have several methods for creating split views onto a
+structure. These can be used to create helper functions that match the
+requirements of a specific application.
+
+The Rustonomicon has [examples of implementing this
+pattern](https://doc.rust-lang.org/nomicon/borrow-splitting.html), using both
+safe and unsafe Rust.
+
+## Setter methods
+
+Setter methods also borrow the entire value, which causes the same problems as
+getters that return mutable references. As with getter methods, setter methods
+are mainly used when needed to preserve invariants.
