@@ -125,6 +125,72 @@ makes [guarantees about the size, alignment, and bit pattern used to represent
 values of the `bool`
 type](https://doc.rust-lang.org/reference/types/boolean.html).
 
+### `void`
+
+In C++ `void` indicates that a function does not return a value. Because Rust is
+expression-oriented, all functions return values. In the place of `void`, Rust
+uses the unit type `()`. When a function does not have a return type declared,
+`()` is the return type.
+
+<div class="comparison">
+
+```cpp
+#include <iostream>
+
+void process() {
+    std::cout
+        << "Does something, but returns nothing."
+        << std::endl;
+}
+```
+
+```rust
+fn process() {
+    println!("Does something but returns nothing.");
+}
+```
+
+</div>
+
+Since the unit type has only one value (also written `()`), values of the type
+provide no information. This also means that the return value can be left
+implicit, as in the above example. The following example makes the unit type
+usage explicit.
+
+```rust
+fn process() -> () {
+    let () = println!("Does something but returns nothing.");
+    ()
+}
+```
+
+The syntax of the unit type and syntax of the unit value resemble that of an
+empty tuple. Essentially, that is what the type is. The following example shows
+some equivalent types, though without the special syntax or language
+integration.
+
+```rust
+struct Pair<T1, T2>(T1, T2); // the same as (T1, T2)
+struct Single<T>(T); // a tuple with just one value (T1)
+struct Unit; // the same as ()
+// can also be written as
+// struct Unit();
+
+fn main() {
+    let pair = Pair(1,2.0);
+    let single = Single(1);
+    let unit = Unit;
+    // can also be written as
+    // let unit = Unit();
+}
+```
+
+Using a unit type instead of `void` enables expressions with unit type (such as
+function calls that would return `void` in C++) to be used in contexts that
+expect a value. This is especially helpful with defining and using generic
+functions, instead of needing something like `std::is_void` to special-case the
+handling when a type is `void`.
+
 ## Pointers
 
 The following table maps the ownership-managing classes from C++ to equivalents
@@ -149,6 +215,16 @@ the compiler will prevent the incorrect use of the shared owner types.
 
 Unlike with C++ references, Rust can have references-to-references. Rust
 references are more like observer pointers than they are like C++ references.
+
+### `void*`
+
+Rust does not have anything directly analogous to `void*` in C++. The [chapter
+on `RTTI`](TODO) covers some use cases where the goal is dynamic typing. The
+[chapter on Rust's foreign function interface (FFI)](TODO) and the [FFI chapter
+of the
+Rustinomicon](https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs)
+cover some use cases where the goal is interoperability with C programs that use
+`void*`.
 
 ## Containers
 
