@@ -53,9 +53,9 @@
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 <!-- - [X macros]() -->
 
-<!-- # Libraries -->
+# Libraries
 
-<!-- - [Alternatives for commonly used C++ libraries](./libraries.md) -->
+- [Libraries](./libraries.md)
 
 <!-- # Optimizations -->
 
