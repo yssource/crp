@@ -40,7 +40,7 @@
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
 <!-- - [Exceptions and error handling]() -->
 <!-- - [Function objects, lambdas, and closures]() -->
-<!-- - [Object identity](./idioms/object_identity.md) -->
+- [Object identity](./idioms/object_identity.md)
 <!-- - [Varargs]() -->
 <!-- - [Attributes]() -->
 <!-- - [Scratch buffers]() -->
