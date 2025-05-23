@@ -219,7 +219,7 @@ references are more like observer pointers than they are like C++ references.
 ### `void*`
 
 Rust does not have anything directly analogous to `void*` in C++. The [chapter
-on `RTTI`](TODO) covers some use cases where the goal is dynamic typing. The
+on `RTTI`](/idioms/RTTI.md) covers some use cases where the goal is dynamic typing. The
 [chapter on Rust's foreign function interface (FFI)](TODO) and the [FFI chapter
 of the
 Rustinomicon](https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs)
