@@ -157,3 +157,5 @@ safe and unsafe Rust.
 Setter methods also borrow the entire value, which causes the same problems as
 getters that return mutable references. As with getter methods, setter methods
 are mainly used when needed to preserve invariants.
+
+{{#quiz setters_and_getters.toml}}
