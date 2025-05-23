@@ -11,12 +11,12 @@ repository created from the in-code documentation of those crates called
 
 ## Some specific alternatives
 
-| C++ library                   | Rust alternative                 |
-|-------------------------------|----------------------------------|
-| STL UTF-16 and UTF-32 strings |                                  |
-| STL `multiset`                |                                  |
-| STL `multimap`                |                                  |
-| Boost.Test                    | [cargo test](/etc/unit_tests.md) |
+| C++ library                   | Rust alternative                                            |
+|-------------------------------|-------------------------------------------------------------|
+| STL UTF-16 and UTF-32 strings | [widestring](https://docs.rs/widestring/latest/widestring/) |
+| STL `multiset`                |                                                             |
+| STL `multimap`                |                                                             |
+| Boost.Test                    | [cargo test](/etc/unit_tests.md)                            |
 
 If there is a C++ library that you use that does not have an alternative listed,
 please leave feedback using the link below, letting us know the name and purpose
