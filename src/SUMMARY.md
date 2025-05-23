@@ -45,6 +45,7 @@
 <!-- - [Attributes]() -->
 <!-- - [Scratch buffers]() -->
 <!-- - [Calling C (FFI)]() -->
+<!-- - [NRVO, RVO, and placement new]() -->
 
 # Patterns
 
@@ -53,16 +54,9 @@
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 <!-- - [X macros]() -->
 
-# Libraries
+# Libraries, tools, etc.
 
-- [Libraries](./libraries.md)
-
-<!-- # Optimizations -->
-
-<!-- - [NRVO, RVO, and placement new]() -->
-
-<!-- # Tooling -->
-
-<!-- - [Unit tests](./tooling/unit_tests.md) -->
+- [Libraries](./etc/libraries.md)
+<!-- - [Unit tests](./etc/unit_tests.md) -->
 <!-- - [Documentation (Doxygen)]() -->
 <!-- - [Build systems (CMake)]() -->

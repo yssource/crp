@@ -476,7 +476,7 @@ mod test {
 </div>
 
 Testing in Rust is described in more detail in the [chapter on unit
-testing](/tooling/unit_tests.md).
+testing](/etc/unit_tests.md).
 
 ## Visibility of methods on Rust traits
 
