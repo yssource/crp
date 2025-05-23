@@ -198,3 +198,5 @@ If performance requirements make the use of synthetic identifiers unacceptable,
 then it may be necessary to use prevent the value from being moved. The [`Pin`
 and `PhantomPinned` structs](https://doc.rust-lang.org/std/pin/index.html) can
 be used to achieve an effect similar to deleting the move constructor in C++.
+
+{{#quiz object_identity.toml}}
