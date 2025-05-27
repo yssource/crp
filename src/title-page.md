@@ -32,7 +32,7 @@ send us a message!
 
 This book is incomplete and may include links to chapters that have not yet been
 published. If you encounter such a link and want us to prioritize that chapter,
-let us know using the feedback form.
+or if you have a suggestion for a chapter, let us know using the feedback form.
 
 If you answer the quizzes at the end of each chapter, we will save your
 responses anonymously for research purposes.
