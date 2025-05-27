@@ -28,19 +28,19 @@
   - [Private members and friends](./idioms/encapsulation/private_and_friends.md)
   - [Private constructors](./idioms/encapsulation/private_constructors.md)
   - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md)
+- [Exceptions and error handling]()
 - [Type equivalents](./idioms/type_equivalents.md)
 - [Type promotions and conversions](./idioms/promotions_and_conversions.md)
 - [User-defined conversions](./idioms/user-defined_conversions.md)
 - [Overloading](./idioms/overloading.md)
-<!-- - [RTTI]() -->
-<!-- - [Iterators]() -->
+- [RTTI]()
+- [Iterators]()
+- [Function objects, lambdas, and closures]()
+- [Object identity](./idioms/object_identity.md)
 - [Out parameters](./idioms/out_params.md)
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
-<!-- - [Exceptions and error handling]() -->
-<!-- - [Function objects, lambdas, and closures]() -->
-- [Object identity](./idioms/object_identity.md)
 <!-- - [Varargs]() -->
 <!-- - [Attributes]() -->
 <!-- - [Scratch buffers]() -->
@@ -49,14 +49,14 @@
 
 # Patterns
 
-<!-- - [Visitor pattern and double dispatch](./patterns/visitor.md) -->
-<!-- - [Pointer-to-implementation (PImpl)]() -->
+- [Visitor pattern and double dispatch]()
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
+- [Pointer-to-implementation (PImpl)]()
 <!-- - [X macros]() -->
 
 # Libraries, tools, etc.
 
 - [Libraries](./etc/libraries.md)
-<!-- - [Unit tests](./etc/unit_tests.md) -->
+- [Unit tests]()
 <!-- - [Documentation (Doxygen)]() -->
 <!-- - [Build systems (CMake)]() -->
