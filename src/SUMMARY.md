@@ -60,3 +60,7 @@
 - [Unit tests]()
 <!-- - [Documentation (Doxygen)]() -->
 <!-- - [Build systems (CMake)]() -->
+
+---
+
+- [Attribution notices](./notices.md)
