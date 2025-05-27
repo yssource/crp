@@ -10,6 +10,7 @@ additional-css = ["custom.css"]
 additional-js = ["telemetry/dist/telemetry.iife.js"]
 code.hidelines = {cpp = "$"}
 fold.enable = true
+fold.level = 1
 
 [preprocessor.quiz]
 initial-text = "Check your understanding"
