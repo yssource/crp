@@ -41,25 +41,24 @@
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
-<!-- - [Varargs]() -->
-<!-- - [Attributes]() -->
-<!-- - [Scratch buffers]() -->
-<!-- - [Calling C (FFI)]() -->
-<!-- - [NRVO, RVO, and placement new]() -->
+- [Varargs]()
+- [Attributes]()
+- [Calling C (FFI)]()
+- [NRVO, RVO, and placement new]()
 
 # Patterns
 
 - [Visitor pattern and double dispatch]()
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 - [Pointer-to-implementation (PImpl)]()
-<!-- - [X macros]() -->
+- [X macros]()
 
 # Libraries, tools, etc.
 
 - [Libraries](./etc/libraries.md)
 - [Unit tests]()
-<!-- - [Documentation (Doxygen)]() -->
-<!-- - [Build systems (CMake)]() -->
+- [Documentation (Doxygen)]()
+- [Build systems (CMake)]()
 
 ---
 
