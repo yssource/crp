@@ -29,7 +29,7 @@
   - [Private constructors](./idioms/encapsulation/private_constructors.md)
   - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md)
 - [Exceptions and error handling](./idioms/exceptions.md)
-  - [Expected errors]()
+  - [Expected errors](./idioms/exceptions/expected_errors.md)
   - [Errors indicating bugs]()
 - [Type equivalents](./idioms/type_equivalents.md)
 - [Type promotions and conversions](./idioms/promotions_and_conversions.md)
