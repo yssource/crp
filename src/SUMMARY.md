@@ -55,7 +55,7 @@
 - [Pointer-to-implementation (PImpl)]()
 - [X macros]()
 
-# Libraries, tools, etc.
+# Ecosystem
 
 - [Libraries](./etc/libraries.md)
 - [Unit tests]()
