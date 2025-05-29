@@ -415,4 +415,4 @@ help: use `let _ = ...` to ignore the resulting value
 `Option` that must be handled (due to the `None` case indicating an error)
 should be annotated with the `#[must_use]` attribute. For example, the `get`
 method on slices returns `Option` and is [annotated as
-`#[must_use]`](https://doc.rust-lang.org/src/core/slice/mod.rs.html#593-595).
+`#[must_use]`](https://doc.rust-lang.org/src/core/slice/mod.rs.html#592-595).
