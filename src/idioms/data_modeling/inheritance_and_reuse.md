@@ -46,7 +46,6 @@ public:
 int main() {
     Printer myPrinter;
     myPrinter.resetDevice();
-    return 0;
 }
 ```
 
@@ -66,6 +65,12 @@ struct Printer {
     powered: bool,
 }
 
+impl Printer {
+    fn new() -> Printer {
+        Printer { powered: false }
+    }
+}
+
 impl Device for Printer {
     fn power_on(&mut self) {
         self.powered = true;
@@ -76,6 +81,11 @@ impl Device for Printer {
         self.powered = false;
         println!("Printer is powered off");
     }
+}
+
+fn main() {
+    let mut p = Printer::new();
+    p.reset_device();
 }
 ```
 

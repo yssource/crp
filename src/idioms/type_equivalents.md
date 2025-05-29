@@ -62,8 +62,9 @@ In C++ pointers to or arrays of `char`, `unsigned char`, or `byte` are used to
 represent raw memory. In Rust, arrays (`[u8; N]`), vectors (`Vec<u8>`), or
 slices (`&[u8]`) of `u8` are used to accomplish the same goal. However,
 accessing the underlying memory of another Rust value in that way requires
-unsafe Rust. There are [libraries](TODO) for creating safe wrappers around that
-kind of access for purposes such as serialization or interacting with hardware.
+unsafe Rust. There are [libraries](/etc/libraries.md) for creating safe wrappers
+around that kind of access for purposes such as serialization or interacting
+with hardware.
 
 ### Character and string types
 
@@ -116,7 +117,7 @@ encoding
 | representing bytes  | vectors, arrays, or slices of `u8` |
 | interacting with OS | `OsString` and `&OsStr`            |
 | representing UTF-8  | `String`                           |
-| representing UTF-16 | use [a library](TODO)              |
+| representing UTF-16 | use [a library](/etc/libraries.md) |
 
 ### Boolean types
 
@@ -124,6 +125,72 @@ The `bool` type in Rust is analogous to the `bool` type in C++. Unlike C++, Rust
 makes [guarantees about the size, alignment, and bit pattern used to represent
 values of the `bool`
 type](https://doc.rust-lang.org/reference/types/boolean.html).
+
+### `void`
+
+In C++ `void` indicates that a function does not return a value. Because Rust is
+expression-oriented, all functions return values. In the place of `void`, Rust
+uses the unit type `()`. When a function does not have a return type declared,
+`()` is the return type.
+
+<div class="comparison">
+
+```cpp
+#include <iostream>
+
+void process() {
+    std::cout
+        << "Does something, but returns nothing."
+        << std::endl;
+}
+```
+
+```rust
+fn process() {
+    println!("Does something but returns nothing.");
+}
+```
+
+</div>
+
+Since the unit type has only one value (also written `()`), values of the type
+provide no information. This also means that the return value can be left
+implicit, as in the above example. The following example makes the unit type
+usage explicit.
+
+```rust
+fn process() -> () {
+    let () = println!("Does something but returns nothing.");
+    ()
+}
+```
+
+The syntax of the unit type and syntax of the unit value resemble that of an
+empty tuple. Essentially, that is what the type is. The following example shows
+some equivalent types, though without the special syntax or language
+integration.
+
+```rust
+struct Pair<T1, T2>(T1, T2); // the same as (T1, T2)
+struct Single<T>(T); // a tuple with just one value (T1)
+struct Unit; // the same as ()
+// can also be written as
+// struct Unit();
+
+fn main() {
+    let pair = Pair(1,2.0);
+    let single = Single(1);
+    let unit = Unit;
+    // can also be written as
+    // let unit = Unit();
+}
+```
+
+Using a unit type instead of `void` enables expressions with unit type (such as
+function calls that would return `void` in C++) to be used in contexts that
+expect a value. This is especially helpful with defining and using generic
+functions, instead of needing something like `std::is_void` to special-case the
+handling when a type is `void`.
 
 ## Pointers
 
@@ -149,6 +216,15 @@ the compiler will prevent the incorrect use of the shared owner types.
 
 Unlike with C++ references, Rust can have references-to-references. Rust
 references are more like observer pointers than they are like C++ references.
+
+### `void*`
+
+Rust does not have anything directly analogous to `void*` in C++. The [chapter
+on `RTTI`](/idioms/RTTI.md) covers some use cases where the goal is dynamic
+typing. The [FFI chapter of the
+Rustonomicon](https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs)
+covers some use cases where the goal is interoperability with C programs that
+use `void*`.
 
 ## Containers
 
@@ -177,7 +253,7 @@ with different hash or comparison functions, one must use a wrapper type with a
 different implementation of the required trait.
 
 Some C++ container types provided by the STL have no equivalent in Rust. Many of
-those have equivalents available in third-party [libraries](TODO).
+those have equivalents available in third-party [libraries](/etc/libraries.md).
 
 One significant different in the use of these types between C++ in Rust is with
 the `Vec<T>` and array `[T; N]` types, from which slice references `&[T]` or

@@ -74,7 +74,7 @@ impl<Label> DirectedGraph<Label> {
         to: usize,
     ) -> Result<(), &str> {
         let num_nodes = self.num_nodes();
-        if from > num_nodes || to > num_nodes {
+        if from >= num_nodes || to >= num_nodes {
             Err("Node index out of range.")
         } else {
             self.adjacencies[from].push(to);
@@ -295,6 +295,62 @@ impl<Label> DirectedGraph<Label> {
 }
 ```
 
+An even more idiomatic implementation would make use of the [itertools
+crate](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.position_min).
+
+```rust,ignore
+use itertools::*;
+
+# pub struct DirectedGraph<Label> {
+#     adjacencies: Vec<Vec<usize>>,
+#     node_labels: Vec<Label>,
+# }
+#
+impl<Label> DirectedGraph<Label> {
+#     pub fn new() -> Self {
+#         DirectedGraph {
+#             adjacencies: Vec::new(),
+#             node_labels: Vec::new(),
+#         }
+#     }
+#
+#     pub fn add_node(
+#         &mut self,
+#         label: Label,
+#     ) -> usize {
+#         self.adjacencies.push(Vec::new());
+#         self.node_labels.push(label);
+#         self.num_nodes() - 1
+#     }
+#
+#     pub fn num_nodes(&self) -> usize {
+#         self.node_labels.len()
+#     }
+#
+#     pub fn add_edge(
+#         &mut self,
+#         from: usize,
+#         to: usize,
+#     ) -> Result<(), &str> {
+#         if from > self.num_nodes()
+#             || to > self.num_nodes()
+#         {
+#             Err("Node not in graph.")
+#         } else {
+#             self.adjacencies[from].push(to);
+#             Ok(())
+#         }
+#     }
+#
+    pub fn smallest_node(&self) -> Option<usize>
+    where
+        Label: Ord,
+    {
+        self.node_labels.iter().position_min()
+    }
+}
+```
+
 ## `constexpr` template parameters
 
 Rust also supports the equivalent of constexpr template parameters. For example,
@@ -340,34 +396,13 @@ defined with all of the generic type parameters filled in. It can be useful to
 refer to this type especially in cases where there are many parameters that
 would otherwise have to be listed out.
 
-```rust
-// Self is equivalent to Wrapper<T>
-struct Wrapper<T>(T, Option<Box<Self>>);
-
-impl Wrapper<i32> {
-    // Self is equivalent to Wrapper<i32>
-    fn zero() -> Self {
-        Wrapper(0, None)
-    }
-}
-
-impl<T> Wrapper<T> {
-    // Self is equivalent to Wrapper<T>
-    fn new() -> Self
-    where
-        T: Default,
-    {
-        Wrapper(Default::default(), None)
-    }
-}
-```
-
-The `Self` type can also be used when defining generic traits to refer to the
+The `Self` type is necessary when defining generic traits to refer to the
 concrete implementing type. Because Rust does not have inheritance between
 concrete types and does not have method overriding, this is sufficient to avoid
-the need to pass the implementing type as a type parameter. For examples of
-this, see the chapter on the [curiously reoccurring template
-pattern](/patterns/crtp.md).
+the need to pass the implementing type as a type parameter.
+
+For examples of this, see the chapter on the [curiously reoccurring template
+pattern](/patterns/crtp.md#method-chaining).
 
 ## A note on type checking and type errors
 
@@ -377,12 +412,123 @@ reported. Some of this difference cannot be achieved by consistently using C++
 concepts to declare the operations required.
 
 For example, one might accidentally make the `nodeLabels` member a vector of
-integers instead of a vector of the label parameter. If all of the test cases
+`size_t` instead of a vector of the label parameter. If all of the test cases
 for the graph used label types that were convertible to integers, the error
 would not be detected.
 
 A similar Rust program fails to compile, even without a function that
 instantiates the generic structure with a concrete type.
+
+<div class="comparison">
+
+```cpp
+#include <stdexcept>
+#include <vector>
+
+template <typename Label>
+class DirectedGraph {
+  // The mistake is here: size_t should be Label
+  std::vector<std::vector<size_t>> adjacencies;
+  std::vector<size_t> nodeLabels;
+
+public:
+  Label getNode(size_t nodeId) {
+    return nodeLabels[nodeId];
+  }
+
+  size_t addNode(Label label) {
+    adjacencies.push_back(std::vector<size_t>());
+    nodeLabels.push_back(label);
+    return numNodes() - 1;
+  }
+
+  size_t numNodes() const {
+    return adjacencies.size();
+  }
+};
+
+#define BOOST_TEST_MODULE DirectedGraphTests
+#include <boost/test/included/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(test_add_node_int) {
+  DirectedGraph<int> g;
+  auto n1 = g.addNode(1);
+  BOOST_CHECK_EQUAL(1, g.getNode(n1));
+}
+
+BOOST_AUTO_TEST_CASE(test_add_node_float) {
+  DirectedGraph<float> g;
+  float label = 1.0f;
+  auto n1 = g.addNode(label);
+  BOOST_CHECK_CLOSE(label, g.getNode(n1), 0.0001);
+}
+```
+
+```rust,ignore
+pub struct DirectedGraph<Label> {
+    // The mistake is here: size_t should be Label
+    adjacencies: Vec<Vec<usize>>,
+    node_labels: Vec<usize>,
+}
+
+impl<Label> DirectedGraph<Label> {
+    pub fn new() -> Self {
+        DirectedGraph {
+            adjacencies: Vec::new(),
+            node_labels: Vec::new(),
+        }
+    }
+
+    pub fn get_node(
+        &self,
+        node_id: usize,
+    ) -> Option<&Label> {
+        self.node_labels.get(node_id)
+    }
+
+    pub fn add_node(
+        &mut self,
+        label: Label,
+    ) -> usize {
+        self.adjacencies.push(Vec::new());
+        self.node_labels.push(label);
+        self.num_nodes() - 1
+    }
+
+    pub fn num_nodes(&self) -> usize {
+        self.node_labels.len()
+    }
+}
+```
+
+</div>
+
+Despite the error, the C++ example compiles and passes the tests.
+
+```text
+Running 2 test cases...
+
+*** No errors detected
+```
+
+Even without test cases, the Rust example fails to compile and produces a
+message useful for identifying the error.
+
+```text
+error[E0308]: mismatched types
+    --> example.rs:26:31
+     |
+6    | impl<Label> DirectedGraph<Label> {
+     |      ----- found this type parameter
+...
+26   |         self.node_labels.push(label);
+     |                          ---- ^^^^^ expected `usize`, found type parameter `Label`
+     |                          |
+     |                          arguments to this method are incorrect
+     |
+     = note:        expected type `usize`
+             found type parameter `Label`
+```
 
 ## Lifetimes parameters
 

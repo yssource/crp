@@ -44,11 +44,11 @@ variants, the visitor pattern is sometimes used for this situation, especially
 when using versions of the C++ standard before the introduction of
 `std::variant`. In most of these cases the idiomatic Rust solution is the same
 as what one would do when converting a C++ solution that uses tagged unions. The
-chapter on the [visitor pattern](TODO) describes when to use a Rust version of
-the visitor pattern or when to use Rust's enums (which are closer to
-`std::variant` than to C++ enums) to model the data.
+chapter on the [visitor pattern](/patterns/visitor.md) describes when to use a
+Rust version of the visitor pattern or when to use Rust's enums (which are
+closer to `std::variant` than to C++ enums) to model the data.
 
 ## Varying data and operations
 
 When both data and operations may be extended by a client, the [visitor pattern
-is used in both C++ and in Rust](TODO).
+is used in both C++ and in Rust](/patterns/visitor.md).

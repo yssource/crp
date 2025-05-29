@@ -19,7 +19,7 @@ a user-defined copy constructor or copy assignment operator, then a user-defined
 move constructor and move assignment should also be provided, because no
 implicit move constructor or move assignment operator will be generated.
 
-In Rust, this rule does not apply because of the [difference in move semantics
+In Rust, this rule is not relevant because of the [difference in move semantics
 between C++ and Rust.](copy_and_move_constructors.md#move-constructors)
 
 ## Rule of zero
@@ -43,3 +43,5 @@ accomplish the same goal, one instead must define a new type with a user-defined
 `Drop` implementation, as is done in [the example in the chapter on copy and
 move
 constructors](/idioms/constructors/copy_and_move_constructors.md#user-defined-constructors).
+
+{{#quiz rule_of_three_five_zero.toml}}

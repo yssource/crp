@@ -459,4 +459,71 @@ help: ensure that all possible cases are being handled by adding a match arm wit
 
 </div>
 
+## Using unsafe Rust to avoid checking the discriminant
+
+In situations where rewriting code to use the [above
+approach](#accessing-the-value-without-checking-the-discriminant) is not
+possible, one can check the discriminant anyway and then use the [`unreachable!`
+macro](https://doc.rust-lang.org/std/macro.unreachable.html) to avoid handling
+the impossible case. However, that still involves actually checking the
+discriminant. If the cost of checking the discriminant must be avoided, then the
+[unsafe function
+`unreachable_unchecked`](https://doc.rust-lang.org/std/hint/fn.unreachable_unchecked.html)
+can be used to both avoid handling the case and to indicate to the compiler that
+the optimizer should assume that the case cannot be reached, so the discriminant
+check can be optimized away.
+
+Much like how in the C++ example accessing an inactive variant is undefined
+behavior, reaching `unreachable_unchecked` is also undefined behavior.
+
+```rust
+# enum Shape {
+#     Rectangle { width: f64, height: f64 },
+#     Triangle { base: f64, height: f64 },
+# }
+#
+# impl Shape {
+#     fn area(&self) -> f64 {
+#         match self {
+#             Shape::Rectangle {
+#                 width,
+#                 height,
+#             } => width * height,
+#             Shape::Triangle { base, height } => {
+#                 0.5 * base * height
+#             }
+#         }
+#     }
+# }
+#
+# fn get_triangles() -> Vec<Shape> {
+#     vec![
+#         Shape::Triangle {
+#             base: 1.0,
+#             height: 1.0,
+#         },
+#         Shape::Triangle {
+#             base: 1.0,
+#             height: 1.0,
+#         },
+#     ]
+# }
+#
+use std::hint::unreachable_unchecked;
+
+fn main() {
+    let mut total_base = 0.0;
+    for triangle in get_triangles() {
+        match triangle {
+            Shape::Triangle { base, .. } => {
+                total_base += base;
+            }
+            _ => unsafe {
+                unreachable_unchecked();
+            },
+        }
+    }
+}
+```
+
 {{#quiz tagged_unions.toml}}

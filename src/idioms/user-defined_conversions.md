@@ -9,6 +9,15 @@ conversions occur with regularity in C++ code. In the following example both the
 assignments and the function calls make use of implicit conversions as provided
 by a converting constructor.
 
+Rust makes significantly less use of implicit conversions. Instead most
+conversions are explicit. The
+[`std::convert`](https://doc.rust-lang.org/std/convert/index.html) module
+provides several traits for working with user-defined conversions. In Rust, the
+below example makes use of explicit conversions by implementing the [`From`
+trait](https://doc.rust-lang.org/std/convert/trait.From.html).
+
+<div class="comparison">
+
 ```cpp
 struct Widget {
   Widget(int) {}
@@ -26,15 +35,6 @@ int main() {
   return 0;
 }
 ```
-
-Rust makes significantly less use of implicit conversions. Instead most
-conversions are explicit. The
-[`std::convert`](https://doc.rust-lang.org/std/convert/index.html) module
-provides several traits for working with user-defined conversions.
-
-In Rust, the above example would make use of explicit conversions by
-implementing the [`From`
-trait](https://doc.rust-lang.org/std/convert/trait.From.html).
 
 ```rust
 struct Widget;
@@ -67,15 +67,27 @@ fn main() {
 }
 ```
 
+</div>
+
 The `into` method used above is provided via a [blanket
 implementations](https://doc.rust-lang.org/book/ch10-02-traits.html#using-trait-bounds-to-conditionally-implement-methods)
 for the [`Into trait`](https://doc.rust-lang.org/std/convert/trait.Into.html)
-for types that implement the `From` trait.
+for types that implement the `From` trait. Because of the existence of the
+[blanket
+implementation](https://doc.rust-lang.org/std/convert/trait.Into.html#impl-Into%3CU%3E-for-T),
+it is generally preferred to implement the `From` trait instead of the `Into`
+trait, and let the `Into` trait be provided by that blanket implementation.
 
 ## Conversion functions
 
 C++ conversion functions enable conversions in the other direction, from the
 defined class to another type.
+
+To achieve the same in Rust, the `From` trait can be implemented in the other
+direction. At least one of the source type or the target type must be defined in
+the same crate as the trait implementation.
+
+<div class="comparison">
 
 ```cpp
 #include <utility>
@@ -84,7 +96,9 @@ struct Point {
   int x;
   int y;
 
-  operator std::pair<int, int>() const { return std::pair(x, y); }
+  operator std::pair<int, int>() const {
+    return std::pair(x, y);
+  }
 };
 
 void process(std::pair<int, int>) {}
@@ -99,10 +113,6 @@ int main() {
   return 0;
 }
 ```
-
-To achieve the same in Rust, the `From` trait can be implemented in the other
-direction, so long as the one of the source or target type is defined in the
-same module as the trait implementation.
 
 ```rust
 struct Point {
@@ -127,16 +137,24 @@ fn main() {
 }
 ```
 
-Conversion functions are is often used to implement the safe bool pattern,
-[which is addressed in a different way in
+</div>
+
+Conversion functions are is often used to implement the safe bool pattern in
+C++, [which is addressed in a different way in
 Rust](/idioms/promotions_and_conversions.md#safe-bools).
 
 
 ## Borrowing conversions
 
-An important part of `From` is that the conversion takes ownership of the
-converted value. When this is not desired in C++, the conversion function can
-just take and return references.
+The methods in the `From` and `Into` traits take ownership of the values to be
+converted. When this is not desired in C++, the conversion function can just
+take and return references.
+
+To achieve the same in Rust the [`AsRef`
+ trait](https://doc.rust-lang.org/std/convert/trait.AsRef.html) or [`AsMut`
+ trait](https://doc.rust-lang.org/std/convert/trait.AsMut.html) are used.
+
+<div class="comparison">
 
 ```cpp
 #include <iostream>
@@ -145,28 +163,23 @@ just take and return references.
 struct Person {
   std::string name;
 
-  operator std::string &() { return this->name; }
+  operator std::string &() {
+    return this->name;
+  }
 };
 
-void process(std::string &name) { std::cout << name << std::endl; }
+void process(const std::string &name) {
+  std::cout << name << std::endl;
+}
 
-// Prints:
-// Alice
-// Alice
 int main() {
   Person alice{"Alice"};
 
   process(alice);
 
-  std::cout << alice.name << std::endl;
-
   return 0;
 }
 ```
-
-To achieve this in Rust the [`AsRef`
- trait](https://doc.rust-lang.org/std/convert/trait.AsRef.html) or [`AsMut`
- trait](https://doc.rust-lang.org/std/convert/trait.AsMut.html) can be used.
 
 ```rust
 struct Person {
@@ -179,28 +192,26 @@ impl AsRef<str> for Person {
     }
 }
 
-impl AsMut<str> for Person {
-    fn as_mut(&mut self) -> &mut str {
-        &mut self.name
-    }
+fn process(name: &str) {
+    println!("{}", name);
 }
-
-fn process<T: AsRef<str>>(name: T) {}
 
 fn main() {
     let alice = Person {
         name: "Alice".to_string(),
     };
 
-    process(alice);
+    process(alice.as_ref());
 }
 ```
 
-It is common to use `AsRef` as a trait bound in function definitions. Providing
-such a bound allows clients to call the functions with anything that can be
-cheaply viewed as the type that the function wants to work with. With this in
-mind, the above definition of `process` would be defined as in the following
-example.
+</div>
+
+It is common to use `AsRef` or `AsMut` as a trait bound in function definitions.
+Using generics with an `AsRef` or `AsMut` bound allows clients to call the
+functions with anything that can be cheaply viewed as the type that the function
+wants to work with. Using this technique, the above definition of `process`
+would be defined as in the following example.
 
 ```rust
 # struct Person {
@@ -213,13 +224,9 @@ example.
 #     }
 # }
 #
-# impl AsMut<str> for Person {
-#     fn as_mut(&mut self) -> &mut str {
-#         &mut self.name
-#     }
-# }
-#
-fn process<T: AsRef<str>>(name: T) {}
+fn process<T: AsRef<str>>(name: T) {
+    println!("{}", name.as_ref());
+}
 
 fn main() {
     let alice = Person {
@@ -235,8 +242,18 @@ literal strings can more easily be used as paths.
 
 ## Fallible conversions
 
-In C++ when conversions might fail it is possible (though bad practice) to throw
-an exception from the converting constructor or converting function.
+In C++ when conversions might fail it is possible (though usually discouraged)
+to throw an exception from the converting constructor or converting function.
+
+Error handling in Rust [does not use exceptions](/idioms/exceptions.md). Instead
+the [`TryFrom` trait](https://doc.rust-lang.org/std/convert/trait.TryFrom.html)
+and [`TryInto` trait](https://doc.rust-lang.org/std/convert/trait.TryInto.html)
+are used for fallible conversions. These traits differ from `From` and `Into` in
+that they return a `Result`, which may indicate a failing case. When a
+conversion may fail one should implement `TryFrom` and rely on the client to
+call `unwrap` on the result, rather than panic in a `From` implementation.
+
+<div class="comparison">
 
 ```cpp
 #include <stdexcept>
@@ -261,14 +278,6 @@ int main() {
 }
 ```
 
-Because error handling in Rust [does not use exceptions](TODO), the [`TryFrom`
-trait](https://doc.rust-lang.org/std/convert/trait.TryFrom.html) and [`TryInto`
-trait](https://doc.rust-lang.org/std/convert/trait.TryInto.html) can be
-implemented instead. These traits differ from `From` and `Into` in that they
-return a `Result`, which may indicate a failing case. When a conversion may fail
-one should implement `TryFrom` and rely on the client to call `unwrap` on the
-result, rather than panic in a `From` implementation.
-
 ```rust
 use std::convert::TryFrom;
 use std::convert::TryInto;
@@ -283,7 +292,10 @@ struct NonEmptyStringError;
 impl TryFrom<String> for NonEmpty {
     type Error = NonEmptyStringError;
 
-    fn try_from(s: String) -> Result<NonEmpty, NonEmptyStringError> {
+    fn try_from(
+        s: String,
+    ) -> Result<NonEmpty, NonEmptyStringError>
+    {
         if s.is_empty() {
             Err(NonEmptyStringError)
         } else {
@@ -293,7 +305,10 @@ impl TryFrom<String> for NonEmpty {
 }
 
 fn main() {
-    let res: Result<NonEmpty, NonEmptyStringError> = "".to_string().try_into();
+    let res: Result<
+        NonEmpty,
+        NonEmptyStringError,
+    > = "".to_string().try_into();
     match res {
         Ok(ne) => {
             println!("Converted!");
@@ -304,6 +319,12 @@ fn main() {
     }
 }
 ```
+
+</div>
+
+Just like with `From` and `Into`, there is a [blanket
+implementation](https://doc.rust-lang.org/std/convert/trait.TryInto.html#impl-TryInto%3CU%3E-for-T)
+for `TryInto` for everything that implements `TryFrom`.
 
 ## Implicit conversions
 
@@ -322,3 +343,5 @@ the traits for a custom pointer-like type is given in the Rust book.
 A summary of when to use which kind of conversion interface is given in the
 documentation for the [`std::convert`
 module](https://doc.rust-lang.org/std/convert/index.html).
+
+{{#quiz user-defined_conversions.toml}}

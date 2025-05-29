@@ -40,7 +40,7 @@ struct Person {
         best_friend(best_friend) {}
 
   // copy and move constructors and destructor
-  // implicilty declared and defined
+  // implicitly declared and defined
 };
 ```
 
