@@ -19,7 +19,7 @@ values.
 
 For example, when implementing the copy-assignment operator, one might
 short-circuit when the copied object and the assignee are the same.
-Not that in this use the pointer values are not stored.
+Note that in this use the pointer values are not stored.
 
 This kind of optimization is unnecessary when implementing [Rust's equivalent to
 the copy assignment

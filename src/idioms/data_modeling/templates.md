@@ -74,7 +74,7 @@ impl<Label> DirectedGraph<Label> {
         to: usize,
     ) -> Result<(), &str> {
         let num_nodes = self.num_nodes();
-        if from > num_nodes || to > num_nodes {
+        if from >= num_nodes || to >= num_nodes {
             Err("Node index out of range.")
         } else {
             self.adjacencies[from].push(to);

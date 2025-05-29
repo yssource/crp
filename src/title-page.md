@@ -8,7 +8,7 @@ look for the corresponding chapter in this book.
 
 This book was hand-written by expert C++ and Rust programmers to provide accurate information with a tasteful degree of detail. No text in this book was written by AI.
 
-If would like updates on when we add new chapters to this book, you can [drop your email here](https://forms.gle/rcrdZihmT81LWy6F6).
+If you would like updates on when we add new chapters to this book, you can [drop your email here](https://forms.gle/rcrdZihmT81LWy6F6).
 
 ## Other resources
 

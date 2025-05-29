@@ -50,7 +50,7 @@ struct A {
     other.id = 0;
   }
 
-  // deconstructor
+  // destructor
   ~A() {
     std::cout << id << std::endl;
   }
@@ -109,7 +109,7 @@ fn main() {
 
 </div>
 
-In Rust, after ownership of `y` is moved into the function `acccept`, there is
+In Rust, after ownership of `y` is moved into the function `accept`, there is
 no additional object remaining, and so there is no additional `Drop::drop` call
 (which in the C++ example prints `0`).
 
