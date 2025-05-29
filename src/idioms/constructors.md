@@ -1,39 +1,7 @@
 # Constructors
 
-In C++, constructors initialize objects.
-
-```cpp
-class Person {
-  int age;
-
-public:
-  Person(int a) : age(a) {}
-};
-
-int main() {
-  Person person(42);
-  // ...
-}
-```
-
-At the point when a constructor is executed, storage for the object has been
+In C++, constructors initialize objects. At the point when a constructor is executed, storage for the object has been
 allocated and the constructor is only performing initialization.
-
-```cpp
-class Person {
-  int age;
-  // non-owning pointer
-  Person *best_friend;
-
-public:
-  Person(int a) : age(a), best_friend(this) {}
-};
-
-int main() {
-  Person person(42);
-  // ...
-}
-```
 
 Rust does not have constructors in the same way as C++. In Rust, there is a
 single fundamental way to create an object, which is to initialize all of its
@@ -42,28 +10,61 @@ to something more like a factory: a static method associated with a type (i.e.,
 a method that does not have a `self` parameter), which returns a value of the
 type.
 
+<div class="comparison">
+
+```cpp
+$#include <thread>
+$unsigned int cpu_count() { 
+$    return std::thread::hardware_concurrency();
+$}
+$
+class ThreadPool {
+  unsigned int num_threads;  
+
+public:
+  ThreadPool() : num_threads(cpu_count()) {}
+  ThreadPool(unsigned int nt) : num_threads(nt) {}
+};
+
+int main() {
+  ThreadPool p1;
+  ThreadPool p2(4);
+}
+```
+
 ```rust
-struct Person {
-    age: i32
+# fn cpu_count() -> usize {
+#     std::thread::available_parallelism().unwrap().get()
+# }
+# 
+struct ThreadPool {
+  num_threads: usize
 }
 
-impl Person {
-    const fn with_age(a: i32) -> Self {
-        Self { age: a }
+impl ThreadPool {
+    fn new() -> Self {
+        Self { num_threads: cpu_count() }
+    }
+
+    fn with_threads(nt: usize) -> Self {
+        Self { num_threads: nt } 
     }
 }
 
 fn main() {
-    let person = Person::with_age(42);
-    // ...
+    let p1 = ThreadPool::new();
+    let p2 = ThreadPool::with_threads(4);
 }
 ```
 
-Typically the primary constructor for a type is named `new`, especially if it
-takes no arguments. See the chapter on [default
-constructors](constructors/default_constructors.html). Constructors based on
-some specific property of the value are usually named `with_details` (e.g.,
-`Person::with_name`). See the [naming
+</div>
+
+
+In Rust, typically the primary constructor for a type is named `new`, especially if it
+takes no arguments. (See the chapter on [default
+constructors](constructors/default_constructors.html).) Constructors based on
+some specific property of the value are usually named `with_<something>`, e.g.,
+`ThreadPool::with_threads`. See the [naming
 guidelines](https://rust-lang.github.io/api-guidelines/naming.html) for the
 conventions on how to name constructor methods in Rust.
 
@@ -89,7 +90,6 @@ fn main() {
         x: 1,
         ..Point::zero()
     };
-    // ...
 }
 ```
 
@@ -99,21 +99,21 @@ so.
 
 ## Storage allocation vs initialization
 
-The actual construction of a structure or enum value in Rust occurs where the
-structure construction syntax `A { ... }` is, after the evaluation of the
+In Rust, the actual construction of a structure or enum value occurs where the
+structure construction syntax `ThreadPool { ... }` is, after the evaluation of the
 expressions for the fields.
 
 A significant implication of this difference is that storage is not allocated
 for a struct in Rust at the point where the constructor method (such as
-`Person::with_age`) is called, and in fact is not allocated until after the
+`ThreadPool::with_threads`) is called, and in fact is not allocated until after the
 values of the fields of a struct have been computed (in terms of the semantics
 of the language &mdash; the optimizer may still avoid the copy). Therefore there is no
-easy way in Rust to write the C++ example above where the class stores a pointer to
-itself upon construction (this requires tools like [`Pin`](https://doc.rust-lang.org/std/pin/struct.Pin.html) and [`MaybeUninit`](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html)).
+straightforward way in Rust to translate patterns such as a class which stores a pointer to
+itself upon construction (in Rust, this requires tools like [`Pin`](https://doc.rust-lang.org/std/pin/struct.Pin.html) and [`MaybeUninit`](https://doc.rust-lang.org/std/mem/union.MaybeUninit.html)).
 
 ## Fallible constructors
 
-In C++ the only way constructors can indicate failure is by throwing exceptions. In Rust, because constructors are normal static methods, fallible constructors
+In C++, the primary way constructors can indicate failure is by throwing exceptions. In Rust, because constructors are normal static methods, fallible constructors
 can instead return `Result` (akin to `std::expected`) or `Option` (akin to
 `std::optional`).
 
@@ -123,20 +123,20 @@ can instead return `Result` (akin to `std::expected`) or `Option` (akin to
 #include <iostream>
 #include <stdexcept>
 
-class Person {
-  int age;
+class ThreadPool {
+  unsigned int num_threads;
 
 public:
-  Person(int a) : age(a) {
-    if (age < 0) {
-      throw std::domain_error("Bad argument");
+  ThreadPool(unsigned int nt) : num_threads(nt) {
+    if (num_threads == 0) {
+      throw std::domain_error("Cannot have zero threads");
     }
   }
 };
 
 int main() {
   try {
-    Person person(-4);
+    ThreadPool p(0);
   } catch (const std::domain_error &e) {
     std::cout << e.what() << std::endl;
   }
@@ -144,31 +144,24 @@ int main() {
 ```
 
 ```rust
-struct Person {
-    age: i32,
+struct ThreadPool {
+    num_threads: usize,
 }
 
-#[derive(Debug)]
-struct NegativeAgeError(i32);
-
-impl Person {
-    fn with_age(a: i32) -> Result<Self, NegativeAgeError> {
-        if a < 0 {
-            Err(NegativeAgeError(a))
+impl ThreadPool {
+    fn with_threads(nt: usize) -> Result<Self, String> {
+        if nt == 0 {
+            Err("Cannot have zero threads".to_string())
         } else {
-            Ok(Self { age: a })
+            Ok(Self { num_threads: nt })
         }
     }
 }
 
 fn main() {
-    match Person::with_age(-4) {
-        Err(err) => {
-            println!("{err:?}");
-        }
-        Ok(person) => {
-            // ...
-        }
+    match ThreadPool::with_threads(0) {
+        Err(err) => println!("{err}"),        
+        Ok(p) => { /* ... */ }
     }
 }
 ```
