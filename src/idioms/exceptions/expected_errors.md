@@ -408,7 +408,7 @@ warning: unused `Result` that must be used
 help: use `let _ = ...` to ignore the resulting value
   |
 3 |     let _ = std::io::stdin().read_line(&mut buffer);
-  |     +++++++text
+  |     +++++++
 ```
 
 `Option` does not have a `#[must_use]` attribute, so functions that return an
