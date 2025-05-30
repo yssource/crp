@@ -35,7 +35,7 @@
 - [Type promotions and conversions](./idioms/promotions_and_conversions.md)
 - [User-defined conversions](./idioms/user-defined_conversions.md)
 - [Overloading](./idioms/overloading.md)
-- [RTTI]()
+- [RTTI and `dynamic_cast`](./idioms/rtti.md)
 - [Iterators]()
 - [Function objects, lambdas, and closures]()
 - [Object identity](./idioms/object_identity.md)
