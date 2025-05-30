@@ -6,7 +6,7 @@ The book can be read front-to-back, but it is designed to be used random-access.
 When you are writing Rust code and think, "I know how to do this in C++ but not Rust," then
 look for the corresponding chapter in this book.
 
-This book was hand-written by expert C++ and Rust programmers to provide accurate information with a tasteful degree of detail. No text in this book was written by AI.
+This book was hand-written by expert C++ and Rust programmers at Brown University's [Cognitive Engineering Lab](https://cel.cs.brown.edu/). Our goal is provide accurate information with a tasteful degree of detail. No text in this book was written by AI.
 
 If you would like updates on when we add new chapters to this book, you can [drop your email here](https://forms.gle/rcrdZihmT81LWy6F6).
 
