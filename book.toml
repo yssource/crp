@@ -1,9 +1,11 @@
 [book]
+title = "C++ to Rust Phrasebook"
 authors = ["Cognitive Engineering Lab"]
 language = "en"
+description = "A book to help translate C++ idioms into Rust."
 multilingual = false
 src = "src"
-title = "C++ to Rust Phrasebook"
+
 
 [output.html]
 additional-css = ["custom.css"]
