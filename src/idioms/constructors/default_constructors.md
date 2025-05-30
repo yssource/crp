@@ -184,7 +184,7 @@ fn main() {
 </div>
 
 If the type happens to be [trivially
-copyable](/idioms/constructors/copy_and_move_constructors.md#trivially-copyable-types),
+copyable](./copy_and_move_constructors.md#trivially-copyable-types),
 then a shorthand can be used.
 
 ```rust
@@ -260,7 +260,7 @@ fn main() {
 
 If the type implements the `Clone` trait, then the array can be constructed
 using the `vec!` macro. See the chapter on [copy
-constructors](/idioms/constructors/copy_and_move_constructors.md) for more
+constructors](./copy_and_move_constructors.md) for more
 details on `Clone`.
 
 ```rust
@@ -335,7 +335,7 @@ public:
 
 Since Rust does not have inheritance, there is no equivalent to this case.
 See the chapter on [implementation
-reuse](/idioms/data_modeling/inheritance_and_reuse.md) or the section on [traits
+reuse](../data_modeling/inheritance_and_reuse.md) or the section on [traits
 in the Rust book](https://doc.rust-lang.org/book/ch10-02-traits.html) for
 alternatives.
 

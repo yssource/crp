@@ -222,7 +222,7 @@ The major difference between these implementations is that in the C++ version
 `operator>` is used on the values without knowing whether the operator is
 defined for the type. In the Rust version, there is a constraint requiring that
 the `Label` type implement the `Ord` trait. (See the chapter on [concepts,
-interfaces, and static dispatch](/idioms/data_modeling/concepts.md) for more
+interfaces, and static dispatch](./concepts.md) for more
 details on Rust traits and how they relate to C++ concepts.)
 
 Unlike C++ templates, generic definitions in Rust are type checked at the point
@@ -402,7 +402,7 @@ concrete types and does not have method overriding, this is sufficient to avoid
 the need to pass the implementing type as a type parameter.
 
 For examples of this, see the chapter on the [curiously reoccurring template
-pattern](/patterns/crtp.md#method-chaining).
+pattern](../../patterns/crtp.md#method-chaining).
 
 ## A note on type checking and type errors
 
@@ -539,7 +539,7 @@ additional copies of the function to be generated in the compiled code, because
 lifetimes do not impact the runtime representation.
 
 The chapter on concepts includes [examples of how lifetimes interact with Rust's
-generics](/idioms/data_modeling/concepts.md#generics-and-lifetimes).
+generics](./concepts.md#generics-and-lifetimes).
 
 ## Conditional compilation
 
@@ -553,6 +553,6 @@ and `cfg!` macro](https://doc.rust-lang.org/rust-by-example/attribute/cfg.html).
 
 The separation of conditional compilation from generics in Rust involves similar
 design considerations as the omission of [template
-specialization](/idioms/data_modeling/template_specialization.md) from Rust.
+specialization](./template_specialization.md) from Rust.
 
 {{#quiz templates.toml}}

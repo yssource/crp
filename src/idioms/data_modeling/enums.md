@@ -7,7 +7,7 @@ when working with hardware, system calls, or protocol implementations.
 For example, the various modes for a GPIO pin could be modeled as an enum, which
 would restrict methods using the mode to valid values.
 
-While Rust enums are [more general](/idioms/data_modeling/tagged_unions.md),
+While Rust enums are [more general](./tagged_unions.md),
 they can still be used for this sort of modeling.
 
 <div class="comparison">
@@ -155,7 +155,7 @@ fn main() {
 
 </div>
 
-See [Exceptions and error handling](/idioms/exceptions.md) for examples of how
+See [Exceptions and error handling](../exceptions.md) for examples of how
 to ergonomically handle the result of `try_from`.
 
 If low-level performance is more of a concern than memory safety,

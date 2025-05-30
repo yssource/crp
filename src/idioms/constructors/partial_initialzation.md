@@ -8,7 +8,7 @@ and initialization.
   Rust](#using-virtual-methods-during-initialization).
 - For pre-allocating storage or re-using allocated objects, the techniques and
   limitations described in the chapter on [pre-allocated
-  buffers](/idioms/out_params/pre-allocated_buffers.md) apply.
+  buffers](../out_params/pre-allocated_buffers.md) apply.
 
 ## Rust builder pattern
 
@@ -118,7 +118,7 @@ when not all of required fields are set.
 If there is a reasonable default value for a type, then instead of the builder
 pattern, the `Default` trait can be implemented. [Values can be constructed
 based on the default value proved by the `Default`
-implementation](/idioms/constructors/default_constructors.md#struct-update).
+implementation](./default_constructors.md#struct-update).
 
 ### Why builders are more common in Rust than in C++
 

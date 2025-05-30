@@ -23,7 +23,7 @@ Note that in this use the pointer values are not stored.
 
 This kind of optimization is unnecessary when implementing [Rust's equivalent to
 the copy assignment
-operator](/idioms/constructors/copy_and_move_constructors.md#assignment-operators)
+operator](./constructors/copy_and_move_constructors.md#assignment-operators)
 `Clone::clone_from`. The type of `Clone::clone_from` prevents the same object
 from being passed as both arguments, because one of the arguments is a mutable
 reference, which is exclusive, and so prevents the other reference argument from

@@ -83,7 +83,7 @@ or array-specific functionality is needed.
 Unlike in C++ where the conversion from arrays to pointers is built into the
 language, this is actually a general mechanism provided by the [`Deref`
 trait](https://doc.rust-lang.org/std/ops/trait.Deref.html), which provides one
-kind of [user-defined conversion](/idioms/user-defined_conversions.md).
+kind of [user-defined conversion](./user-defined_conversions.md).
 
 ## Function to pointer
 
@@ -309,7 +309,7 @@ In C++ enums can be implicitly converted to integer types.
 In Rust the conversion requires the use of the `as` operator, and providing
 `From` and `TryFrom` implementations to move back and forth between the enum and
 its representation type is recommended. Examples and additional details are
-given in the [chapter on enums](/idioms/data_modeling/enums.md).
+given in the [chapter on enums](./data_modeling/enums.md).
 
 ## Qualification conversion
 
@@ -479,6 +479,6 @@ fn main() {
 ## User-defined conversions
 
 User-defined conversions are covered in a [separate
-chapter](/idioms/user-defined_conversions.md).
+chapter](./user-defined_conversions.md).
 
 {{#quiz promotions_and_conversions.toml}}

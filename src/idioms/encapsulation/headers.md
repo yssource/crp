@@ -5,7 +5,7 @@ translation units to other translation units without requiring the duplication
 of the declarations in multiple files. By convention, declarations that are not
 included in the header are considered to be private to the defining translation
 unit (though, to enforce this convention other mechanisms, such as [anonymous
-namespaces](/idioms/encapsulation/anonymous_namespaces.md), are required).
+namespaces](./anonymous_namespaces.md), are required).
 
 In contrast, Rust uses neither textually-included header files nor forward
 declarations. Instead, Rust modules control visibility and linkage
@@ -101,6 +101,6 @@ the module themselves.
 Modules and visibility declarations are more powerful than shown in the above
 example. More details on how to use modules, `pub`, and `use` to achieve
 encapsulation goals are described in the chapter on [private members and
-friends](/idioms/encapsulation/private_and_friends.md).
+friends](./private_and_friends.md).
 
 {{#quiz headers.toml}}

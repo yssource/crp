@@ -2,7 +2,7 @@
 
 Rust does not have inheritance and so the primary means of reuse of
 implementations in Rust are composition, aggregation, and
-[generics](/idioms/data_modeling/templates.md).
+[generics](./templates.md).
 
 However, Rust traits do have support for default methods which resemble one
 simple case of using inheritance for reuse of implementations. For example, in
@@ -95,10 +95,10 @@ In practice, the `resetDevice()` method in the `Device` class might be made
 non-virtual in C++ if it is not expected that it will be overridden. In order to
 make it align with the Rust example, we have made it virtual here, since Rust
 traits can be used either for [dynamic
-dispatch](/idioms/data_modeling/abstract_classes.md) or [static
-dispatch](/idioms/data_modeling/concepts.md) (with [no vtable overhead in the
+dispatch](./abstract_classes.md) or [static
+dispatch](./concepts.md) (with [no vtable overhead in the
 static dispatch
-case](/idioms/data_modeling/abstract_classes.md#vtables-and-rust-trait-object-types)).
+case](./abstract_classes.md#vtables-and-rust-trait-object-types)).
 
 Rust traits differ from abstract classes in few more ways. For example,
 Rust traits cannot define data members and cannot define private or protected

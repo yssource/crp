@@ -93,7 +93,7 @@ fn main() {
 </div>
 
 In the Rust example, the [constructor for `Person` is
-private](/idioms/encapsulation/private_constructors.md) because one of the
+private](./private_constructors.md) because one of the
 fields is private.
 
 ## Friends

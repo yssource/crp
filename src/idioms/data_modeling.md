@@ -24,8 +24,8 @@ interfaces that defines the required operations are defined. Concrete types,
 possibly defined by the client, implement those interfaces.
 
 This way of modeling data can make use of either
-[dynamic](/idioms/data_modeling/abstract_classes.md) or [static
-dispatch](/idioms/data_modeling/concepts.md), each of which is covered in its
+[dynamic](./data_modeling/abstract_classes.md) or [static
+dispatch](./data_modeling/concepts.md), each of which is covered in its
 own section.
 
 ## Fixed data, varying operations
@@ -37,7 +37,7 @@ available to use depend on the version of the standard in use.
 In older versions of the standard, one might use manually defined tagged unions.
 In newer versions, `std::variant` is available to improve the safety and
 ergonomics of tagged unions. [Both of these approaches map to the same approach
-in Rust](/idioms/data_modeling/tagged_unions.md).
+in Rust](./data_modeling/tagged_unions.md).
 
 Additionally, despite it not being strictly necessary to model a fixed set of
 variants, the visitor pattern is sometimes used for this situation, especially

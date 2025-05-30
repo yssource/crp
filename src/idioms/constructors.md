@@ -62,7 +62,7 @@ fn main() {
 
 In Rust, typically the primary constructor for a type is named `new`, especially if it
 takes no arguments. (See the chapter on [default
-constructors](constructors/default_constructors.html).) Constructors based on
+constructors](./constructors/default_constructors.html).) Constructors based on
 some specific property of the value are usually named `with_<something>`, e.g.,
 `ThreadPool::with_threads`. See the [naming
 guidelines](https://rust-lang.github.io/api-guidelines/naming.html) for the
@@ -169,5 +169,5 @@ fn main() {
 </div>
 
 
-See [the chapter on exceptions](/idioms/exceptions.md) for more information on
+See [the chapter on exceptions](./exceptions.md) for more information on
 how C++ exceptions and exception handling translate to Rust.

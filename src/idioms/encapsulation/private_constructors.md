@@ -4,7 +4,7 @@ In C++ constructors for classes can be made private by declaring them private,
 or by defining a class using `class` and using the default private visibility.
 
 In Rust, constructors (the actual constructors, not ["constructor
-methods"](/idioms/constructors.md)) for structs are visible from wherever the
+methods"](../constructors.md)) for structs are visible from wherever the
 type and all fields are visible. To achieve similar visibility restrictions as
 in the C++ example, an additional private field needs to be added to the struct
 in Rust. Because Rust supports zero-sized types, the additional field can have

@@ -32,8 +32,8 @@ dealing with ownership concerns so that the implicitly defined copy and move
 constructors are sufficient.
 
 In Rust, the same is true. See the list of Rust type equivalents for equivalents
-of C++ [smart pointer types](/idioms/type_equivalents.md#pointers) and
-equivalents of C++ [container types](/idioms/type_equivalents.md#containers).
+of C++ [smart pointer types](../type_equivalents.md#pointers) and
+equivalents of C++ [container types](../type_equivalents.md#containers).
 
 One difference between C++ and Rust in applying the rule of zero is that in C++
 `std::unique_ptr` can take a custom deleter, making it possible to use
@@ -42,6 +42,6 @@ logic. In Rust, the `Box` type is not parameterized in the same way. To
 accomplish the same goal, one instead must define a new type with a user-defined
 `Drop` implementation, as is done in [the example in the chapter on copy and
 move
-constructors](/idioms/constructors/copy_and_move_constructors.md#user-defined-constructors).
+constructors](./copy_and_move_constructors.md#user-defined-constructors).
 
 {{#quiz rule_of_three_five_zero.toml}}

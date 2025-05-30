@@ -18,10 +18,10 @@ implements the interface.
 This is more practical to do in Rust than in C++, because generics not being a
 general metaprogramming facility means that [generic entities can be type
 checked
-locally](/idioms/data_modeling/templates.md#a-note-on-type-checking-and-type-errors),
+locally](./templates.md#a-note-on-type-checking-and-type-errors),
 making them easier to define. It is more common to do in Rust than in C++
 because Rust does not have [implementation
-inheritance](/idioms/data_modeling/inheritance_and_reuse.md), so there is a
+inheritance](./inheritance_and_reuse.md), so there is a
 sharper line between interface and implementation than there is in C++.
 
 The following example shows how a Rust function can be implemented so that

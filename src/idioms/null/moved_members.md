@@ -87,5 +87,5 @@ $
 Rust's notion of moving objects does not involve leaving behind an object on
 which a destructor will be called, and so this use of null does not have a
 corresponding idiom. See the chapter on [copy and move
-constructors](/idioms/constructors/copy_and_move_constructors.md) for more
+constructors](../constructors/copy_and_move_constructors.md) for more
 details.

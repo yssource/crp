@@ -13,6 +13,7 @@ additional-js = ["telemetry/dist/telemetry.iife.js"]
 code.hidelines = {cpp = "$"}
 fold.enable = true
 fold.level = 1
+site-url = "https://cel.cs.brown.edu/crp"
 git-repository-url = "https://github.com/cognitive-engineering-lab/crp"
 
 [preprocessor.quiz]
@@ -20,4 +21,3 @@ initial-text = "Check your understanding"
 fullscreen = true
 
 # [output.linkcheck]
-# warning-policy = "ignore"

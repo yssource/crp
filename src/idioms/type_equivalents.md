@@ -62,7 +62,7 @@ In C++ pointers to or arrays of `char`, `unsigned char`, or `byte` are used to
 represent raw memory. In Rust, arrays (`[u8; N]`), vectors (`Vec<u8>`), or
 slices (`&[u8]`) of `u8` are used to accomplish the same goal. However,
 accessing the underlying memory of another Rust value in that way requires
-unsafe Rust. There are [libraries](/etc/libraries.md) for creating safe wrappers
+unsafe Rust. There are [libraries](../etc/libraries.md) for creating safe wrappers
 around that kind of access for purposes such as serialization or interacting
 with hardware.
 
@@ -117,7 +117,7 @@ encoding
 | representing bytes  | vectors, arrays, or slices of `u8` |
 | interacting with OS | `OsString` and `&OsStr`            |
 | representing UTF-8  | `String`                           |
-| representing UTF-16 | use [a library](/etc/libraries.md) |
+| representing UTF-16 | use [a library](../etc/libraries.md) |
 
 ### Boolean types
 
@@ -253,7 +253,7 @@ with different hash or comparison functions, one must use a wrapper type with a
 different implementation of the required trait.
 
 Some C++ container types provided by the STL have no equivalent in Rust. Many of
-those have equivalents available in third-party [libraries](/etc/libraries.md).
+those have equivalents available in third-party [libraries](../etc/libraries.md).
 
 One significant different in the use of these types between C++ in Rust is with
 the `Vec<T>` and array `[T; N]` types, from which slice references `&[T]` or

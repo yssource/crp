@@ -4,7 +4,7 @@ One idiom in C++ for optionally producing a result from a method or function is
 to use a reference parameter along with a boolean or integer return value to
 indicate whether the result was produced. This might be done for the same
 reasons as for using [out parameters for multiple return
-values](/idioms/out_params/multiple_return.md):
+values](./multiple_return.md):
 
 - compatibility with versions of C++ earlier than C++11,
 - working in a codebase that uses C-style of C++, and
@@ -78,7 +78,7 @@ fn main() {
 
 When there is useful information to provide in the failing case, the [`Result`
 type](https://doc.rust-lang.org/std/result/) can be used instead. The [chapter
-on error handling](/idioms/exceptions.md) describes the use of `Result`.
+on error handling](../exceptions.md) describes the use of `Result`.
 
 ## Returning a pointer
 
@@ -86,7 +86,7 @@ When the value being returned is a pointer, another common idiom in C++ is to
 use `nullptr` to represent the optional case. In the Rust translation of that
 idiom, `Option` is also used, along with a reference type, such as `&` or `Box`.
 See [the chapter on using `nullptr` as a sentinel
-value](/idioms/null/sentinel_values.md#nullptr) for more details.
+value](../null/sentinel_values.md#nullptr) for more details.
 
 ## Problems with the direct transliteration
 
@@ -120,7 +120,7 @@ fn main() {
 ```
 
 This shares the same problems as with using out-parameters for [multiple return
-values](/idioms/out_params/multiple_return.md#problems-with-the-direct-transliteration).
+values](./multiple_return.md#problems-with-the-direct-transliteration).
 
 ## Similarities with C++ since C++17
 
@@ -250,7 +250,7 @@ can be used, but is an unsafe method.
 There are [additional utility
 methods](https://doc.rust-lang.org/std/option/#boolean-operators) that enable
 concise handling of `Option` values, which this book covers in the chapter on
-[exceptions and error handling](/idioms/exceptions.md).
+[exceptions and error handling](../exceptions.md).
 
 ## An alternative approach
 

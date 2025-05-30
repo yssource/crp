@@ -242,7 +242,7 @@ fn print_area(shape: &dyn Shape) {}
 The decision to include the vtable in the reference instead of in the value is
 one part of what makes it reasonable to use traits both for polymorphism via
 dynamic dispatch and for [polymorphism via static dispatch, where one would use
-concepts in C++](/idioms/data_modeling/concepts.md).
+concepts in C++](./concepts.md).
 
 ## Limitations of trait objects in Rust
 

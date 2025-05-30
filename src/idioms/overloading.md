@@ -41,7 +41,7 @@ more structured way even in C++, using templates.
 
 When phrased this way, the example can be translated to Rust, with the notable
 addition of [requiring a trait bound on the
-type](/idioms/data_modeling/concepts.md).
+type](./data_modeling/concepts.md).
 
 <div class="comparison">
 
@@ -205,7 +205,7 @@ fn main() {
 
 Additionally, sometimes it is best to provide trait implementations for various
 combinations of reference types, especially for types that implement the [`Copy
-trait`](/idioms/constructors/copy_and_move_constructors.md), since they are
+trait`](./constructors/copy_and_move_constructors.md), since they are
 likely to want to be used either with or without taking a reference. For the
 example above, that involve defining four implementations.
 

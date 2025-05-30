@@ -141,7 +141,7 @@ fn main() {
 
 Conversion functions are is often used to implement the safe bool pattern in
 C++, [which is addressed in a different way in
-Rust](/idioms/promotions_and_conversions.md#safe-bools).
+Rust](./promotions_and_conversions.md#safe-bools).
 
 
 ## Borrowing conversions
@@ -245,7 +245,7 @@ literal strings can more easily be used as paths.
 In C++ when conversions might fail it is possible (though usually discouraged)
 to throw an exception from the converting constructor or converting function.
 
-Error handling in Rust [does not use exceptions](/idioms/exceptions.md). Instead
+Error handling in Rust [does not use exceptions](./exceptions.md). Instead
 the [`TryFrom` trait](https://doc.rust-lang.org/std/convert/trait.TryFrom.html)
 and [`TryInto` trait](https://doc.rust-lang.org/std/convert/trait.TryInto.html)
 are used for fallible conversions. These traits differ from `From` and `Into` in

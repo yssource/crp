@@ -111,7 +111,7 @@ The reason why nothing additional needs to be done for the default method to
 invoke area statically in Rust is that calls to methods on `self` are always
 resolved statically in Rust. This is possible because [Rust does not have
 inheritance between concrete
-types](/idioms/data_modeling/inheritance_and_reuse.md). Despite being defined in
+types](../idioms/data_modeling/inheritance_and_reuse.md). Despite being defined in
 the trait, the default method is actually implemented as part of the
 implementing struct.
 
@@ -242,7 +242,7 @@ fn main() {
 
 Again, the reason why `Self` can refer to the implementing type is that [Rust
 does not have inheritance between concrete
-types](/idioms/data_modeling/inheritance_and_reuse.md). This contrasts with C++
+types](../idioms/data_modeling/inheritance_and_reuse.md). This contrasts with C++
 where a value may be used at any number of types which are concrete, and so it
 would not be clear which type something like `Self` should refer to.
 

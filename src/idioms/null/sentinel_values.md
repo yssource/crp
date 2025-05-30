@@ -54,7 +54,7 @@ an uniquely owned pointer to some `T` on the heap, but unlike `std::unique_ptr`,
 it cannot be null. Rust's `Option<T>` is like `std::optional<T>` in C++, except
 that it can be used with pointers and references. In [those cases (and in some
 other
-cases)](/idioms/data_modeling/template_specialization.md#niche-optimization) the
+cases)](../data_modeling/template_specialization.md#niche-optimization) the
 compiler optimizes the representation to be the same size as `Box<T>` by
 leveraging the fact that `Box` cannot be null.
 
