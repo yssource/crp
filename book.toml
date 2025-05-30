@@ -4,7 +4,6 @@ language = "en"
 multilingual = false
 src = "src"
 title = "C++ to Rust Phrasebook"
-git-repository-url = "https://github.com/cognitive-engineering-lab/crp"
 
 [output.html]
 additional-css = ["custom.css"]
@@ -12,6 +11,7 @@ additional-js = ["telemetry/dist/telemetry.iife.js"]
 code.hidelines = {cpp = "$"}
 fold.enable = true
 fold.level = 1
+git-repository-url = "https://github.com/cognitive-engineering-lab/crp"
 
 [preprocessor.quiz]
 initial-text = "Check your understanding"
