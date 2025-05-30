@@ -23,9 +23,7 @@ Compared to resources like the [Rustonomicon](https://doc.rust-lang.org/nomicon/
 ## Feedback on this book
 
 At the bottom of every page there is a link
-to a form where you can submit feedback. Whether you've found a mistake or just
-want to let us know which topic you'd like us to cover next, use the form to
-send us a message.
+to a form where you can submit feedback: typos, factual errors, or any other issues you spot.
 
 If you answer the quizzes at the end of each chapter, we will save your
 responses anonymously for research purposes.

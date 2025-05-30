@@ -219,8 +219,8 @@ references are more like observer pointers than they are like C++ references.
 
 ### `void*`
 
-Rust does not have anything directly analogous to `void*` in C++. The [chapter
-on `RTTI`](/idioms/RTTI.md) covers some use cases where the goal is dynamic
+Rust does not have anything directly analogous to `void*` in C++. The upcoming chapter
+on `RTTI`<!--LINKME--> will cover some use cases where the goal is dynamic
 typing. The [FFI chapter of the
 Rustonomicon](https://doc.rust-lang.org/nomicon/ffi.html#representing-opaque-structs)
 covers some use cases where the goal is interoperability with C programs that

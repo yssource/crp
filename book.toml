@@ -1,9 +1,10 @@
 [book]
-authors = ["Brown University Cognitive Engineering Lab"]
+authors = ["Cognitive Engineering Lab"]
 language = "en"
 multilingual = false
 src = "src"
 title = "C++ to Rust Phrasebook"
+git-repository-url = "https://github.com/cognitive-engineering-lab/crp"
 
 [output.html]
 additional-css = ["custom.css"]
@@ -15,3 +16,6 @@ fold.level = 1
 [preprocessor.quiz]
 initial-text = "Check your understanding"
 fullscreen = true
+
+# [output.linkcheck]
+# warning-policy = "ignore"

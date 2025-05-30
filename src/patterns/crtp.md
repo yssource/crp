@@ -5,7 +5,7 @@ pattern](https://en.cppreference.com/w/cpp/language/crtp) is used to make the
 concrete type of the derived class available in the definition of methods
 defined in the base class.
 
-# Sharing implementations with static polymorphism
+## Sharing implementations with static polymorphism
 
 The basic use of the CRTP is for reducing redundancy in implementations that
 make use of static polymorphism. In this use case, the `this` pointer is cast to
@@ -115,7 +115,7 @@ types](/idioms/data_modeling/inheritance_and_reuse.md). Despite being defined in
 the trait, the default method is actually implemented as part of the
 implementing struct.
 
-# Method chaining
+## Method chaining
 
 Another common use for the CRTP is for implementing method chaining when an
 implementation of a method to be chained is provided by a base class.

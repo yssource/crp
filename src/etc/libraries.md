@@ -6,19 +6,25 @@ distributions or that are vendored.
 Rust programs tend to rely on a central registry of Rust libraries ("crates")
 called [crates.io](https://crates.io/) (along with a central documentation
 repository created from the in-code documentation of those crates called
-[Docs.rs](https://docs.rs/)). Dependencies on crates are managed using the
+[docs.rs](https://docs.rs/)). Dependencies on crates are managed using the
 [Cargo package manager](https://doc.rust-lang.org/cargo/index.html).
+
+[Lib.rs](https://lib.rs/) is a good resource for finding popular crates organized by category.
 
 ## Some specific alternatives
 
 | C++ library                   | Rust alternative                                            |
 |-------------------------------|-------------------------------------------------------------|
 | STL UTF-16 and UTF-32 strings | [widestring](https://docs.rs/widestring/latest/widestring/) |
-| STL `multiset`                |                                                             |
-| STL `multimap`                |                                                             |
-| Boost.Test                    | [cargo test](/etc/unit_tests.md)                            |
+| STL random                    | [rand](https://github.com/rust-random/rand)                 |
+| STL regex                     | [regex](https://github.com/rust-lang/regex)                 |
+| Boost.Test                    | [cargo test](https://doc.rust-lang.org/book/ch11-01-writing-tests.html) |
+| pybind11                      | [PyO3](https://pyo3.rs/)                                    |
+| OpenSSL                       | [rustls](https://github.com/rustls/rustls)                  |
+<!-- | STL `multiset`                |                                                             |
+| STL `multimap`                |                                                             | -->
 
-If there is a C++ library that you use that does not have an alternative listed,
+If there is a C++ library that you use where you cannot find a Rust alternative,
 please leave feedback using the link below, letting us know the name and purpose
 of the library.
 
