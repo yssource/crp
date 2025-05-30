@@ -316,7 +316,7 @@ fn main() {
 ## Implicit initialization of the base class object
 
 In C++, the default constructor is used to initialize the base class object if
-it no other constructor is specified.
+no other constructor is specified.
 
 ```cpp
 class Base {
