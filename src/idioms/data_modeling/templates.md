@@ -1,9 +1,9 @@
 # Template classes, functions, and methods
 
-The most common uses of templates in C++ are to define classes, methods, traits,
-or functions that work for any type (or at least for any type that provides
-certain methods). This use case is common in the STL for container classes (such
-as `<vector>`) and for the algorithms library (`<algorithm>`).
+The most common uses of templates in C++ are to define classes, methods, or
+functions that work for any type (or at least for any type that provides certain
+methods). This use case is common in the STL for container classes (such as
+`<vector>`) and for the algorithms library (`<algorithm>`).
 
 The following example defines a template for a directed graph represented as an
 adjacency list, where the graph is generic in the type of the labels on the
@@ -534,7 +534,7 @@ error[E0308]: mismatched types
 
 Rust's generics are also used for classes, methods, traits, and functions that
 are generic in the lifetimes of the references they manipulate. Unlike other
-type parameters, the using a function with different lifetimes does not cause
+type parameters, using a function with different lifetimes does not cause
 additional copies of the function to be generated in the compiled code, because
 lifetimes do not impact the runtime representation.
 
