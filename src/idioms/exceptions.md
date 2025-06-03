@@ -44,7 +44,7 @@ It is possible to convert between the two types.
 ```rust
 fn main() {
     let r: Result<i32, &'static str> =
-        None.ok_or("my errror message");
+        None.ok_or("my error message");
     let r2: Result<i32, &'static str> =
         None.ok_or_else(|| "expensive error message");
     let o: Option<i32> = r.ok();
