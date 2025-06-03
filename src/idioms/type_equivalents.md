@@ -19,23 +19,36 @@ to use, [it is common to default to `i32`, which is the type that Rust defaults
 to for integer
 literals](https://doc.rust-lang.org/book/ch03-02-data-types.html#integer-types).
 
-| C++ type   | Rust type |
-|------------|-----------|
-| `uint8_t`  | `u8`      |
-| `uint16_t` | `u16`     |
-| `uint32_t` | `u32`     |
-| `uint64_t` | `u64`     |
-| `int8_t`   | `i8`      |
-| `int16_t`  | `i16`     |
-| `int32_t`  | `i32`     |
-| `int64_t`  | `i64`     |
-| `size_t`   | `usize`   |
-|            | `isize`   |
+| C++ type    | Rust type |
+|-------------|-----------|
+| `uint8_t`   | `u8`      |
+| `uint16_t`  | `u16`     |
+| `uint32_t`  | `u32`     |
+| `uint64_t`  | `u64`     |
+| `int8_t`    | `i8`      |
+| `int16_t`   | `i16`     |
+| `int32_t`   | `i32`     |
+| `int64_t`   | `i64`     |
+| `size_t`    | `usize`   |
+| `ptrdiff_t` | `isize`   |
 
-In C++ `size_t` is conventionally used only for sizes and offsets. The same is
-true in Rust for `usize`, which is the pointer-sized integer type. The `isize`
-type is the signed equivalent of `usize` and has no direct equivalent in C++.
-The `isize` type is typically only used to represent pointer offsets.
+In C++ `size_t` is conventionally used only indexing, sizes, and offsets. The
+same is true in Rust for `usize`, which is the pointer-sized unsigned integer
+type. The pointer-sized signed integer type `isize` follows similar conventions.
+
+Some primitive C++ and POSIX types (such as `ssize_t` and `off_t` as return
+types) do not map to `isize` because the failure case is representing using
+`std::io::Result` instead of using a negative number as a [sentinel
+value](./null/sentinel_values.md). Others (such as `fpos_t` or `off_t` as
+a parameter type) are represented as a plain `u64` or have a more explicit
+representation in Rust.
+
+| C++ type                       | Rust type                                                                   |
+|--------------------------------|-----------------------------------------------------------------------------|
+| POSIX `ssize_t`                | [`std::io::Result<u64>`](https://doc.rust-lang.org/std/io/type.Result.html) |
+| POSIX `off_t` (as argument)    | `u64`                                                                       |
+| POSIX `off_t`(as return value) | [`std::io::Result<u64>`](https://doc.rust-lang.org/std/io/type.Result.html) |
+| `fpos_t`                       | [`std::io::SeekFrom`](https://doc.rust-lang.org/std/io/enum.SeekFrom.html)  |
 
 ### Floating point types
 
