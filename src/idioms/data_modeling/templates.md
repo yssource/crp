@@ -427,8 +427,8 @@ instantiates the generic structure with a concrete type.
 
 template <typename Label>
 class DirectedGraph {
-  // The mistake is here: size_t should be Label
   std::vector<std::vector<size_t>> adjacencies;
+  // The mistake is here: size_t should be Label
   std::vector<size_t> nodeLabels;
 
 public:
@@ -466,8 +466,8 @@ BOOST_AUTO_TEST_CASE(test_add_node_float) {
 
 ```rust,ignore
 pub struct DirectedGraph<Label> {
-    // The mistake is here: size_t should be Label
     adjacencies: Vec<Vec<usize>>,
+    // The mistake is here: size_t should be Label
     node_labels: Vec<usize>,
 }
 
