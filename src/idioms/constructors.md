@@ -133,7 +133,8 @@ class ThreadPool {
 public:
   ThreadPool(unsigned int nt) : num_threads(nt) {
     if (num_threads == 0) {
-      throw std::domain_error("Cannot have zero threads");
+      throw std::domain_error(
+          "Cannot have zero threads");
     }
   }
 };
@@ -152,10 +153,17 @@ struct ThreadPool {
     num_threads: usize,
 }
 
+#[derive(Debug)]
+enum ThreadPoolError {
+    ZeroThreads,
+}
+
 impl ThreadPool {
-    fn with_threads(nt: usize) -> Result<Self, String> {
+    fn with_threads(
+        nt: usize,
+    ) -> Result<Self, ThreadPoolError> {
         if nt == 0 {
-            Err("Cannot have zero threads".to_string())
+            Err(ThreadPoolError::ZeroThreads)
         } else {
             Ok(Self { num_threads: nt })
         }
@@ -164,14 +172,13 @@ impl ThreadPool {
 
 fn main() {
     match ThreadPool::with_threads(0) {
-        Err(err) => println!("{err}"),
+        Err(err) => println!("{:?}", err),
         Ok(p) => { /* ... */ }
     }
 }
 ```
 
 </div>
-
 
 See [the chapter on exceptions](./exceptions.md) for more information on
 how C++ exceptions and exception handling translate to Rust.
