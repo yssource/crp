@@ -251,7 +251,8 @@ fn main() {
 
 </div>
 
-In Rust, the vector can also be constructed from an iterator.
+In Rust, the vector can also be constructed [from an
+iterator](https://doc.rust-lang.org/book/ch13-02-iterators.html#methods-that-produce-other-iterators).
 
 ```rust
 #[derive(Default)]
