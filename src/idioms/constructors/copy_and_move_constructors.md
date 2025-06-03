@@ -70,7 +70,11 @@ equivalents](../type_equivalents.html#pointers) for more details.
 
 On the other hand, the following example requires a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
-The equivalent in Rust requires a custom implementation of the `Clone` trait.
+The equivalent in Rust requires a custom implementation of the `Clone` trait.[^deleter]
+
+[^deleter]: Another common approach to the C++ version of the example is to use
+    the `Deleter` template argument for `std::unique_ptr`. The version shown in
+    the example was chosen to make the correspondence to Rust version clearer.
 
 <div class="comparison">
 
