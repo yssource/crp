@@ -1,7 +1,7 @@
 # Default constructors
 
 C++ has a special concept of default constructors to support several scenarios
-in which they are implicitly called. 
+in which they are implicitly called.
 Rust does not have the same notion of a default constructor. The most similar mechanism is the [`Default`
 trait](https://doc.rust-lang.org/std/default/trait.Default.html).
 
@@ -175,7 +175,7 @@ struct Person {
 
 fn main() {
     // std::array::from_fn provides the index to the callback
-    let people: [Person; 3] = 
+    let people: [Person; 3] =
         std::array::from_fn(|_| Default::default());
     // ...
 }
@@ -235,7 +235,7 @@ struct Person {
 }
 
 fn main() {
-    let people_arr: [Person; 3] = 
+    let people_arr: [Person; 3] =
         std::array::from_fn(|_| Default::default());
     let people: Vec<Person> = Vec::from(people_arr);
     // ...
@@ -371,15 +371,37 @@ Rust is `Option<Box<Person>>`, for which the `Default` implementation produces
 makes use of `Default`, which makes getting a default value when the `Option`
 does not contain a value more convenient.
 
+<div class="comparison">
+
+```cpp
+#include <optional>
+#include <string>
+
+void go(std::optional<std::string> x) {
+  std::string a =
+      x.or_else([]() {
+         return std::make_optional<std::string>();
+       }).value();
+  // if x was nullopt, then a is ""
+
+  // ...
+}
+```
+
 ```rust
-fn go(x: Option<i32>) {
-    let a: i32 = x.unwrap_or_default();
-    // if x was None, then a is 0
+fn go(x: Option<String>) {
+    let a: String = x.unwrap_or_default();
+    // if x was None, then a is ""
 
     // ...
 }
 ```
 
-In C++, `std::optional` does not have an equivalent method.
+</div>
+
+In C++ `std::optional::value_or` is not equivalent, because it would always
+construct the default, as opposed to only constructing the default when the
+`std::optional` is `std::nullopt`. The equivalent requires using
+`std::optional::or_else`.
 
 {{#quiz default_constructors.toml}}
