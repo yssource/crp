@@ -14,12 +14,12 @@ type.
 
 ```cpp
 $#include <thread>
-$unsigned int cpu_count() { 
+$unsigned int cpu_count() {
 $    return std::thread::hardware_concurrency();
 $}
 $
 class ThreadPool {
-  unsigned int num_threads;  
+  unsigned int num_threads;
 
 public:
   ThreadPool() : num_threads(cpu_count()) {}
@@ -36,7 +36,7 @@ int main() {
 # fn cpu_count() -> usize {
 #     std::thread::available_parallelism().unwrap().get()
 # }
-# 
+#
 struct ThreadPool {
   num_threads: usize
 }
@@ -47,7 +47,7 @@ impl ThreadPool {
     }
 
     fn with_threads(nt: usize) -> Self {
-        Self { num_threads: nt } 
+        Self { num_threads: nt }
     }
 }
 
@@ -100,8 +100,8 @@ so.
 ## Storage allocation vs initialization
 
 In Rust, the actual construction of a structure or enum value occurs where the
-structure construction syntax `ThreadPool { ... }` is, after the evaluation of the
-expressions for the fields.
+structure construction syntax (e.g., `ThreadPool { ... }`) is, after the
+evaluation of the expressions for the fields (e.g., `cpu_count()`).
 
 A significant implication of this difference is that storage is not allocated
 for a struct in Rust at the point where the constructor method (such as
@@ -160,7 +160,7 @@ impl ThreadPool {
 
 fn main() {
     match ThreadPool::with_threads(0) {
-        Err(err) => println!("{err}"),        
+        Err(err) => println!("{err}"),
         Ok(p) => { /* ... */ }
     }
 }
