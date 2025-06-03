@@ -36,8 +36,8 @@ struct Person {
   Person(Age age,
          std::string name,
          std::shared_ptr<Person> best_friend)
-      : age(age), name(name),
-        best_friend(best_friend) {}
+      : age(std::move(age)), name(std::move(name)),
+        best_friend(std::move(best_friend)) {}
 
   // copy and move constructors and destructor
   // implicitly declared and defined
