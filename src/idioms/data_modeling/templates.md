@@ -26,7 +26,7 @@ class DirectedGraph {
 public:
   size_t addNode(Label label) {
     adjacencies.push_back(std::vector<size_t>());
-    nodeLabels.push_back(label);
+    nodeLabels.push_back(std::move(label));
     return numNodes() - 1;
   }
 
@@ -117,7 +117,7 @@ $
 public:
 $  size_t addNode(Label label) {
 $    adjacencies.push_back(std::vector<size_t>());
-$    nodeLabels.push_back(label);
+$    nodeLabels.push_back(std::move(label));
 $    return numNodes() - 1;
 $  }
 $
@@ -438,7 +438,7 @@ public:
 
   size_t addNode(Label label) {
     adjacencies.push_back(std::vector<size_t>());
-    nodeLabels.push_back(label);
+    nodeLabels.push_back(std::move(label));
     return numNodes() - 1;
   }
 
