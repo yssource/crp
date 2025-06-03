@@ -142,6 +142,7 @@ public:
 int main() {
   try {
     ThreadPool p(0);
+    // use p here
   } catch (const std::domain_error &e) {
     std::cout << e.what() << std::endl;
   }
@@ -173,7 +174,9 @@ impl ThreadPool {
 fn main() {
     match ThreadPool::with_threads(0) {
         Err(err) => println!("{:?}", err),
-        Ok(p) => { /* ... */ }
+        Ok(p) => {
+            // use p here
+        }
     }
 }
 ```
