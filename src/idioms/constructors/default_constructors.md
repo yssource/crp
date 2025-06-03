@@ -43,6 +43,9 @@ default constructor in C++), then the type should provide
 [both](https://rust-lang.github.io/api-guidelines/interoperability.html?highlight=default#types-eagerly-implement-common-traits-c-common-traits)
 a `new` method that takes no arguments and an implementation of `Default`.
 
+Because `Default` is a normal trait, the default constructor defined in the
+example can be invoked using the usual syntax for invoking a static trait
+method, e.g., `Default::default()`.
 
 ## Implicit initialization of class members
 
