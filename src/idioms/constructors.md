@@ -113,9 +113,13 @@ itself upon construction (in Rust, this requires tools like [`Pin`](https://doc.
 
 ## Fallible constructors
 
-In C++, the primary way constructors can indicate failure is by throwing exceptions. In Rust, because constructors are normal static methods, fallible constructors
-can instead return `Result` (akin to `std::expected`) or `Option` (akin to
-`std::optional`).
+In C++, the primary way constructors can indicate failure is by throwing
+exceptions. In Rust, because constructors are normal static methods, fallible
+constructors can instead return `Result` (akin to `std::expected`) or `Option`
+(akin to `std::optional`).[^NonZero]
+
+[^NonZero]: An alternative approach here would be to use `NonZero<usize>` as the
+    type so that the error case wasn't possible in the first place.
 
 <div class="comparison">
 
