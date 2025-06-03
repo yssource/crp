@@ -43,7 +43,7 @@ void push_if_even(int n,
                   std::vector<T> &collection,
                   T item) {
   if (n % 2 == 0) {
-    collection.push_back(item);
+    collection.push_back(std::move(item));
   }
 }
 
