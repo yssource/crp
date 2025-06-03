@@ -276,10 +276,10 @@ not need to statically know the number of elements in an array, it is more
 idiomatic to take a parameter as `&[T]` or `&mut [T]` than as a reference to the
 owned type.
 
-In C++ it is better to take begin and end iterators than a `span` when possible,
-since iterators are more general. The same is true with Rust and taking a
-generic type that implements `IntoIter<&T>` or `IntoIter<&mut T>` instead of
-`&[T]`.
+In C++ it is better to take begin and end iterators or a range than a `span`
+when possible, since iterators are more general. The same is true with Rust and
+taking a generic type that implements `IntoIter<&T>` or `IntoIter<&mut T>`
+instead of `&[T]`.
 
 <div class="comparison">
 
