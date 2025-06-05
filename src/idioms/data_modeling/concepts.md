@@ -233,13 +233,34 @@ would be useful but hard to implement correctly, Rust generics are freely used.
 
 In the above examples, the function requiring a trait was defined like the following.
 
+<div class="comparison">
+
+```cpp
+template <shape T>
+double twiceArea(const T &shape) {
+  return 2.0 * shape.area();
+}
+```
+
 ```rust,ignore
 fn twice_area<T: Shape>(shape: &T) -> f64 {
     2.0 * shape.area()
 }
 ```
 
-This is a commonly used shorthand for the following:
+</div>
+
+This is a commonly used shorthand for the following.
+
+<div class="comparison">
+
+```cpp
+template <typename T>
+  requires shape<T>
+double twiceArea(const T &shape) {
+  return 2.0 * shape.area();
+}
+```
 
 ```rust,ignore
 fn twice_area<T>(shape: &T) -> f64
@@ -250,15 +271,27 @@ where
 }
 ```
 
+</div>
+
 The more verbose form is preferred when there are many type parameters or those
 type parameters must implement many traits. An even shorter-hand available in some
-cases is the `impl` keyword:
+cases is the `impl` keyword.
+
+<div class="comparison">
+
+```cpp
+double twiceArea(const shape auto &shape) {
+  return 2.0 * shape.area();
+}
+```
 
 ```rust,ignore
 fn twice_area(shape: &impl Shape) -> f64 {
     2.0 * shape.area()
 }
 ```
+
+</div>
 
 ## Generics and lifetimes
 
