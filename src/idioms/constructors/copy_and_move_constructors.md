@@ -239,7 +239,8 @@ fn main() {
 For situations where something like a user-defined copy assignment could avoid
 allocations, the `Clone` trait has an additional method called `clone_from`. The
 method is automatically defined, but can be overridden when implementing the
-`Clone` trait to provide an efficient implementation.
+`Clone` trait to provide an efficient implementation. The default implementation
+is the same as calling `Clone::clone` and performing a normal assignment.
 
 The method is not used for normal assignments, but can be explicitly used in
 situations where the performance of the assignment is significant and would be
