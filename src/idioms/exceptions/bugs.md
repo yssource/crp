@@ -255,3 +255,13 @@ fn main() {}
 Assertions do affect how the Rust compiler optimizes code (e.g., by enabling the
 optimizer to eliminate subsequent redundant checks) but the specific effects are
 not guaranteed.
+
+## Panics in embedded systems
+
+When programming in Rust for embedded systems using `#![no_std]`, there is no
+default panic handler. Instead one must be specified using the
+`#[panic_handler]` annotation.
+
+The Embedded Rust Book [chapter on handling
+panics](https://docs.rust-embedded.org/book/start/panicking.html) has more
+details on implementing panic handlers for in `no_std` programs.
