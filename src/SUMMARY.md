@@ -51,6 +51,7 @@
 
 # Patterns
 
+- [Adapter pattern]()
 - [Visitor pattern and double dispatch]()
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 - [Pointer-to-implementation (PImpl)]()
