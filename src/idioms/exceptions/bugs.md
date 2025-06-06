@@ -167,7 +167,7 @@ time, other than when used in templates. When used in templates, it is
 guaranteed to be evaluated at compile time if the template is instantiated. In
 Rust the same thing can achieved by calling `assert!` in a const block or some
 other [constant
-context][https://doc.rust-lang.org/reference/const_eval.html#const-context]. The
+context](https://doc.rust-lang.org/reference/const_eval.html#const-context). The
 convenience macros `assert_eq!` and `assert_ne!` cannot (yet) be used in const
 contexts.
 
