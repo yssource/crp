@@ -30,7 +30,7 @@
   - [Setter and getter methods](./idioms/encapsulation/setters_and_getters.md)
 - [Exceptions and error handling](./idioms/exceptions.md)
   - [Expected errors](./idioms/exceptions/expected_errors.md)
-  - [Errors indicating bugs]()
+  - [Errors indicating bugs](./idioms/exceptions/bugs.md)
 - [Type equivalents](./idioms/type_equivalents.md)
 - [Type promotions and conversions](./idioms/promotions_and_conversions.md)
 - [User-defined conversions](./idioms/user-defined_conversions.md)
