@@ -350,9 +350,11 @@ fn main() -> Result<(), &'static str> {
 
 </div>
 
-The result type must be unit `()` and the error type can be any type that
-implements the [`Debug`
-trait](https://doc.rust-lang.org/std/fmt/trait.Debug.html).
+In Rust, the `main` function can return any type that implements the [`Termination`
+trait](https://doc.rust-lang.org/std/process/trait.Termination.html), such as 
+`()`, `Result`, and [`ExitCode`](https://doc.rust-lang.org/std/process/struct.ExitCode.html).
+For example, `main` can return a result whose error type implements the [`Debug`
+trait](https://doc.rust-lang.org/std/fmt/trait.Debug.html):
 
 ```rust,no_run
 #[derive(Debug)]
@@ -371,10 +373,6 @@ fn main() -> Result<(), InterestingError> {
 
 Running this program produces the output `Error: InterestingError { message:
 "oops", other_interesting_value: 9001 }` with an exit code of `1`.
-
-Result is not the only return type supported for `main`. See the [`Termination`
-trait](https://doc.rust-lang.org/std/process/trait.Termination.html) for more
-information.
 
 ## Limitations to forcing error handling with `Result`
 
@@ -426,7 +424,7 @@ method on slices returns `Option` and is [annotated as
 One challenge to handling errors in Rust compared to C++ is that because error
 propagation in Rust is explicit, error values from different subsystems need to
 be combined into a single type in order to be propagated further up the stack.
-In C++, this requires no special effort.
+With C++ exceptions, this requires no special effort.
 
 The following example shows how such an error type is implemented manually.
 Later examples show how the

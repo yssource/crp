@@ -60,8 +60,7 @@ struct Person {
 }
 ```
 
-One point to note about the previous example is that `std::shared_ptr` and `Rc`
-differ slightly in terms of thread safety. See the chapter on [type
+Note that `std::shared_ptr` and `Rc` differ slightly in terms of thread-safety. See the chapter on [type
 equivalents](../type_equivalents.html#pointers) for more details.
 
 </div>

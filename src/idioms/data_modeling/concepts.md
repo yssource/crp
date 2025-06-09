@@ -231,7 +231,7 @@ would be useful but hard to implement correctly, Rust generics are freely used.
 
 ## Required traits and ergonomics
 
-In the above examples, the function requiring a trait was defined like the following.
+In the above examples, the function requiring a trait was defined using a generic type `T` with a separate requirement that `T` is a `Shape`, like this:
 
 <div class="comparison">
 
@@ -250,7 +250,7 @@ fn twice_area<T: Shape>(shape: &T) -> f64 {
 
 </div>
 
-This is a commonly used shorthand for the following.
+These syntaxes are both common shorthands for `requires` clauses (C++) or `where` clauses (Rust):
 
 <div class="comparison">
 

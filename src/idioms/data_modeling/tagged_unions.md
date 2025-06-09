@@ -474,7 +474,9 @@ the optimizer should assume that the case cannot be reached, so the discriminant
 check can be optimized away.
 
 Much like how in the C++ example accessing an inactive variant is undefined
-behavior, reaching `unreachable_unchecked` is also undefined behavior.
+behavior, reaching `unreachable_unchecked` is also undefined behavior. 
+As with any `unsafe`-based performance optimizations, you always should measure the performance impact
+of safety checks first, and only reach for unsafe code if absolutely necessary.
 
 ```rust
 # enum Shape {
@@ -514,17 +516,12 @@ use std::hint::unreachable_unchecked;
 fn main() {
     let mut total_base = 0.0;
     for triangle in get_triangles() {
-        match triangle {
-            Shape::Triangle { base, .. } => {
-                total_base += base;
-            }
-            _ =>
+        let Shape::Triangle { base, .. } = triangle else {
             // SAFETY: get_triangles is guaranteed to produce triangles, so
             // other cases aren't reachable.
-            unsafe {
-                unreachable_unchecked();
-            },
-        }
+            unsafe { unreachable_unchecked() }
+        };
+        total_base += base;        
     }
 }
 ```

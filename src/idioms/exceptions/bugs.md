@@ -1,14 +1,14 @@
 # Errors indicating bugs
 
 In C++, exceptions are sometimes used to indicate an error that is due to a
-programming bug. In many situations no exception is produced, and instead the
+programming bug. In many situations, no exception is produced, and instead the
 invalid use of an API is simply undefined behavior.
 
 In Rust, `panic!` is used for these kinds of errors, often via an
 [`expect`](https://doc.rust-lang.org/std/result/enum.Result.html#method.expect)
 or
 [`unwrap`](https://doc.rust-lang.org/std/result/enum.Result.html#method.unwrap)
-method on `Result` or `Option` or via [assertions like `assert!`](#assert).
+method on `Result` or `Option` or via [assertions like `assert!`](#assertions).
 While a panic in Rust may unwind the stack or abort a program, it is never
 undefined behavior.
 
@@ -108,8 +108,6 @@ public:
 ```
 
 ```rust
-# use std::convert::TryInto;
-#
 pub struct Widget<T> {
     parts: *const T,
     part_count: usize,
@@ -131,7 +129,7 @@ impl<T: Copy> Widget<T> {
             n,
             self.part_count
         );
-        let idx = n.try_into().expect(
+        let idx = isize::try_from(n).expect(
             "can't convert index to offset"
         );
         unsafe { self.parts.offset(idx).read() }
@@ -144,9 +142,9 @@ impl<T: Copy> Widget<T> {
 The Rust [`debug_assert!`
 macro](https://doc.rust-lang.org/std/macro.debug_assert.html) is more like
 `assert!` in C++, in that it can be turned off by a compilation configuration
-option, and so is useful for encoding logical invariants that are useful to
-check during development and testing, but that would be too expensive to check
-during production.
+option, and so is useful for encoding logical invariants that should be
+checked during development and testing, but are too expensive to check
+in production.
 
 ### Other assertion macros
 
@@ -216,10 +214,10 @@ int &first(std::array<int, n> arr) {
 ```
 
 ```rust
-fn first<const n: usize>(arr: [i32; n]) -> i32 {
+fn first<const N: usize>(arr: [i32; N]) -> i32 {
     const {
         assert!(
-            n >= 1,
+            N >= 1,
             "array needs to have at last size 1!"
         )
     }

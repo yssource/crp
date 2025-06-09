@@ -1,16 +1,17 @@
 # RTTI and `dynamic_cast`
 
-Rust does not built-in support for general RTTI or have a direct analog to
+Rust does not have built-in support for generalized RTTI, nor does Rust have a direct analog to
 `dynamic_cast`.
 
-The Rust standard library does provide an [`Any`
+The only language primitive provided by Rust in this vein is [`TypeId`](https://doc.rust-lang.org/std/any/struct.TypeId.html),
+which is a globally unique identifier for a type. Rust's standard library builds on `TypeId` to provide an [`Any`
 trait](https://doc.rust-lang.org/std/any/trait.Any.html) that supports similar
 uses to `std::any` in C++. However, `Any` does not enable testing for
-implementation of or converting to another trait, it only enables testing for
-and converting to a concrete type.
+implementation of, or converting to, another trait. It only enables testing for
+and converting to a specific type.
 
 Every type with a `'static` lifetime bound (i.e., that does not contain
-non-static lifetime references) implements `Any` via a blanket implementation in
+references with a non-static lifetime) implements `Any` via a blanket implementation in
 the standard library.
 
 <div class="comparison">
@@ -32,7 +33,6 @@ void print_if_string(const std::any &x) {
 
 int main() {
   print_if_string(std::string("hello world"));
-
   print_if_string(5);
 }
 ```
@@ -41,15 +41,14 @@ int main() {
 use std::any::Any;
 
 fn print_if_string(x: &dyn Any) {
-    if let Some(s) = x.downcast_ref::<String>() {
-        println!("{}", s);
-    } else {
-        println!("Not a string!");
+    match x.downcast_ref::<String>() {
+        Some(s) => println!("{}", s),
+        None    => println!("Not a string!")
     }
 }
 
 fn main() {
-    print_if_string(&"hello world".to_string());
+    print_if_string(&String::from("hello world"));
     print_if_string(&5);
 }
 ```
@@ -238,8 +237,8 @@ fn handle_event(e: Event<UserEvent>) {
 
 </div>
 
-When representing events as an enum truly isn't feasible, sometimes [double
-dispatch](/patterns/visitor.md) can be used instead. Otherwise it may be
+When representing events as an enum truly isn't feasible, sometimes double
+dispatch <!-- TODO: link to visitor --> can be used instead. Otherwise it may be
 necessary to use the `Any` trait or to define an `Event` trait that exposes a
 type identifier that an be used for safe downcasting (via `Any`) or unsafe
 downcasting behind a safe interface.[^safe-event-handler]
@@ -251,14 +250,14 @@ downcasting behind a safe interface.[^safe-event-handler]
 
 ## Library support for reflection via macros
 
-Some of the use cases of RTTI can be achieved by using one of the third-party
+Some of the use cases of RTTI can be achieved in Rust by using one of the third-party
 reflection libraries. These libraries implement reflection by providing macros
-for deriving traits to support common reflection operations.
+for deriving traits to support common reflection operations. Rust reflection libraries include
+[bevy\_reflect](https://docs.rs/bevy_reflect/latest/bevy_reflect/), [facet](https://facet.rs/), and
+[mirror-mirror](https://docs.rs/mirror-mirror/latest/mirror_mirror/).
 
-One commonly used [library](../etc/libraries.md) for reflection at the time of
-writing is [bevy\_reflect](https://docs.rs/bevy_reflect/latest/bevy_reflect/).
-The crate has extensive documentation, including examples of usage.
+The derive-macro approach to reflection essentially makes it opt-in, so that software that
+does not use reflection does not have to pay a price for it (performance costs or binary size). However,
+due to Rust's [orphan rule](https://doc.rust-lang.org/reference/items/implementations.html#orphan-rules),
+this approach makes it more difficult to integrate third-party types that lack the derived trait.
 
-This approach to reflection essentially makes it opt-in, so that software that
-does not use reflection does not have to pay the performance price for it. The
-cost of the opt-in approach is ease of use.
