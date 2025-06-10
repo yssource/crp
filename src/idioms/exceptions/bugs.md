@@ -90,18 +90,18 @@ invariants.
 template <typename T>
 class Widget {
   T *parts;
-  std::size_t part_count;
+  std::size_t partCount;
 
 public:
   // ... constructors ...
 
   /**
-   * @pre n must be smaller than part_count
+   * @pre n must be smaller than partCount
    */
-  T get_part(std::size_t n) {
+  T getPart(std::size_t n) {
     // Unlike in Rust, this can be disabled,
     // e.g., with -DNDEBUG.
-    assert(n < part_count);
+    assert(n < partCount);
     return *(parts + n);
   }
 };
