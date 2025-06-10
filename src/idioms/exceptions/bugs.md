@@ -1,7 +1,7 @@
 # Errors indicating bugs
 
 In C++, exceptions are sometimes used to indicate an error that is due to a
-programming bug. In many situations, no exception is produced, and instead the
+programming bug. In many situations no exception is produced, and instead the
 invalid use of an API is simply undefined behavior.
 
 In Rust, `panic!` is used for these kinds of errors, often via an
