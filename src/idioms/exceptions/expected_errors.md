@@ -579,7 +579,7 @@ void process() {
 }
 ```
 
-```rust,ignore,mdbook-runnable
+```rust,ignore
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -669,7 +669,7 @@ int main() {
 }
 ```
 
-```rust,ignore,mdbook-runnable
+```rust,ignore
 use thiserror::Error;
 
 #[derive(Debug, Error)]
