@@ -25,7 +25,7 @@ struct Age {
   Age(unsigned int years) : years(years) {}
 
   // copy and move constructors and destructor
-  // implicilty declared and defined
+  // implicitly declared and defined
 };
 
 struct Person {
@@ -36,11 +36,11 @@ struct Person {
   Person(Age age,
          std::string name,
          std::shared_ptr<Person> best_friend)
-      : age(age), name(name),
-        best_friend(best_friend) {}
+      : age(std::move(age)), name(std::move(name)),
+        best_friend(std::move(best_friend)) {}
 
   // copy and move constructors and destructor
-  // implicilty declared and defined
+  // implicitly declared and defined
 };
 ```
 
@@ -60,13 +60,20 @@ struct Person {
 }
 ```
 
+Note that `std::shared_ptr` and `Rc` differ slightly in terms of thread-safety. See the chapter on [type
+equivalents](../type_equivalents.html#pointers) for more details.
+
 </div>
 
 ## User-defined constructors
 
-On the other hand, the following example require a user-defined copy and move
+On the other hand, the following example requires a user-defined copy and move
 constructor because it manages a resource (a pointer acquired from a C library).
-The equivalent in Rust requires a custom implementation of the `Clone` trait.
+The equivalent in Rust requires a custom implementation of the `Clone` trait.[^deleter]
+
+[^deleter]: Another common approach to the C++ version of the example is to use
+    the `Deleter` template argument for `std::unique_ptr`. The version shown in
+    the example was chosen to make the correspondence to Rust version clearer.
 
 <div class="comparison">
 
@@ -231,7 +238,8 @@ fn main() {
 For situations where something like a user-defined copy assignment could avoid
 allocations, the `Clone` trait has an additional method called `clone_from`. The
 method is automatically defined, but can be overridden when implementing the
-`Clone` trait to provide an efficient implementation.
+`Clone` trait to provide an efficient implementation. The default implementation
+is the same as calling `Clone::clone` and performing a normal assignment.
 
 The method is not used for normal assignments, but can be explicitly used in
 situations where the performance of the assignment is significant and would be

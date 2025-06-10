@@ -51,7 +51,7 @@ Rust, but Rust requires the initialization of the variables before they can be
 passed to a function. The resulting program is not idiomatic Rust.
 
 ```rust
-// NOT IDIOIMATIC RUST
+// NOT IDIOMATIC RUST
 fn get_point(x: &mut i32, y: &mut i32) {
     *x = 5;
     *y = 6;
@@ -75,7 +75,7 @@ the program, and produces a significantly faster binary for that version.
 In situations where the performance of memory allocation is a concern (such as
 when it is necessary to reuse entire buffers in memory), the trade-offs may be
 different. That situation is discussed in the chapter on [pre-allocated
-buffers](/idioms/out_params/pre-allocated_buffers.md).
+buffers](./pre-allocated_buffers.md).
 
 ## Similarities with idiomatic C++ since C++11
 

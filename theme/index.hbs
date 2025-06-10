@@ -19,6 +19,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
+        <meta property="og:description" content="{{ description }}">
+        <meta property="twitter:description" content="{{ description }}">
+        <meta name="twitter:card" content="summary">
+
         {{#if favicon_svg}}
         <link rel="icon" href="{{ resource "favicon.svg" }}">
         {{/if}}
@@ -196,7 +200,7 @@
                     <main>
                         {{{ content }}}
 
-                        <a class="feedback-link" href="https://forms.gle/YqpaAvir8QbUY21H6">Click here to leave us feedback about this page.</a>
+                        <a class="feedback-link" href="https://docs.google.com/forms/d/e/1FAIpQLScoygeNlygODY2owQ-HvU8VGx3hi50aic7ZlKCyhJ0VktjiCg/viewform?usp=pp_url&entry.1450251950={{ chapter_title }}">Click here to leave us feedback about this page.</a>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -253,24 +257,15 @@
         </script>
         {{/if}}
 
-        {{#if google_analytics}}
-        <!-- Google Analytics Tag -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3W4ES0FTM"></script>
         <script>
-            const localAddrs = ["localhost", "127.0.0.1", ""];
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-            // make sure we don't activate google analytics if the developer is
-            // inspecting the book locally...
-            if (localAddrs.indexOf(document.location.hostname) === -1) {
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-                ga('create', '{{google_analytics}}', 'auto');
-                ga('send', 'pageview');
-            }
+        gtag('config', 'G-Q3W4ES0FTM');
         </script>
-        {{/if}}
 
         {{#if playground_line_numbers}}
         <script>

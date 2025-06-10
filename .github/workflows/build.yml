@@ -1,0 +1,48 @@
+name: Build book
+
+on:
+  workflow_call:
+    inputs:
+      destination_dir:
+        required: false
+        type: string
+        default: ''
+      site_url:
+        required: true
+        type: string
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Depot
+        uses: cognitive-engineering-lab/depot/actions/install@main
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: '0.4.51'
+
+      - name: Install mdbook-quiz
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: mdbook-quiz
+          version: '^0.3.10'
+
+      - name: Build telemetry
+        run: depot build --release
+        working-directory: telemetry
+
+      - name: Build book
+        run: mdbook build
+        env:
+          MDBOOK_OUTPUT__HTML__SITE_URL: "${{ inputs.site_url }}"
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
+          destination_dir: ${{ inputs.destination_dir }}

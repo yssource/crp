@@ -19,7 +19,17 @@ values.
 
 For example, when implementing the copy-assignment operator, one might
 short-circuit when the copied object and the assignee are the same.
-Not that in this use the pointer values are not stored.
+Note that in this use the pointer values are not stored.
+
+This kind of optimization is unnecessary when implementing [Rust's equivalent to
+the copy assignment
+operator](./constructors/copy_and_move_constructors.md#assignment-operators)
+`Clone::clone_from`. The type of `Clone::clone_from` prevents the same object
+from being passed as both arguments, because one of the arguments is a mutable
+reference, which is exclusive, and so prevents the other reference argument from
+referring to the same object.
+
+<div class="comparison">
 
 ```cpp
 struct Person
@@ -39,18 +49,41 @@ struct Person
 };
 ```
 
-This kind of optimization is unnecessary when implementing [Rust's equivalent to
-the copy assignment
-operator](/idioms/constructors/copy_and_move_constructors.md#assignment-operators)
-`Clone::clone_from`. The type of `Clone::clone_from` prevents the same object
-from being passed as both arguments, because one of the arguments is a mutable
-reference, which is exclusive, and so prevents the other reference argument from
-referring to the same object.
+```rust
+struct Person {
+    name: String,
+}
+
+impl Clone for Person {
+    fn clone(&self) -> Self {
+        Self { name: self.name.clone() }
+    }
+
+    fn clone_from(&mut self, source: &Self) {
+        // self and source cannot be the same here,
+        // because that would mean there are a
+        // mutable and an immutable reference to
+        // the same memory location. Therefore, a
+        // check for assignment to self is not
+        // needed, even for the purpose of
+        // optimization.
+
+        self.name.clone_from(&source.name);
+    }
+}
+```
+
+</div>
 
 In cases in C++ where most comparisons are between an object and itself (e.g.,
 the object's primary use is to be stored in a hash set), and comparison of
 unequal objects is expensive, comparing object identity might be used as
 optimization for the equality comparison operator overload.
+
+For supporting similar operations in Rust,
+[`std::ptr::eq`](https://doc.rust-lang.org/std/ptr/fn.eq.html) can be used.
+
+<div class="comparison">
 
 ```cpp
 struct Person
@@ -72,9 +105,6 @@ bool operator==(const Person& lhs, const Person& rhs) {
 }
 ```
 
-For supporting similar operations in Rust,
-[`std::ptr::eq`](https://doc.rust-lang.org/std/ptr/fn.eq.html) can be used.
-
 ```rust
 struct Person {
     name: String,
@@ -94,6 +124,8 @@ impl PartialEq for Person {
 
 impl Eq for Person {}
 ```
+
+</div>
 
 ## Distinguishing between values in a relational structure
 
@@ -163,6 +195,8 @@ struct Graph {
 ```
 
 If performance requirements make the use of synthetic identifiers unacceptable,
-then it may be necessary to use prevent the value from being moved by using
-[`Pin`](https://doc.rust-lang.org/std/pin/index.html), which is similar to
-deleting the move constructor in C++.
+then it may be necessary to use prevent the value from being moved. The [`Pin`
+and `PhantomPinned` structs](https://doc.rust-lang.org/std/pin/index.html) can
+be used to achieve an effect similar to deleting the move constructor in C++.
+
+{{#quiz object_identity.toml}}

@@ -1,6 +1,6 @@
 # Concepts, interfaces, and static dispatch
 
-In C++ static dispatch over an interface is achieved by implementing a template
+In C++, static dispatch over an interface is achieved by implementing a template
 function or template method that interacts with the type using some expected
 interface.
 
@@ -23,15 +23,16 @@ struct Triangle {
   Triangle(double base, double height)
       : base(base), height(height) {}
 
-  // NOT virtual: it will be used with static dispatch
-  double area() {
+  // NOT virtual: it will be used with static
+  // dispatch
+  double area() const {
     return 0.5 * base * height;
   }
 };
 
 // Generic function using interface
 template <class T>
-double twiceArea(T &shape) {
+double twiceArea(const T &shape) {
   return shape.area() * 2;
 }
 
@@ -80,10 +81,10 @@ fn main() {
 
 Note that in the Rust example, the definition of the trait and the struct have
 not changed from the example in the chapter on [virtual methods and dynamic
-dispatch](/idioms/data_modeling/pure_virtual_classes.md). Even so, this example
+dispatch](./abstract_classes.md). Even so, this example
 does use static dispatch. This is the result of a design trade-off in Rust
 around the representation of vtables and vptrs which is [described later in that
-chapter](/idioms/data_modeling/pure_virtual_classes.md#vtables-and-rust-trait-object-types).
+chapter](./abstract_classes.md#vtables-and-rust-trait-object-types).
 
 The difference between Rust and C++ in the above examples arises from Rust being
 nominally typed (types must opt in to supporting a specific interface, merely
@@ -121,20 +122,20 @@ partially) modeled with a strict application of [C++
 concepts](https://en.cppreference.com/w/cpp/language/constraints).
 
 The usual way to apply concepts is still structural and does not model Rust's
-approach: it only requires that a method with specific properties be present on
-the type.
+approach: it only requires that a specific method can be called, producing a
+specific type.
 
 ```cpp
 #include <concepts>
 
 template <typename T>
-concept shape = requires(T t) {
+concept shape = requires(const T &t) {
   { t.area() } -> std::same_as<double>;
 };
 
 template <shape T>
-double twiceArea(T shape) {
-  return shape.area() * 2;
+double twiceArea(const T &shape) {
+  return shape.area() * 2.0;
 }
 ```
 
@@ -143,30 +144,32 @@ abstract classes and concepts.
 
 ```cpp
 #include <concepts>
+#include <iostream>
 
 struct Shape {
   Shape() {}
   virtual ~Shape() {}
-  virtual double area() = 0;
+  virtual double area() const = 0;
 };
 
 template <typename T>
 concept shape = std::derived_from<T, Shape>;
 
-struct Triangle : Shape {
+struct Triangle : public Shape {
   double base;
   double height;
 
-  Triangle(double base, double height) : base(base), height(height) {}
+  Triangle(double base, double height)
+      : base(base), height(height) {}
 
-  // still NOT virtual: will be used static dispatch
-  double area() override {
+  // still will be used with static dispatch
+  double area() const override {
     return 0.5 * base * height;
   }
 };
 
 template <shape T>
-double twiceArea(T shape) {
+double twiceArea(const T &shape) {
   return shape.area() * 2;
 }
 
@@ -196,7 +199,7 @@ template <typename T>
 concept shape = std::derived_from<T, Shape>;
 
 template <shape T>
-double twiceArea(T shape) {
+double twiceArea(const T &shape) {
   // note the call to a method not defined in Shape
   return shape.volume() * 2;
 }
@@ -228,7 +231,16 @@ would be useful but hard to implement correctly, Rust generics are freely used.
 
 ## Required traits and ergonomics
 
-In the above examples, the function requiring a trait was defined like the following.
+In the above examples, the function requiring a trait was defined using a generic type `T` with a separate requirement that `T` is a `Shape`, like this:
+
+<div class="comparison">
+
+```cpp
+template <shape T>
+double twiceArea(const T &shape) {
+  return 2.0 * shape.area();
+}
+```
 
 ```rust,ignore
 fn twice_area<T: Shape>(shape: &T) -> f64 {
@@ -236,7 +248,19 @@ fn twice_area<T: Shape>(shape: &T) -> f64 {
 }
 ```
 
-This is a commonly used shorthand for the following:
+</div>
+
+These syntaxes are both common shorthands for `requires` clauses (C++) or `where` clauses (Rust):
+
+<div class="comparison">
+
+```cpp
+template <typename T>
+  requires shape<T>
+double twiceArea(const T &shape) {
+  return 2.0 * shape.area();
+}
+```
 
 ```rust,ignore
 fn twice_area<T>(shape: &T) -> f64
@@ -247,8 +271,27 @@ where
 }
 ```
 
+</div>
+
 The more verbose form is preferred when there are many type parameters or those
-type parameters must implement many traits.
+type parameters must implement many traits. An even shorter-hand available in some
+cases is the `impl` keyword.
+
+<div class="comparison">
+
+```cpp
+double twiceArea(const shape auto &shape) {
+  return 2.0 * shape.area();
+}
+```
+
+```rust,ignore
+fn twice_area(shape: &impl Shape) -> f64 {
+    2.0 * shape.area()
+}
+```
+
+</div>
 
 ## Generics and lifetimes
 
@@ -278,7 +321,7 @@ void store(S s, std::unique_ptr<Shape> data) {
 
 Rust checks the bounds on lifetimes of references contained within type
 parameters. [Just as with trait object
-types](/idioms/data_modeling/abstract_classes.md#trait-objects-and-lifetimes),
+types](./abstract_classes.md#trait-objects-and-lifetimes),
 these bounds are usually inferred according to the [lifetime elision
 rules](https://doc.rust-lang.org/reference/lifetime-elision.html). When they
 cannot be inferred, or they are inferred incorrectly, the bounds can be declared

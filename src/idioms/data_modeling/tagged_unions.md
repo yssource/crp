@@ -2,15 +2,20 @@
 
 ## C-style tagged unions
 
-Because unions cannot be used for type punning in C++, when they are used it is
-usually with a tag to discriminate between which variant of the union is active.
+Because unions cannot be used for type punning in C++, they are usually used
+with a tag to discriminate between which variant of the union is active.
+
+Rust's equivalent to union types are always tagged. They are a generalization of
+Rust enums, where additional data may be associated with the enum variants.
+
+<div class="comparison">
 
 ```cpp
 enum Tag { Rectangle, Triangle };
 
 struct Shape {
   Tag tag;
-  union Value {
+  union {
     struct {
       double width;
       double height;
@@ -19,23 +24,22 @@ struct Shape {
       double base;
       double height;
     } triangle;
-  } value;
+  };
 
   double area() {
     switch (this->tag) {
     case Rectangle: {
-      return this->value.rectangle.width * this->value.rectangle.height;
+      return this->rectangle.width *
+             this->rectangle.height;
     }
     case Triangle: {
-      return 0.5 * this->value.triangle.base * this->value.triangle.height;
+      return 0.5 * this->triangle.base *
+             this->triangle.height;
     }
     }
   }
 };
 ```
-
-Rust's equivalent to union types are always tagged. They are a generalization of
-Rust enums, where additional data may be associated with the enum variants.
 
 ```rust
 enum Shape {
@@ -46,12 +50,109 @@ enum Shape {
 impl Shape {
     fn area(&self) -> f64 {
         match self {
-            Shape::Rectangle { width, height } => width * height,
-            Shape::Triangle { base, height } => 0.5 * base * height,
+            Shape::Rectangle {
+                width,
+                height,
+            } => width * height,
+            Shape::Triangle { base, height } => {
+                0.5 * base * height
+            }
         }
     }
 }
 ```
+
+</div>
+
+When matching on an enum, Rust requires that all variants of the enum be
+handled. In situations where `default` would be used with a C++ `switch` on the
+tag, a wildcard can be used in the Rust `match`.
+
+<div class="comparison">
+
+```cpp
+$#include <iostream>
+$
+$enum Tag { Rectangle, Triangle, Circle };
+$
+struct Shape {
+$  Tag tag;
+$  union {
+$    struct {
+$      double width;
+$      double height;
+$    } rectangle;
+$    struct {
+$      double base;
+$      double height;
+$    } triangle;
+$    struct {
+$      double radius;
+$    } circle;
+$  };
+$
+  void print_shape() {
+    switch (this->tag) {
+    case Rectangle: {
+      std::cout << "Rectangle" << std::endl;
+      break;
+    }
+    default: {
+      std::cout << "Some other shape"
+                << std::endl;
+      break;
+    }
+    }
+  }
+};
+```
+
+```rust
+# enum Shape {
+#     Rectangle { width: f64, height: f64 },
+#     Triangle { base: f64, height: f64 },
+# }
+#
+impl Shape {
+    fn print_shape(&self) {
+        match self {
+            Shape::Rectangle { .. } => {
+                println!("Rectangle");
+            }
+            _ => {
+                println!("Some other shape");
+            }
+        }
+    }
+}
+```
+
+</div>
+
+Rust does not support C++-style fallthrough where some behavior can be done
+before falling through to the next case. However, in Rust one can match on
+multiple enum variants simultaneously, so long as the simultaneous match
+patterns bind the same names with the same types.
+
+```rust
+# enum Shape {
+#     Rectangle { width: f64, height: f64 },
+#     Triangle { base: f64, height: f64 },
+# }
+#
+impl Shape {
+    fn bounding_area(&self) -> f64 {
+        match self {
+            Shape::Rectangle { height, width }
+            | Shape::Triangle {
+                height,
+                base: width,
+            } => width * height,
+        }
+    }
+}
+```
+
 ## Accessing the value without checking the discriminant
 
 Unlike with C-style unions, Rust always requires matching on the discriminant
@@ -63,9 +164,33 @@ omitted.
 A C++ program like the following requires more restructuring of the types to
 achieve the same goal in Rust.
 
+The corresponding Rust program requires defining separate types for each variant
+of the `Shape` enum so that the fact that all of the value are of a given type
+can be expressed in the type system by having an array of `Triangle` instead of
+an array of `Shape`.
+
+<div class="comparison">
+
 ```cpp
 #include <ranges>
 #include <vector>
+
+// Uses the same Shape definition.
+enum Tag { Rectangle, Triangle };
+
+struct Shape {
+  Tag tag;
+  union {
+    struct {
+      double width;
+      double height;
+    } rectangle;
+    struct {
+      double base;
+      double height;
+    } triangle;
+  };
+};
 
 std::vector<Shape> get_shapes() {
   return std::vector<Shape>{
@@ -80,28 +205,30 @@ std::vector<Shape> get_shapes();
 int main() {
   std::vector<Shape> shapes = get_shapes();
 
-  auto is_triangle = [](Shape shape) { return shape.tag == Triangle; };
+  auto is_triangle = [](Shape shape) {
+    return shape.tag == Triangle;
+  };
 
-  // Create an iterator that only sees the triangles. (std::views::filter is
-  // from C++20, but the same effect can be acheived with a custom iterator.)
-  auto triangles = shapes | std::views::filter(is_triangle);
+  // Create an iterator that only sees the
+  // triangles. (std::views::filter is from C++20,
+  // but the same effect can be acheived with a
+  // custom iterator.)
+  auto triangles =
+      shapes | std::views::filter(is_triangle);
 
   double total_base = 0.0;
   for (auto &triangle : triangles) {
-    // Skip checking the tag because we know we have only triangles.
-    total_base += triangle.value.triangle.base;
+    // Skip checking the tag because we know we
+    // have only triangles.
+    total_base += triangle.triangle.base;
   }
 
   return 0;
 }
 ```
 
-The corresponding Rust program requires defining separate types for each variant
-of the `Shape` enum so that the fact that all of the value are of a given type
-can be expressed in the type system by having an array of `Triangle` instead of
-an array of `Shape`.
-
 ```rust
+// Define a separate struct for each variant.
 struct Rectangle { width: f64, height: f64 }
 struct  Triangle { base: f64, height: f64 }
 
@@ -109,7 +236,6 @@ enum Shape {
     Rectangle(Rectangle),
     Triangle(Triangle),
 }
-
 
 fn get_shapes() -> Vec<Shape> {
     vec![
@@ -131,7 +257,9 @@ fn get_shapes() -> Vec<Shape> {
 fn main() {
     let shapes = get_shapes();
 
-    // Create an iterator that only sees the triangles.
+    // This iterator only iterates over triangles
+    // and demonstrates that by iterating over
+    // the Triangle type instead of the Shape type.
     let triangles = shapes
         .iter()
         // Keep only the triangles
@@ -142,17 +270,26 @@ fn main() {
 
     let mut total_base = 0.0;
     for triangle in triangles {
+        // Because the iterator produces Triangles
+        // instead of Shapes, base can be accessed
+        // directly.
         total_base += triangle.base;
     }
 }
 ```
 
-This kind of use is common enough that the variants are often designed to have
-their own types from the start.
+</div>
+
+This kind of use is common enough in Rust that the variants are often designed
+to have their own types from the start.
+
+This approach is also possible in C++. It is more commonly used along with
+`std::variant` in C++17 or later.
 
 ## `std::variant` (since C++17)
 
-In more modern C++, `std::variant` is more similar in usage to Rust.
+When programming in C++ standards since C++17, `std::variant` can be used to
+represent a tagged union in a way that has more in common with Rust enums.
 
 ```cpp
 #include <variant>
@@ -189,6 +326,11 @@ read, which removes one of the barriers to using tagged unions more frequently.
 Compare the errors in C++ (using gcc) and Rust when the `Triangle` case is
 omitted.
 
+The following two programs have the same error: each fails to handle a case of
+`Shape`.
+
+<div class="comparison">
+
 ```cpp
 #include <variant>
 
@@ -216,8 +358,31 @@ double area(const Shape &shape) {
 }
 ```
 
+```rust,ignore
+enum Shape {
+    Rectangle { width: f64, height: f64 },
+    Triangle { base: f64, height: f64 },
+}
+
+impl Shape {
+    fn area(&self) -> f64 {
+        match self {
+            Shape::Rectangle {
+                width,
+                height,
+            } => width * height,
+        }
+    }
+}
+```
+
+</div>
+
+However, the error messages differ significantly.
+
+<div class="comparison">
+
 ```text
-$ g++ -o example example.cc
 example.cc: In instantiation of ‘area(const Shape&)::<lambda(auto:27&&)> [with auto:27 = const Triangle&]’:
 /usr/include/c++/14.2.1/bits/invoke.h:61:36:   required from ‘constexpr _Res std::__invoke_impl(__invoke_other, _Fn&&, _Args&& ...) [with _Res = double; _Fn = area(const Shape&)::<lambda(auto:27&&)>; _Args = {const Triangle&}]’
    61 |     { return std::forward<_Fn>(__f)(std::forward<_Args>(__args)...); }
@@ -268,20 +433,6 @@ example.cc: In lambda function:
 example.cc:23:7: warning: control reaches end of non-void function [-Wreturn-type]
 ```
 
-```rust,ignore
-enum Shape {
-    Rectangle { width: f64, height: f64 },
-    Triangle { base: f64, height: f64 },
-}
-
-impl Shape {
-    fn area(&self) -> f64 {
-        match self {
-            Shape::Rectangle { width, height } => width * height,
-        }
-    }
-}
-```
 
 ```text
 error[E0004]: non-exhaustive patterns: `&Shape::Triangle { .. }` not covered
@@ -301,11 +452,78 @@ note: `Shape` defined here
   = note: the matched value is of type `&Shape`
 help: ensure that all possible cases are being handled by adding a match arm with a wildcard pattern or an explicit pattern as shown
   |
-9 ~             Shape::Rectangle { width, height } => width * height,
-10~             &Shape::Triangle { .. } => todo!(),
+12~             } => width * height,
+13~             &Shape::Triangle { .. } => todo!(),
   |
-
-error: aborting due to 1 previous error
-
-For more information about this error, try `rustc --explain E0004`.
 ```
+
+</div>
+
+## Using unsafe Rust to avoid checking the discriminant
+
+In situations where rewriting code to use the [above
+approach](#accessing-the-value-without-checking-the-discriminant) is not
+possible, one can check the discriminant anyway and then use the [`unreachable!`
+macro](https://doc.rust-lang.org/std/macro.unreachable.html) to avoid handling
+the impossible case. However, that still involves actually checking the
+discriminant. If the cost of checking the discriminant must be avoided, then the
+[unsafe function
+`unreachable_unchecked`](https://doc.rust-lang.org/std/hint/fn.unreachable_unchecked.html)
+can be used to both avoid handling the case and to indicate to the compiler that
+the optimizer should assume that the case cannot be reached, so the discriminant
+check can be optimized away.
+
+Much like how in the C++ example accessing an inactive variant is undefined
+behavior, reaching `unreachable_unchecked` is also undefined behavior. 
+As with any `unsafe`-based performance optimizations, you always should measure the performance impact
+of safety checks first, and only reach for unsafe code if absolutely necessary.
+
+```rust
+# enum Shape {
+#     Rectangle { width: f64, height: f64 },
+#     Triangle { base: f64, height: f64 },
+# }
+#
+# impl Shape {
+#     fn area(&self) -> f64 {
+#         match self {
+#             Shape::Rectangle {
+#                 width,
+#                 height,
+#             } => width * height,
+#             Shape::Triangle { base, height } => {
+#                 0.5 * base * height
+#             }
+#         }
+#     }
+# }
+#
+# fn get_triangles() -> Vec<Shape> {
+#     vec![
+#         Shape::Triangle {
+#             base: 1.0,
+#             height: 1.0,
+#         },
+#         Shape::Triangle {
+#             base: 1.0,
+#             height: 1.0,
+#         },
+#     ]
+# }
+#
+use std::hint::unreachable_unchecked;
+
+fn main() {
+    let mut total_base = 0.0;
+    for triangle in get_triangles() {
+        let Shape::Triangle { base, .. } = triangle else {
+            // SAFETY: get_triangles is guaranteed to produce triangles, so
+            // other cases aren't reachable.
+            unsafe { unreachable_unchecked() }
+        };
+        total_base += base;        
+    }
+}
+```
+
+{{#quiz tagged_unions.toml}}

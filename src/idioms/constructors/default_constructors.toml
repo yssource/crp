@@ -1,6 +1,9 @@
 [[questions]]
-type = "Tracing"
-prompt.program = """
+type = "MultipleChoice"
+prompt.prompt = """
+Does this program compile? If not, why not?
+
+```rust
 struct Widget {
     color: String,
 }
@@ -9,8 +12,35 @@ fn main() {
     let w: Widget;
     println!("{}", w.color);
 }
+```
 """
-answer.doesCompile = false
+answer.answer = """
+It does not compile because `w` is not explicitly initialized before it is used.
+"""
+prompt.distractors = [
+# Thinking Rust has implicit initialization with an implicit default
+# constructor, like C++.
+"""
+It does compile.
+""",
+# Thinking Rust has implicit default initialization, but needs an explicit
+# default constructor defined by Default.
+"""
+It does not compile because `Widget` does not implement the `Default` trait.
+""",
+# Thinking Rust has implicit default initialization, but needs an explicit
+# default constructor defined by new.
+"""
+It does not compile because `Widget` does not implement a `new` method.
+""",
+# Thinking Rust has implicit default initialization, but needs an explicit
+# default constructor defined by both Default and new (since the text talks
+# about how one should implement both).
+"""
+It does not compile because `Widget` does not implement both the `Default`
+trait and a `new` method.
+"""
+]
 context = """
 Rust does not have implicit default initialization like C++ does. Variables must
 be explicitly initialized before use, or the program will fail to compile.
@@ -85,5 +115,9 @@ context = """
 When there is a reasonable default value, it is most idiomatic in Rust to
 provide [both a `new` method and an implementation of the `Default`
 trait.](https://rust-lang.github.io/api-guidelines/interoperability.html?highlight=default#types-eagerly-implement-common-traits-c-common-traits)
+
+In this case, an even more idiomatic implementation would be to [derive
+`Default`](https://doc.rust-lang.org/std/default/trait.Default.html#derivable)
+and use the derived method to implement new.
 """
 id = "a436177e-821d-45d1-8e46-4fafc3d78cd3"

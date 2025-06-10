@@ -144,14 +144,13 @@ C++ implementation.
 
 In Rust, a trait's methods are always visible whenever the trait itself is
 visible. Additionally, the fact that a type implements a trait is always visible
-whenever both the trait and the type are visible. This properties of Rust
+whenever both the trait and the type are visible. These properties of Rust
 explain the lack of visibility declarations in places where one might find them
 in C++.
 
-Rather than mark method arguments as `static` to show that they are associated
-with the type instead of with values of the type, methods that can be called on
-values of the type take an explicit `self` parameter. This syntactic choice
-makes it possible to indicate (in way similar to other parameters) whether the
+In C++, to associate methods with a type rather than value of that type, you use
+the `static` keyword. In Rust, non-static methods take an explicit `self` parameter.
+This syntactic choice makes it possible to indicate (in way similar to other parameters) whether the
 method mutates the object (by taking `&mut self` instead of `&self`) and whether
 it takes ownership of the object (by taking `self` instead of `&self`).
 
@@ -230,8 +229,8 @@ fn main() {
         height: 1.0,
     });
 
-    // Types like Option<T> the value of type T directly, and so also need to
-    // know the size of T.
+    // Types like Option<T> include the value of type T directly, and so also
+    // need to know the size of T.
     // let v: Option<dyn Shape> = Some(Triangle { base: 1.0, height: 1.0 });
 }
 
@@ -243,7 +242,7 @@ fn print_area(shape: &dyn Shape) {}
 The decision to include the vtable in the reference instead of in the value is
 one part of what makes it reasonable to use traits both for polymorphism via
 dynamic dispatch and for [polymorphism via static dispatch, where one would use
-concepts in C++](/idioms/data_modeling/concepts.md).
+concepts in C++](./concepts.md).
 
 ## Limitations of trait objects in Rust
 

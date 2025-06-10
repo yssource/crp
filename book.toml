@@ -1,12 +1,23 @@
 [book]
-authors = ["Brown University Cognitive Engineering Lab"]
+title = "C++ to Rust Phrasebook"
+authors = ["Cognitive Engineering Lab"]
 language = "en"
+description = "A book to help translate C++ idioms into Rust."
 multilingual = false
 src = "src"
-title = "Rust Phrasebook for C++ Programmers"
+
 
 [output.html]
 additional-css = ["custom.css"]
+additional-js = ["telemetry/dist/telemetry.iife.js"]
 code.hidelines = {cpp = "$"}
+fold.enable = true
+fold.level = 1
+site-url = "https://cel.cs.brown.edu/crp"
+git-repository-url = "https://github.com/cognitive-engineering-lab/crp"
 
 [preprocessor.quiz]
+initial-text = "Check your understanding"
+fullscreen = true
+
+# [output.linkcheck]
