@@ -22,10 +22,10 @@ jobs:
 
       - name: Compress book
         run: zip -r -9 crp.zip *
-        working-directory: book
+        working-directory: book/html
 
       - name: Release book
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            book/crp.zip
+            book/html/crp.zip
