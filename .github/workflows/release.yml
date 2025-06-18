@@ -1,0 +1,27 @@
+name: Release tagged book to Github
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build book
+        run: mdbook build
+
+      - name: Release book
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            book
