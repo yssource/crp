@@ -1,4 +1,4 @@
-name: Deploy mdbook to GitHub Pages
+name: Deploy beta mdbook to GitHub Pages
 
 on:
   push:
@@ -9,7 +9,21 @@ permissions:
 
 jobs:
   deploy:
-    uses: ./.github/workflows/build.yml
-    with:
-      destination_dir: beta
-      site_url: /crp/beta/
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build book
+        run: mdbook build
+        env:
+          MDBOOK_OUTPUT__HTML__SITE_URL: /crp/beta/
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
+          destination_dir: beta
