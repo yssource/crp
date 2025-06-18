@@ -23,5 +23,7 @@ jobs:
       - name: Release book
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           files: |
             book
