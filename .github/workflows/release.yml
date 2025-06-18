@@ -21,11 +21,11 @@ jobs:
         run: mdbook build
 
       - name: Compress book
-        run: tar -czf crp.tar.gz *
+        run: zip -r -9 crp.zip *
         working-directory: book
 
       - name: Release book
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            book/crp.tar.gz
+            book/crp.zip
