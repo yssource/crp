@@ -27,3 +27,7 @@ to a form where you can submit feedback: typos, factual errors, or any other iss
 
 If you answer the quizzes at the end of each chapter, we will save your
 responses anonymously for research purposes.
+
+## Acknowledgements
+
+This work was supported by the DARPA under Agreement No. HR00112420354. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not reflect the views of our funders.
