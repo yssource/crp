@@ -182,8 +182,8 @@ fn main() {
 </div>
 
 Additional useful methods on iterators are provided by the third-party
-[itertools crate](https://docs.rs/itertools/latest/itertools/).
-<!-- TODO via [extension traits](../patterns/adapter.md) -->
+[itertools crate](https://docs.rs/itertools/latest/itertools/)
+via [extension traits](../patterns/adapter.md#extension-traits).
 
 ## `IntoIterator` and ownership
 
