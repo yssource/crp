@@ -17,6 +17,12 @@ runs:
         crate: mdbook-quiz
         version: '^0.3.10'
 
+    - name: Install mdbook-linkcheck
+      uses: baptiste0928/cargo-install@v3
+      with:
+        crate: mdbook-linkcheck
+        version: '^0.7.7'
+
     - name: Build telemetry
       run: depot build --release
       shell: bash
