@@ -22,8 +22,9 @@ mechanism and test driver are both provided by Rust itself.
 
 Additionally, the way that tests are organized is different. In C++, unit tests
 are defined in separate files from the units under test. In Rust, they are
-defined in the same file, usually in a `test` sub-module, with inclusion of the
-module controlled by the `test` feature flag via the `#[cfg(test)]` annotation.
+typically defined in the same file, usually in a `test` sub-module, with
+inclusion of the module controlled by the `test` feature flag via the
+`#[cfg(test)]` annotation.
 
 The example below defines a small class and tests for that class. In C++ this
 involves creating three separate files: a header file for the interface, the
