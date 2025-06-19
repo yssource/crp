@@ -36,8 +36,8 @@
 - [User-defined conversions](./idioms/user-defined_conversions.md)
 - [Overloading](./idioms/overloading.md)
 - [RTTI and `dynamic_cast`](./idioms/rtti.md)
-- [Iterators]()
-- [Function objects, lambdas, and closures]()
+- [Iterators and ranges](./idioms/iterators.md)
+- [Lambdas, closures, and function objects](./idioms/closures.md)
 - [Object identity](./idioms/object_identity.md)
 - [Out parameters](./idioms/out_params.md)
   - [Multiple return values](./idioms/out_params/multiple_return.md)
@@ -51,7 +51,7 @@
 
 # Patterns
 
-- [Adapter pattern]()
+- [Adapter pattern](./patterns/adapter.md)
 - [Visitor pattern and double dispatch]()
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 - [Pointer-to-implementation (PImpl)]()
@@ -60,7 +60,7 @@
 # Ecosystem
 
 - [Libraries](./etc/libraries.md)
-- [Unit tests]()
+- [Tests](./etc/tests.md)
 - [Documentation (Doxygen)]()
 - [Build systems (CMake)]()
 

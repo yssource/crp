@@ -1,0 +1,29 @@
+name: Setup book
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Depot
+      uses: cognitive-engineering-lab/depot/actions/install@main
+
+    - name: Setup mdBook
+      uses: peaceiris/actions-mdbook@v1
+      with:
+        mdbook-version: '0.4.51'
+
+    - name: Install mdbook-quiz
+      uses: baptiste0928/cargo-install@v3
+      with:
+        crate: mdbook-quiz
+        version: '^0.3.10'
+
+    - name: Install mdbook-linkcheck
+      uses: baptiste0928/cargo-install@v3
+      with:
+        crate: mdbook-linkcheck
+        version: '^0.7.7'
+
+    - name: Build telemetry
+      run: depot build --release
+      shell: bash
+      working-directory: telemetry

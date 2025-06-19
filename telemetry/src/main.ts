@@ -26,14 +26,14 @@ export class Telemetry {
   }
 
   log<T>(endpoint: string, payload: T) {
-    // if (!(this.branch === "main" || this.branch === "master")) {
-    //   return;
-    // }
+    if (!(this.branch === "main" || this.branch === "master")) {
+      return;
+    }
 
-    // let host = window.location.hostname;
-    // if (host === "localhost" && !this.url.includes("localhost")) {
-    //   return;
-    // }
+    let host = window.location.hostname;
+    if (host === "localhost" && !this.url.includes("localhost")) {
+      return;
+    }
 
     let log: Log<T> = {
       sessionId: this.sessionId,
