@@ -95,7 +95,7 @@ fn main() {
 
 ## Rust's call operator traits
 
-In C++, any class can implement the call operator trait `operator()` and be a
+In C++, any class can implement the call operator method `operator()` and be a
 function object. Closures defined by lambdas do so automatically. In Rust the
 equivalent are the call operator traits.
 
@@ -485,13 +485,13 @@ fn main() {
 
 ## Capturing variables
 
-In C++ capture specifiers are used to indicate whether a variable should be
+In C++, capture specifiers are used to indicate whether a variable should be
 captured by reference, by copy, or by move. The capture specifiers can be given
 for all of the variables at once, for each variable, or given as a default along
 with specific choices for each variable.
 
-In Rust, the variables are captured either all by reference or all by move using
-a `move` specifier. In order to express other capture strategies, the references
+In Rust, the variables are captured either all by reference (by default) or all by move (using
+a `move` specifier). In order to express other capture strategies, the references
 and copies need to be explicitly defined and the closure needs to capture those
 variables instead.
 
@@ -1034,7 +1034,7 @@ are `FnOnce` trait implementations for `&Fn` and `&FnMut`. The `FnMut` trait is
 the next most restrictive, followed by `Fn`, and then actual function pointers,
 whose types are written with a lowercase `fn`.
 
-In both C++ it is also possible to pass references or pointers to closures. In
+In both C++ and Rust, it is also possible to pass references or pointers to closures. In
 the following example, the closure is in dynamically allocated storage in both
 C++ and in Rust.
 
@@ -1161,7 +1161,7 @@ fn make_closure(
 ## Template lambdas
 
 Rust does not support generic closures. Thus, the following has no equivalent in
-rust.
+Rust.
 
 ```cpp
 #include <string>
@@ -1297,9 +1297,9 @@ fn main() {
 </div>
 
 The workarounds to this limitation in Rust involve either heap-allocating and
-using a shared pointer `Rc` or defining a new trait instead of using one of the
-`Fn` traits. The following example shows a trait that resembles a generalized
-`Fn` trait and its use. In practice, however, it is usually better either to
+using a shared pointer `Rc`, or defining a new trait instead of using one of the
+`Fn` traits. The following example shows a trait that uses [generic associated types](https://doc.rust-lang.org/reference/items/associated-items.html#r-items.associated.type.generic) to define a generalized
+`Fn` trait. In practice, however, it is usually better either to
 define a custom trait for each use case or to elide the trait entirely if a
 single struct is sufficient.
 
@@ -1415,7 +1415,7 @@ especially in situations where a closure will outlive its context. The purpose
 of this is to assist in reasoning about the lifetimes of the captures to ensure
 that the closure does not outlive any of the objects it has captured.
 
-In Rust the same decisions about captures with respect to lifetimes have to be
+In Rust, the same decisions about captures with respect to lifetimes have to be
 made, but the compiler tracks them instead of having to do the reasoning
 manually. That is, in spite of the type of the closure not being expressible, it
 does still include the lifetimes of variables captured by reference, and so is
@@ -1427,5 +1427,5 @@ including enumerating captures, even in situations where one would do so in C++.
 The same is true about the destructibility of the content of the captures in a
 closure. The example involving `FnOnce` functions in [the previous
 section](#closures-ownership-and-fnonce) may be a point of frustration
-initially, but the behavior  the benefit of reducing the documentation and reasoning
+initially, but the behavior has the benefit of reducing the documentation and reasoning
 burdens.

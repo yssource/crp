@@ -2,12 +2,12 @@
 
 Rust iterators resemble C++
 [ranges](https://en.cppreference.com/w/cpp/ranges.html) in that they represent
-iterable sequence and can be manipulated similarly to how ranges can be using
+iterable sequence and can be manipulated similarly to using
 range views. Since C++ ranges are defined using iterators and ranges were only
 introduced in C++20, this chapter compares Rust iterators with both C++
 iterators and with C++ ranges.
 
-Rust iterators are forward iterators, not [bidirecitonal or random
+Rust iterators are forward iterators, not [bidirectional or random
 access](#bidirectional-and-random-access-iterators). The definition of the
 `Iterator` trait reflects this: all of its methods are based on a `next` method
 which returns either an `Option::Some` containing the next item in the iteration
@@ -80,7 +80,7 @@ fn main() {
 </div>
 
 In both C++ and Rust, iterators can be used for reading, writing, or both. In
-Rust the use of an iterator for writing depends on the type of the elements
+Rust, the use of an iterator for writing depends on the type of the elements
 returned. In the case of `Vec<i32>` above, the `IntoIterator` trait implemented for
 `&mut Vec<i32>` produces an iterator over mutable references `&mut i32`, which
 enables modifying the values in the vector.[^mut-iterator-safety]
@@ -141,7 +141,7 @@ implements `FromIterator`. If the type of `v` can be inferred from its later
 use, the type does not need to be specified in the call to `collect`.
 
 In both C++ and in Rust, the view or iterator could be used directly as the
-value to iterator over in a for loop, without first converting to something like
+value to loop over, without first converting to something like
 a vector. Similarly, in both languages the construction of the values is done
 lazily.
 
@@ -354,7 +354,7 @@ In C++, operations sometimes only invalidate some iterators on a value, such as
 the `erase` method on `std::vector` only invaliding iterators to the erased
 element and those after it, but not the ones before it.
 
-In Rust the fact that iterators borrow the whole iterated value means that no
+In Rust, the fact that iterators borrow the whole iterated value means that no
 operations modifying the value itself (such as erasing values from a vector) can
 be performed while iterating. Thus, there are no iterator invalidation rules to
 keep in mind while using Rust iterators.
@@ -560,19 +560,14 @@ mod tree {
         // This is like a combination of
         // operator++ and operator*
         fn next(&mut self) -> Option<&'a V> {
-            match self.0.pop() {
-                None => None,
-                Some(t) => {
-                    let Tree { value, left, right } = t;
-                    if let Some(right) = right {
-                        self.0.push(right.as_ref());
-                    }
-                    if let Some(left) = left {
-                        self.0.push(left.as_ref());
-                    }
-                    Some(value)
-                }
+            let Tree { value, left, right } = self.0.pop()?;
+            if let Some(right) = right {
+                self.0.push(right.as_ref());
             }
+            if let Some(left) = left {
+                self.0.push(left.as_ref());
+            }
+            Some(value)
         }
     }
 }
@@ -580,8 +575,8 @@ mod tree {
 
 </div>
 
-The remaining step is to make the original type iterable. In C++ this involves
-defining `begin` and `end` methods. In Rust this involves either implementing a
+The remaining step is to make the original type iterable. In C++, this involves
+defining `begin` and `end` methods. In Rust, this involves either implementing a
 method that explicitly produces the iterator, or implementing the `IntoIterator`
 trait.
 
@@ -590,7 +585,7 @@ canonical, it is idiomatic to omit the `IntoIterator` trait implementation.
 Omitting the implementation requires users to intentionally choose the kind of
 iteration to use. The trait is implemented below to provide an example, but an
 unsorted binary tree is a case where it would be typical to omit the trait
-implementation, to force a user to pick between pre-, post-, and inorder
+implementation, to force a user to pick between pre-, post-, and in-order
 iteration.
 
 Because the implemented iterator is one for references, the trait actually is
