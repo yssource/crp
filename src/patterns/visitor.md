@@ -16,9 +16,8 @@ Extensions of the visitor pattern are sometimes used in C++ to make it possible
 to extend both data and behavior without modifying the original definitions
 (i.e., to solve [the expression
 problem](https://cs.brown.edu/~sk/Publications/Papers/Published/kff-synth-fp-oo/)).
-However, those solutions also make use of dynamic casting, and Rust does not
-support that form of RTTI. Instead, [other approaches to solving the expression
-problem are more likely to be used in Rust](#varying-data-and-behavior).
+Other approaches, enabled by Rust's traits and generics, are [more likely to be
+used in Rust](#varying-data-and-behavior).
 
 ## Use a Rust enum instead
 
@@ -596,16 +595,24 @@ fn main() {
 ## Varying data and behavior
 
 In C++, extensions to the visitor pattern are sometimes used to handle
-situations where both data and behavior and vary. One of the alternative
-approaches to handle this situation in Rust, adopted from functional
-programming, is called ["data types à la
+situations where both data and behavior and vary. However, those solutions also
+make use of dynamic casting. In Rust that requires opting into RTTI by defining
+a method for converting the visited objects to [`dyn Any` so that they can be
+downcast](./../idioms/rtti.md). While this extension to the visitor pattern is
+possible to implement, the ergonomics of the approach make other approaches more
+common in Rust.
+
+One of the alternative approaches, adopted from functional programming and
+leveraging the design of traits and generics in Rust, is called ["data types à
+la
 carte"](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/14416CB20C4637164EA9F77097909409/S0956796808006758a.pdf/data-types-a-la-carte.pdf).
 
 The following example shows a variation on the earlier examples using this
 pattern to make it so that two parts of the expression type can be defined
 separately and given evaluators separately. This approach can lead to
 performance problems (in large part due to the indirection through nested
-structures), so its necessity should be carefully evaluated before it is used.
+structures) or increases in compilation time, so its necessity should be
+carefully evaluated before it is used.
 
 ```rust
 use std::collections::HashMap;
@@ -740,3 +747,6 @@ fn main() {
     println!("{:?}", e.eval(&HashMap::new()));
 }
 ```
+
+One thing worth noting about the above implementation is that no dynamic
+dispatch was required.
