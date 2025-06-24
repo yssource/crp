@@ -59,7 +59,7 @@
 - [Libraries](./etc/libraries.md)
 - [Tests](./etc/tests.md)
 - [Documentation (Doxygen)]()
-- [Build systems (CMake)]()
+- [Build systems (CMake)](./etc/build-systems.md)
 
 ---
 
