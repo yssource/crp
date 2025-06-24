@@ -42,8 +42,6 @@
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
-- [Varargs]()
-- [Attributes]()
 - [Calling C (FFI)]()
 - [NRVO and RVO](./idioms/rvo.md)
 - [Placement new](./idioms/placement_new.md)
@@ -55,7 +53,6 @@
 - [Visitor pattern and double dispatch](./patterns/visitor.md)
 - [Curiously recurring template pattern (CRTP)](./patterns/crtp.md)
 - [Pointer-to-implementation (PIMPL)](./patterns/pimpl.md)
-- [X macros]()
 
 # Ecosystem
 
