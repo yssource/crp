@@ -46,7 +46,7 @@
 - [Varargs]()
 - [Attributes]()
 - [Calling C (FFI)]()
-- [NRVO, RVO, and placement new]()
+- [NRVO and RVO](./idioms/rvo.md)
 - [Concurrency (threads and async)]()
 
 # Patterns
