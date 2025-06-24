@@ -42,7 +42,7 @@
   - [Multiple return values](./idioms/out_params/multiple_return.md)
   - [Optional return values](./idioms/out_params/optional_return.md)
   - [Pre-allocated buffers](./idioms/out_params/pre-allocated_buffers.md)
-- [Calling C (FFI)]()
+- [Rust and C++ interoperability (FFI)](./idioms/ffi.md)
 - [NRVO and RVO](./idioms/rvo.md)
 - [Placement new](./idioms/placement_new.md)
 - [Concurrency (threads and async)]()
