@@ -47,6 +47,7 @@
 - [Attributes]()
 - [Calling C (FFI)]()
 - [NRVO and RVO](./idioms/rvo.md)
+- [Placement new](./idioms/placement_new.md)
 - [Concurrency (threads and async)]()
 
 # Patterns
