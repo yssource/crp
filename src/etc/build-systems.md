@@ -1,4 +1,4 @@
-# Build systems (CMake)
+# Build systems (e.g., CMake)
 
 One major difference between the C++ and Rust ecosystems is that C++ and C
 libraries tend to be either provided by OS distributions or be included in the

@@ -58,8 +58,8 @@
 
 - [Libraries](./etc/libraries.md)
 - [Tests](./etc/tests.md)
-- [Documentation (Doxygen)]()
-- [Build systems (CMake)](./etc/build-systems.md)
+- [Documentation (e.g., Doxygen)]()
+- [Build systems (e.g., CMake)](./etc/build-systems.md)
 
 ---
 
