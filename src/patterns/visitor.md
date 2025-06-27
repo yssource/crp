@@ -750,3 +750,5 @@ fn main() {
 
 One thing worth noting about the above implementation is that no dynamic
 dispatch was required.
+
+{{#quiz visitor.toml}}
