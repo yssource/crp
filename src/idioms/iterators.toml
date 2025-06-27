@@ -1,0 +1,46 @@
+[[questions]]
+type = "MultipleChoice"
+prompt.prompt = """
+Does the following Rust program compile? If not, why not?
+
+```rust
+fn main() {
+    let v = vec!["a".to_string(), "b".to_string()];
+
+    let mut last = None;
+    for x in v {
+        println!("{}", x);
+        last = Some(x);
+    }
+
+    println!("{}", v.len());
+    println!("last: {:?}", last);
+}
+```
+"""
+prompt.distractors = [
+"""
+The program compiles.
+""",
+"""
+The program does not compile because `v` is a `Vec`, not an `Iterator`.
+""",
+"""
+The program does not compile because `last` is mutable and borrows `x` while `v`
+is borrowed by `len()`.
+"""
+]
+answer.answer = """
+The program does not compile because the for loop moves `v`, and so it can't be
+borrowed afterwards.
+"""
+context = """
+For loops implicitly call `into_iter` on the iterated value. The method
+`into_iter` takes ownership of the value. To make this compile, the loop should
+be on a reference to `v`, so that it is the reference that has ownership taken
+of it.
+
+Even though `last` is mutable, the `&String` reference it would contain if `v`
+were borrowed isn't. Thus, that does not conflict with the later use of `v`.
+"""
+id = "34e60ac8-ba03-4076-9ee4-a8a50e9c446d"
