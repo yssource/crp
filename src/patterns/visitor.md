@@ -596,11 +596,11 @@ fn main() {
 
 In C++, extensions to the visitor pattern are sometimes used to handle
 situations where both data and behavior and vary. However, those solutions also
-make use of dynamic casting. In Rust that requires opting into RTTI by defining
-a method for converting the visited objects to [`dyn Any` so that they can be
-downcast](./../idioms/rtti.md). While this extension to the visitor pattern is
-possible to implement, the ergonomics of the approach make other approaches more
-common in Rust.
+make use of dynamic casting. In Rust, that requires opting into
+[RTTI](./../idioms/rtti.md) by making `Any` a supertrait of the trait for the
+visitors, so they can be downcast. While this extension to the visitor pattern
+is possible to implement, the ergonomics of the approach make other approaches
+more common in Rust.
 
 One of the alternative approaches, adopted from functional programming and
 leveraging the design of traits and generics in Rust, is called ["data types à
