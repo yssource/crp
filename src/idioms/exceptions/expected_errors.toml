@@ -1,0 +1,70 @@
+[[questions]]
+type = "MultipleChoice"
+# Focuses on ? operator, since it is so important for readable error handling.
+prompt.prompt = """
+Assume `f` is some function
+
+```rust
+fn f(i32) -> Option<i32> {
+   // ...
+}
+```
+
+Which programs have equivalent behavior to the following program?
+
+```rust
+fn go() -> Option<(i32, i32)> {
+    let x = f(0)?;
+    let y = f(1)?;
+    Some((x, y))
+}
+```
+"""
+# Focuses on ? operator, since it is so important for readable error handling.
+prompt.distractors = [
+"""
+```rust
+fn go() -> Option<(i32, i32)> {
+    match (f(0), f(1)) {
+        (Some(x), Some(y)) => Some((x, y)),
+        _ => None,
+    }
+}
+```
+"""
+]
+answer.answer = [
+"""
+```rust
+fn go() -> Option<(i32, i32)> {
+    if let Some(x) = f(0)
+        && let Some(y) = f(1)
+    {
+        return Some((x, y));
+    }
+    None
+}
+```
+""",
+"""
+```rust
+fn go() -> Option<(i32, i32)> {
+    let Some(x) = f(0) else {
+        return None;
+    };
+    let Some(y) = f(1) else {
+        return None;
+    };
+    Some((x, y))
+}
+```
+"""
+]
+context = """
+The `?` operator returns early, so that the rest of the function is not
+executed.
+
+The program using `match` call `f` on both `0` and `1`, while the others return
+early and so do not call `f` on `1`.
+"""
+id = "08e6862a-31a2-4554-bfbf-bdf13cd4d8c0"
