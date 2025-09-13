@@ -15,6 +15,8 @@ simultaneously and expose public definitions for use by other modules.
 
 ```cpp
 // person.h
+#include <string>
+
 class Person {
   std::string name;
 
@@ -24,7 +26,6 @@ public:
 };
 
 // person.cc
-#include <string>
 #include "person.h"
 
 const std::string &Person::getName() {
